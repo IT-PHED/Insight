@@ -1,0 +1,285 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<div class="inner-page-wrapper coming-soon-wrapper">
+    <div class="container">
+        <h3>Be Ready. We Are Launching Soon</h3>
+        <div class="coutndown">
+            <div class="clearfix" data-countdown="2019/08/1"></div>
+        </div>
+    </div>
+
+
+</div>*@
+<!-- Breadcromb Wrapper Start -->
+ 
+ 
+<div class="inner-page-wrapper">
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1" id="meter-application">
+
+
+            <form enctype="multipart/form-data" id="Customer">
+
+                 
+                <fieldset>
+                    <legend>Personal Data</legend>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-2">
+                            <label for="title">Title<span>*</span></label>
+                            <select class="form-control m-b" style="width: 100%" data-bind="options: TitleList,optionsText: 'TitleName',optionValue: 'TitleValue', value: selectedTitle, enable: !isProcessing(), valueUpdate:'change',optionsCaption: '--Select Title--'"></select>
+
+
+
+
+
+                            @*<select required class="form-control">
+        <option value="">--Select Title--</option>
+        <option value="Mr">Mr</option>
+        <option value="Mrs">Mrs</option>
+        <option value="Dr">Dr</option>
+        <option value="Prof">Prof</option>
+        <option value="Chief">Chief</option>
+    </select>*@
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="sn">Surname Name<span>*</span></label>
+                            <input required type="text" data-bind="value: customer.CustomerSurname" class="form form-control" placeholder="Enter Surname" />
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="on">Other Name<span>*</span></label>
+                            <input required type="text" data-bind="value: customer.CustomerOtherName" class="form-control" placeholder="Enter Other Name" />
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group col-md-4">
+                            <label for="OCCUPATION">Occupation<span>*</span></label>
+                            <input required class="form-control" data-bind="value: customer.Occupation" type="text" placeholder="Enter Occupation" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="ctn">Contact Tel No<span>*</span></label>
+                            <input required class="form-control" data-bind="value: customer.Phone" type="text" placeholder="Enter Contact Tel Num" />
+                        </div>
+                        @*<div class="form-group col-md-3">
+                                <label for="address">ALTERNATIVE CONTACT TEL NO</label>
+                                <input class="form-control" type="text" placeholder="Enter Alternative Contact Tel Num" />
+                            </div>*@
+                        <div class="form-group col-md-4">
+                            <label for="address">E-mail<span>*</span></label>
+                            <input required class="form-control" data-bind="value: customer.Email" type="text" placeholder="Enter Email" />
+                        </div>
+                    </div>
+                </fieldset>
+
+
+                <fieldset>
+                    <legend>Other Information</legend>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="address">Address at Which Meter is Required<span>*</span></label>
+                            <textarea data-bind="value: customer.MeterInstallationAddress" required class="form-control" cols="5" placeholder="Enter Address at which Meter is Required"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="state">State<span>*</span></label>
+                            <input data-bind="value: customer.State" required class="form-control" type="text" placeholder="Enter State" />
+
+                            @*<select class="form-control m-b" style="width: 100%" data-bind="options: StateList,optionsText: 'name',optionValue: 'id', value: selectedState, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select State'"></select>*@
+
+                            @*<input data-bind="value: customer.State" required class="form-control" type="text" placeholder="Enter LGA" />*@
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lga">LGA<span>*</span></label>
+                            <input data-bind="value: customer.LGA" required class="form-control" type="text" placeholder="Enter LGA" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="hn">House Number<span>*</span></label>
+                            <input data-bind="value: customer.HouseNo" required class="form-control" type="text" placeholder="Enter House Number" />
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label for="bs">Bus Stop<span>*</span></label>
+                            <input data-bind="value: customer.BusStop" required class="form-control" type="text" placeholder="Enter Bus Stop" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="lm">Landmark<span>*</span></label>
+                            <input data-bind="value: customer.Landmark" required class="form-control" type="text" placeholder="Enter Landmark" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="paddress">Present Residential Address<span>*</span></label>
+                            <textarea required data-bind="value: customer.CustomerAddress" class="form-control" cols="5" placeholder="Enter present Residential Address at which Meter is Required"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label for="tpremises">Type of the Premises<span>*</span></label>
+                            <select class="form-control m-b" style="width: 100%" data-bind="options: TypePremisesList,optionsText: 'TypePremisesName',optionValue: 'TypePremisesValue', value: selectedTypePremises, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select Type of Premises'"></select>
+
+                            @*<select data-bind="value: customer.TypePremises" required class="form-control">
+                                <option value=""></option>
+                                <option value="2BD_Room_Flat">2BD Room Flat</option>
+                                <option value="3BD_Room_Flat">3BD Room Flat</option>
+                                <option value="Single_Room">Single Room</option>
+                                <option value="Boys_Qtrs">Boys Qtrs.</option>
+                                <option value="Shop">Shop</option>
+                                <option value="Block_of_Flats">Block of Flats</option>
+                                <option value="Duplex">Duplex</option>
+                                <option value="Other">Others</option>
+                            </select>*@
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="upremises">Use of the Premises<span>*</span></label>
+                            <select class="form-control m-b" style="width: 100%" data-bind="options: UsePremisesList,optionsText: 'UsePremisesName',optionValue: 'UsePremisesValue', value: selectedUsePremises, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select Use of Premises'"></select>
+
+                            @*<select data-bind="value: customer.UsePremises" required class="form-control">
+                                <option value="">Select Use of Premises</option>
+                                <option value="Residential">Residential</option>
+                                <option value="Commercial ">Commercial </option>
+                                <option value="Special">Special</option>
+                                <option value="Industrial">Industrial</option>
+                            </select>*@
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="an">Account Number<span>*</span></label>
+                            <input data-bind="value: customer.AccountNo" required class="form-control" type="text" placeholder="Enter Account Number" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="mn">Meter Number<span>*</span></label>
+                            <input data-bind="value: customer.MeterNo" required class="form-control" type="text" placeholder="Enter Meter Number" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label for="vmi">ID Card<span>*</span></label>
+                            <select class="form-control m-b" style="width: 100%" data-bind="options: IDcardList,optionsText: 'IDcardName',optionValue: 'IDcardValue', value: selectedIDcard, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select Valid Means Of Identification'"></select>
+                            @*<select data-bind="value: customer.IDcard" required class="form-control">
+                                <option value="">Select Valid Means Of Identification</option>
+                                <option value="International_Passport ">International Passport </option>
+                                <option value="Drivers_License">Driver’s License</option>
+                                <option value="NAT_ID">National ID</option>
+                                <option value="PVC">PVC</option>
+                            </select>*@
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="tmr">Type of Meter Requested<span>*</span></label>
+                            <select class="form-control m-b" style="width: 100%" data-bind="options: TypeMeterRequestedList,optionsText: 'TypeMeterRequestedName',optionValue: 'TypeMeterRequestedValue', value: selectedTypeMeterRequested, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select Type Of Meter Requested'"></select>
+                            @*<select data-bind="value: customer.TypeMeterRequested" required class="form-control">
+                                <option value="">Select Type Of Meter Requested</option>
+                                <option value="SINGLE_PHASE">SINGLE PHASE</option>
+                                <option value="THREE_PHASE">THREE PHASE</option>
+                            </select>*@
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="mop">Mode of Payment<span>*</span></label>
+                            <select class="form-control m-b" style="width: 100%" data-bind="options: ModePaymentList,optionsText: 'ModePaymentName',optionValue: 'ModePaymentValue', value: selectedModePayment, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select Mode of Payment'"></select>
+
+                            @*<select data-bind="value: customer.ModePayment" required class="form-control">
+                                <option value="">Select Mode of Payment</option>
+                                <option value="UPFRONT">UPFRONT</option>
+                            </select>*@
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="mop">Payment Schedule<span>*</span></label>
+                            <select class="form-control m-b" style="width: 100%" data-bind="options: PaymentScheduleList,optionsText: 'PaymentScheduleName',optionValue: 'PaymentScheduleValue', value: selectedPaymentSchedule, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select Schedule of Payment'"></select>
+
+                            @*<select data-bind="value: customer.PaymentSchedule" required class="form-control">
+                                <option value="">Select Schedule of Payment</option>
+                                <option value="UPFRONT">CASH</option>
+                                <option value="UPFRONT">1 year</option>
+                                <option value="UPFRONT">2 years</option>
+                                <option value="UPFRONT">3 years</option>
+                                <option value="UPFRONT">4 years</option>
+                                <option value="UPFRONT">5 years</option>
+                                <option value="UPFRONT">6 years</option>
+                                <option value="UPFRONT">7 years</option>
+                                <option value="UPFRONT">8 years</option>
+                                <option value="UPFRONT">9 years</option>
+                                <option value="UPFRONT">10 years</option>
+                            </select>*@
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <hr />
+                <fieldset>
+                    <legend>Agreement SHA</legend>
+
+                    <label>lorem ipsum is simply dummy text of the printing and typesetting 
+                      industry. lorem ipsum has been the industry's standard dummy
+                     text ever since the 1500s, when an unknown printer took a galley 
+                    of type and scrambled it to make a type specimen book. 
+                    it has survived not only five centuries, but also the leap into electronic 
+                    typesetting, remaining essentially unchanged. it was popularised in the 
+                    1960s with the release of letraset sheets containing lorem ipsum passages, 
+                    and more recently with desktop publishing software like aldus pagemaker 
+                    including versions of lorem ipsum.</label>
+                    <input required type="checkbox" title="SHA" /><span>Do you Accept Our Term and Condition?</span>
+                </fieldset>
+
+                <div class="col-md-12 text-center" style="margin-bottom:20px; margin-top:20px;">
+                    <button type="submit" class="btn btn-primary center-block" data-bind="html:submitButton,click:save"></button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+    <!--Core Script-->
+<script src="~/assets/jquery/jquery-3.1.1.min.js"></script>
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+<script src="~/Scripts/knockout-3.4.2.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.2.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+@*<script src="~/Scripts/References/StatesInfo.js"></script>*@
+<script src="~/Scripts/References/RegisterCustomer.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //var AllOptionItemViewModel;
+        $.ajax({
+            url: '/MAPRegister/CreateCustomer',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                 //AllOptionItemViewModel = new OptionItemViewModel(data);
+
+                 //AllOptionItemViewModel.isProcessing(false);
+
+                ko.applyBindings(new RegisterCustomerViewModel(data));
+
+            },
+            error: function (result) {
+
+
+                alert("Failed" + result.responseText);
+            }
+        });
+
+
+    });
+
+</script>
+
+

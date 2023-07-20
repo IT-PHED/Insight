@@ -1,0 +1,1013 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr" class="theme-default">
+@{
+    //MenuBuilder
+    //Get the Logged in ID of the Staff
+    PHEDServe.Models.ApplicationDbContext db = new PHEDServe.Models.ApplicationDbContext();
+
+
+    string StaffName = ""; string StaffRole = ""; string AccountNo = ""; string MeterNo = "";
+    string Category = ""; string Sequence = "";
+    string loginStaffID = ""; string Phone = ""; string PHEDStaffID = "";
+    var context = new PHEDServe.Models.ApplicationDbContext();
+    var username = User.Identity.Name;
+    if (!string.IsNullOrEmpty(username))
+    {
+
+        var userLoggedIn = context.Users.FirstOrDefault(u => u.UserName == username);
+
+
+        if (userLoggedIn == null)
+        {
+
+            Response.Redirect("~/Account/Login");
+            
+           // return RedirectToAction("Login", "Account");
+            return;
+        }
+        else
+        {
+
+            //ViewData["SubscriberID"] = userLoggedIn.SubscriberId;
+            //ViewBag.SubscriberID = userLoggedIn.SubscriberId;
+            //SubscriberID = userLoggedIn.SubscriberId;
+            Category = userLoggedIn.UserCategory; 
+            
+            Sequence = userLoggedIn.LoginSequence;
+            loginStaffID = userLoggedIn.Id;
+            StaffName = userLoggedIn.StaffName;
+            AccountNo = userLoggedIn.AccountNo;
+            MeterNo = userLoggedIn.MeterNo;
+            StaffRole = userLoggedIn.UIN; 
+            Phone = userLoggedIn.PhoneNo;
+            PHEDStaffID = userLoggedIn.StaffId;
+        }
+
+    }
+
+}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>PHEDServe</title>
+
+    <link type="text/css" href="~/assets/css/themes/default/vendor-fullcalendar.css" rel="stylesheet">
+    <link type="text/css" href="~/assets/css/themes/default/vendor-weathericons.css" rel="stylesheet">
+    <link type="text/css" href="~/assets/css/themes/default/vendor-bootstrap-datepicker.css" rel="stylesheet">
+    <!-- Prevent the demo from appearing in search engines -->
+    <meta name="robots" content="noindex">
+    <!-- Simplebar -->
+    <link type="text/css" href="~/assets/vendor/simplebar.css" rel="stylesheet">
+    <!-- App CSS -->
+    <link type="text/css" href="~/assets/css/themes/default/app.css" rel="stylesheet">
+    <link href="~/assets/icomoon/styles.css" rel="stylesheet" />
+</head>
+
+ 
+
+<body>
+    <input type="hidden" value="@AccountNo" id="AccountNo" />
+    <input type="hidden" value="@MeterNo" id="MeterNo" />
+    <input type="hidden" value="@StaffName" id="StaffName" />
+    <input type="hidden" value="@loginStaffID" id="StaffId" />
+    <input type="hidden" value="@PHEDStaffID" id="PHEDStaffId" />
+    <div class="d-flex flex-column position-relative h-100">
+        <nav class="navbar navbar-expand-md navbar-light d-print-none" style="border-bottom:3px solid green">
+            <a class="navbar-brand">
+                <!-- SVG Logo -->
+                @*<svg width="24px" height="24px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMaxYMin meet">
+                    <defs></defs>
+                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <path d="M3,-3.15936513e-15 L20,-2.74650094e-15 L20,-2.66453526e-15 C21.6568542,-2.96889791e-15 23,1.34314575 23,3 L23,20 L23,20 C23,21.6568542 21.6568542,23 20,23 L6,23 L3,23 L3,23 C1.34314575,23 1.09108455e-15,21.6568542 8.8817842e-16,20 L0,3 L0,3 C-2.02906125e-16,1.34314575 1.34314575,-3.24835102e-15 3,-3.55271368e-15 Z" id="logoBackground"></path>
+                        <rect id="Rectangle-6" fill="#FFFFFF" x="1.0952381" y="12.0960631" width="9.96553315" height="9.76943696"></rect>
+                        <rect id="Rectangle-6-Copy" fill="#FFFFFF" x="11.9533428" y="1.05597629" width="9.96553315" height="9.76943696"></rect>
+                    </g>
+                </svg>*@
+                @*<img src="~/assets/images/loader4.gif" />*@
+                @*<img src="~/assets/images/headerLogo2.jpg" />*@
+                <img src="~/assets/images/asd.jpg" />
+                <!-- //End SVG Logo -->
+                <span class="navbar-brand-text">PHED-Insight</span>
+                <small class="text-muted">v.1.00</small>
+            </a>
+             
+            
+            <button class="navbar-toggler navbar-toggler-right d-md-none d-lg-none" type="button" data-toggle="sidebar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ml-auto ">
+                   
+                   
+                    <li class="nav-item dropdown notifications align-self-center" id="navbarNotifications">
+                        <a href="#" class="nav-link dropdown-toggle nav-link-active" data-toggle="dropdown" aria-expanded="false">
+                            <i class="material-icons align-middle">notifications_active</i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsDropdown" id="notificationsDropdown">
+                            <ul class="nav nav-tabs-notifications d-flex px-0" id="notifications-ul" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="true">Notifications</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="alerts-tab" data-toggle="tab" href="#alerts" role="tab" aria-controls="alerts" aria-selected="false">Alerts</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Messages</a>
+                                </li>
+                            </ul>
+                            
+                            <div class="tab-content" id="notifications-tabs">
+                                <div class="tab-pane fade show active" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="w-100"><a href="#">john</a> received a new quote</div>
+                                            <div class="w-100 text-muted">4 secs ago</div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="w-100"><a href="#">karen</a> received a new quote</div>
+                                            <div class="w-100 text-muted">25 mins ago</div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="w-100"><a href="#">jim</a> received a new quote</div>
+                                            <div class="w-100 text-muted">7 hrs ago</div>
+                                        </li>
+                                        <li class="list-group-item text-right">
+                                            <a href="#">
+                                                <span class="align-middle">View All</span>
+                                                <i class="material-icons md-18 align-middle">arrow_forward</i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <i class="material-icons align-middle mr-2 text-warning">
+                                                    info_outline
+                                                </i>
+                                                <div class="media-body">
+                                                    <div class="w-100"><a href="#">john</a> received a new <a href="#">quote</a></div>
+                                                    <div class="w-100 text-muted">4 secs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <i class="material-icons align-middle mr-2 text-success">
+                                                    check_circle
+                                                </i>
+                                                <div class="media-body">
+                                                    <div class="w-100"><a href="#">karen</a> completed a <a href="#">task</a></div>
+                                                    <div class="w-100 text-muted">25 mins ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <i class="material-icons align-middle mr-2 text-danger">
+                                                    warning
+                                                </i>
+                                                <div class="media-body">
+                                                    <div class="w-100"><a href="#">jim</a> removed a <a href="#">task</a></div>
+                                                    <div class="w-100 text-muted">7 hrs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item text-right">
+                                            <a href="#">
+                                                <span class="align-middle">View All</span>
+                                                <i class="material-icons md-18 align-middle">arrow_forward</i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <a href="#">
+                                                    <img src="~/assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                                </a>
+                                                <div class="media-body">
+                                                    <div class="w-100">I started that project we talked...</div>
+                                                    <div class="w-100 text-muted">4 secs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <a href="#">
+                                                    <img src="~/assets/images/avatars/alex-sheldon-271322.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                                </a>
+                                                <div class="media-body">
+                                                    <div class="w-100">Can we arrange a meeting?...</div>
+                                                    <div class="w-100 text-muted">25 mins ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <a href="#">
+                                                    <img src="~/assets/images/avatars/foto-sushi-128246.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                                </a>
+                                                <div class="media-body">
+                                                    <div class="w-100">We need to fix some bugs...</div>
+                                                    <div class="w-100 text-muted">7 hrs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item text-right">
+                                            <a href="#">
+                                                <span class="align-middle">View All</span>
+                                                <i class="material-icons md-18 align-middle">arrow_forward</i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown emails align-self-center">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="material-icons align-middle">email</i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="emailsDropdown" id="emailsDropdown">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <a href="#">
+                                            <img src="~/assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="w-100">New project</div>
+                                            <div class="w-100 text-muted">I started that project we talked...</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <a href="#">
+                                            <img src="~/assets/images/avatars/alex-sheldon-271322.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="w-100">ASAP meeting</div>
+                                            <div class="w-100 text-muted">Can we arrange a meeting?...</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <a href="#">
+                                            <img src="~/assets/images/avatars/foto-sushi-128246.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="w-100">Need help</div>
+                                            <div class="w-100 text-muted">We need to fix some bugs...</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item text-right">
+                                    <a href="#">
+                                        <span class="align-middle">View All</span>
+                                        <i class="material-icons md-18 align-middle">arrow_forward</i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle dropdown-clear-caret" data-toggle="dropdown" aria-expanded="false">
+                            Dashboard <img src="~/assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle ml-1" width="35" alt="">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-account">
+                            <div class="account-info">
+                                <img src="~/assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="45" alt="">
+                                @if (Category == "PHEDSTAFF" && Sequence == "1")
+                                {
+                                    <div class="lh-12">
+                                    <a href="#"><strong>@StaffName</strong></a>
+                                    <div class="text-light">@PHEDStaffID</div>
+                                </div>
+                                }
+                                else
+                                {
+                               <div class="lh-12">
+                                    <a href="#"><strong>@StaffName</strong></a>
+                                    <div class="text-light">@AccountNo</div>
+                                </div>     
+                                    
+                                }
+                                
+                            </div>
+                            <ul class="list-unstyled account-menu">
+                                <li><a href="#" class="dropdown-item "><i class="material-icons md-18 align-middle mr-1">lock</i> <span class="align-middle">Account</span></a></li>
+                                <li><a href="#" class="dropdown-item "><i class="material-icons md-18 align-middle mr-1">account_circle</i> <span class="align-middle">Profile</span></a></li>
+                                <li><a href="#" class="dropdown-item"><i class="material-icons md-18 align-middle mr-1">settings</i> <span class="align-middle">Settings</span></a></li>
+                                <li>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="material-icons md-18 align-middle mr-1">build</i>
+                                        <span class="align-middle">Support</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="material-icons md-18 align-middle mr-1">question_answer</i>
+                                        <span class="align-middle">FAQ</span>
+                                    </a>
+                                </li>
+                                <li><a href="@Url.Action("Login", "Account")" class="dropdown-item"><i class="material-icons md-18 align-middle mr-1">exit_to_app</i> <span class="align-middle">Logout</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="mdk-drawer-layout js-mdk-drawer-layout" data-fullbleed data-push data-has-scrolling-region>
+            <div class="mdk-drawer-layout__content mdk-header-layout__content--scrollable">
+                <!-- CONTENT BODY -->
+                <div class="container-fluid">
+
+                    @RenderBody()
+
+                </div>
+            </div>
+            <!-- drawer -->
+            <div class="mdk-drawer js-mdk-drawer" id="default-drawer">
+                <div class="mdk-drawer__content">
+                    <div class="mdk-drawer__inner" data-simplebar data-simplebar-force-enabled="true">
+                        <nav class="drawer  drawer--dark">
+                            <div class="drawer-spacer drawer-spacer-border">
+                                <div class="media align-items-center">
+                                    <img src="~/assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="40" alt="">
+                                     
+                                    @if (Category == "PHEDSTAFF" && Sequence == "1")
+                                    {
+                                        <div class="lh-12">
+                                            <a href="#"><strong>@StaffName</strong></a>
+                                            <div class="text-light">@PHEDStaffID</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="lh-12">
+                                            <a href="#"><strong>@StaffName</strong></a>
+                                            <div class="text-light">@AccountNo</div>
+                                        </div>
+
+                                    }
+
+
+
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle dropdown-clear-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="material-icons">more_vert</i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="@Url.Action("AccountProfile","MDPortal")" class="dropdown-item dropdown-item-action ">View Profile</a>
+                                            <a href="#" class="dropdown-item dropdown-item-action ">Edit Account</a>
+                                            <a href="@Url.Action("Login", "Account")" class="dropdown-item dropdown-item-action">Logout</a>
+                                      
+                                        
+                                        
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- DROPDOWN -->
+
+                        @if (Category == "MDPortal" && Sequence == "1")
+                          {
+
+                            <div class="drawer-spacer">
+                                
+                                @*<select class="btn btn-block blue dropdown-toggle text-left text-white"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  
+                                    
+                                    
+                                      <option>
+                                        a
+                                    </option>
+                                    <option>
+                                      b
+                                    </option>
+                                    <option>
+                                       c
+                                    </option> 
+                                </select>*@
+                                  
+
+                                <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: LinkedAccountList, selectedOptions: SelectedLinkedAccount, optionsText: 'AccountName',optionValue: 'MeterNo', value: SelectedLinkedAccount,  valueUpdate:'change',optionsCaption: 'Select Linked Account',event:{change: LoadLinkedAccountData}  "></select>
+
+                               
+                                @*<div class="dropdown">
+                                    <button class="btn btn-block dropdown-toggle text-left text-white" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span>-Select Linked Account-</span>
+                                    </button>
+                                    <div class="dropdown-menu w-100">
+                                        <a href="#" class="dropdown-item dropdown-item-action   active ">Office1- 0921238434</a>
+                                        <a href="#" class="dropdown-item dropdown-item-action ">Office 3- 0921238434</a>
+                                        <a href="#" class="dropdown-item dropdown-item-action ">Office 6- 0921238434</a>
+                                        <a href="#" class="dropdown-item dropdown-item-action ">Extension 3- 0921238434</a>
+                                        <a href="#" class="dropdown-item dropdown-item-action ">NLNG 3- 0921238434</a>
+                                    </div>
+                                </div>*@
+                            </div>
+                            <!-- HEADING -->
+    
+}
+                            <div class="drawer-heading">
+                                Menu
+                            </div>
+                            <!-- MENU -->
+                            @if (Category == "PHEDSTAFF" && Sequence == "1")
+                          {
+                                <ul class="drawer-menu" id="mainMenu" data-children=".drawer-submenu">
+
+                                    <li class="drawer-menu-item ">
+                                        <a href="@Url.Action("AMRDashboard", "Dashboard")">
+                                            <i class="material-icons">home</i>
+                                            <span class="drawer-menu-text">View Dashboard</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="drawer-menu-item ">
+                                        <a href="#">
+                                            <i class="material-icons">contact_mail</i>
+                                            <span class="drawer-menu-text">Make Complaints</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    @if (Category == "MDPortal" && Sequence == "1")
+                          {
+                                        <ul class="drawer-menu" id="mainMenu" data-children=".drawer-submenu"> 
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("AMRDashboard", "Dashboard")">
+                                                    <i class="material-icons">home</i>
+                                                    <span class="drawer-menu-text">View Dashboard</span>
+                                                </a>
+                                            </li>
+
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("HistoricData", "Dashboard")">
+                                                    <i class="material-icons">assessment</i>
+                                                    <span class="drawer-menu-text">Historical View</span>
+                                                </a>
+                                            </li>
+
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("AccountProfile", "MDPortal")">
+                                                    <i class="material-icons">portrait</i>
+                                                    <span class="drawer-menu-text">My Profile</span>
+                                                </a>
+                                            </li>
+                                              
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("ViewReceipt", "MDPortal")">
+                                                    <i class="material-icons">picture_as_pdf</i>
+                                                    <span class="drawer-menu-text">View Receipt</span>
+                                                </a>
+                                            </li>
+                                             
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("ViewBills", "MDPortal")">
+                                                    <i class="material-icons">book</i>
+                                                    <span class="drawer-menu-text">View Bills</span>
+                                                </a>
+                                            </li>
+                                             
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("Tickets", "MDPortal")">
+                                                    <i class="material-icons">portrait</i>
+                                                    <span class="drawer-menu-text">Make Complaints</span>
+                                                </a>
+                                            </li>
+                                             
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("ManageMD", "Account")">
+                                                    <i class="material-icons">lock</i>
+                                                    <span class="drawer-menu-text">Change Password</span>
+                                                </a>
+                                            </li> 
+                                        </ul>
+
+                          }
+                                    @if (Category == "Admin")
+                             {
+
+                                        <ul class="drawer-menu" id="mainMenu" data-children=".drawer-submenu">
+
+                                            @*<li class="drawer-menu-item ">
+                            <a href="@Url.Action("IndexAdmin", "Dashboard")">
+                                <i class="material-icons">home</i>
+                                <span class="drawer-menu-text">View Dashboard</span>
+                            </a>
+                        </li>*@
+
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("RegisterAdmin", "Account")">
+                                                    <i class="material-icons">loupe</i>
+                                                    <span class="drawer-menu-text">Register Staff</span>
+                                                </a>
+                                            </li>
+
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("Onboard", "Account")">
+                                                    <i class="material-icons">person_add</i>
+                                                    <span class="drawer-menu-text">Onboard Customers</span>
+                                                </a>
+                                            </li>
+
+
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("AddAccounts", "MDPortal")">
+                                                    <i class="material-icons">add_circle</i>
+                                                    <span class="drawer-menu-text">Add Accounts</span>
+                                                </a>
+                                            </li>
+
+                                            <li class="drawer-menu-item ">
+                                                <a href="@Url.Action("ManageMD", "Account")">
+                                                    <i class="material-icons">lock</i>
+                                                    <span class="drawer-menu-text">Change Password</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+
+
+                             }
+
+
+
+                            @*<ul class="drawer-menu" id="mainMenu" data-children=".drawer-submenu">
+                                         @{
+                                             int a = 120;
+            var MenuData = db.StaffRoles.Where(h => h.StaffId == loginStaffID).ToList().OrderBy(p => p.MenuOrder);
+            foreach (var Menu in MenuData.Where(p => p.ParentMenuItemId == null).ToList().OrderBy(p => p.MenuOrder))
+                                            {
+
+                                        <li class="drawer-menu-item drawer-submenu">
+                                            <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#@Menu.MenuText@a" aria-controls="formsMenu" aria-expanded="false" class="collapsed">
+                                                <i class="material-icons">@Menu.icon</i>
+                                                <span class="drawer-menu-text">@Menu.MenuText</span>
+                                            </a>
+                                            <ul class="collapse" id="@Menu.MenuText@a">
+        @foreach (var Menuitem in MenuData.Where(p => p.ParentMenuItemId != null && p.ParentMenuItemId == @Menu.MenuItemsMain.MenuItemId).ToList().OrderBy(p => p.MenuOrder))
+        {
+            <li class="drawer-menu-item" id="@Menuitem.ControllerName+'/'+@Menuitem.ActionName"><a href="@Url.Action(Menuitem.ActionName, Menuitem.ControllerName)">@Menuitem.MenuText</a></li>
+
+        }
+                                            </ul>
+                                        </li>
+                                                a++;
+                                         }
+
+                                         }
+                                    </ul>*@
+
+
+
+                                        @*<ul class="drawer-menu" id="mainMenu" data-children=".drawer-submenu">
+                        <li class="drawer-menu-item drawer-submenu">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#dashboardMenu" aria-controls="dashboardMenu" aria-expanded="true">
+                                <i class="material-icons">home</i>
+                                <span class="drawer-menu-text"> Dashboard</span>
+                            </a>
+                            <ul class="collapse show" id="dashboardMenu">
+                                <li class="drawer-menu-item active"><a href="~/index.html">Dashboard 1</a></li>
+                                <li class="drawer-menu-item "><a href="~/index-second.html">Dashboard 2</a></li>
+                                <li class="drawer-menu-item "><a href="~/index-third.html">Dashboard 3</a></li>
+                            </ul>
+                        </li>
+                        <li class="drawer-menu-item drawer-submenu">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#appsMenu" data-target="#appsMenu" aria-controls="appsMenu" aria-expanded="false" class="collapsed">
+                                <i class="material-icons">view_quilt</i>
+                                <span class="drawer-menu-text"> Apps</span>
+                            </a>
+                            <ul class="collapse " id="appsMenu">
+                                <li class="drawer-menu-item "><a href="~/apps-email.html">Email</a></li>
+                                <li class="drawer-menu-item "><a href="~/apps-chat.html">Chat</a></li>
+                                <li class="drawer-menu-item "><a href="~/apps-clients.html">Clients</a></li>
+                            </ul>
+                        </li>
+                        <li class="drawer-menu-item drawer-submenu">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#uiMenu" aria-controls="uiMenu" aria-expanded="false" class="collapsed">
+                                <i class="material-icons">library_books</i>
+                                <span class="drawer-menu-text">UI Components</span>
+                            </a>
+                            <ul class="collapse " id="uiMenu">
+                                <li class="drawer-menu-item "><a href="~/ui-buttons.html">Buttons</a></li>
+                                <li class="drawer-menu-item "><a href="~/ui-colors.html">Colors</a></li>
+                                <li class="drawer-menu-item "><a href="~/ui-grid.html">Grid</a></li>
+                                <li class="drawer-menu-item "><a href="~/ui-navs.html">Navs</a></li>
+                                <li class="drawer-menu-item "><a href="~/ui-icons.html">Icons</a></li>
+                                <li class="drawer-menu-item "><a href="~/ui-typography.html">Typography</a></li>
+                                <li class="drawer-menu-item "><a href="~/ui-drag-drop.html">Drag &amp; Drop</a></li>
+                                <li class="drawer-menu-item "><a href="~/ui-tables.html">Tables</a></li>
+                                <li class="drawer-menu-item "><a href="~/ui-notifications.html">Notifications</a></li>
+                                <li class="drawer-menu-item "><a href="~/ui-loaders.html">Loaders</a></li>
+                            </ul>
+                        </li>
+                        <li class="drawer-menu-item drawer-submenu">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#formsMenu" aria-controls="formsMenu" aria-expanded="false" class="collapsed">
+                                <i class="material-icons">text_format</i>
+                                <span class="drawer-menu-text">Forms</span>
+                            </a>
+                            <ul class="collapse " id="formsMenu">
+                                <li class="drawer-menu-item "><a href="~/form-controls.html">Form controls</a></li>
+                                <li class="drawer-menu-item "><a href="~/checkboxes-radios.html">Checkboxes and Radios</a></li>
+                                <li class="drawer-menu-item "><a href="~/switches-toggles.html">Switches and Toggles</a></li>
+                                <li class="drawer-menu-item "><a href="~/form-layout.html">Layout Variations</a></li>
+                                <li class="drawer-menu-item "><a href="~/validation.html">Validation</a></li>
+                                <li class="drawer-menu-item "><a href="~/custom-forms.html">Custom Forms</a></li>
+                                <li class="drawer-menu-item "><a href="~/text-editor.html">Text Editor</a></li>
+                                <li class="drawer-menu-item "><a href="~/datepicker.html">Datepicker</a></li>
+                            </ul>
+                        </li>
+                        <li class="drawer-menu-item ">
+                            <a href="~/events-calendar.html">
+                                <i class="material-icons">event_note</i>
+                                <span class="drawer-menu-text">Events Calendar</span>
+                            </a>
+                        </li>
+
+
+                        <li class="drawer-menu-item ">
+                            <a href="~/maps.html">
+                                <i class="material-icons">language</i>
+                                <span class="drawer-menu-text">Maps</span>
+                            </a>
+                        </li>
+                        <li class="drawer-menu-item ">
+                            <a href="~/charts.html">
+                                <i class="material-icons">insert_chart</i>
+                                <span class="drawer-menu-text">Charts</span>
+                            </a>
+                        </li>
+                        <li class="drawer-menu-item drawer-submenu">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#pageMenu" aria-controls="pageMenu" aria-expanded="false" class="collapsed">
+                                <i class="material-icons">layers</i>
+                                <span class="drawer-menu-text">Pages / Examples</span>
+                            </a>
+                            <ul class="collapse " id="pageMenu">
+                                <li class="drawer-menu-item "><a href="~/tickets.html">Tickets</a></li>
+                                <li class="drawer-menu-item "><a href="~/blog-post.html">Blog Post</a></li>
+                                <li class="drawer-menu-item "><a href="#">Profile</a></li>
+                                <li class="drawer-menu-item "><a href="~/account.html">Account</a></li>
+                                <li class="drawer-menu-item "><a href="~/emails-listing.html">Emails Listing</a></li>
+                                <li class="drawer-menu-item "><a href="~/lessons.html">Lessons</a></li>
+                                <li class="drawer-menu-item "><a href="~/lessons_second.html">Lessons 2</a></li>
+                                <li class="drawer-menu-item "><a href="~/learning.html">Learning</a></li>
+                                <li class="drawer-menu-item "><a href="~/activity-timeline.html">Activity Timeline</a></li>
+                                <li class="drawer-menu-item "><a href="~/error.html">Error Page</a></li>
+                                <li class="drawer-menu-item "><a href="~/cart.html">Shopping cart</a></li>
+                                <li class="drawer-menu-item "><a href="~/invoice.html">Invoice</a></li>
+                                <li class="drawer-menu-item "><a href="~/pricing-2.html">Pricing (New)</a></li>
+                                <li class="drawer-menu-item "><a href="~/pricing.html">Pricing</a></li>
+                                <li class="drawer-menu-item"><a href="~/signup.html">Sign Up</a></li>
+                                <li class="drawer-menu-item"><a href="~/login.html">Login</a></li>
+                                <li class="drawer-menu-item"><a href="~/forgot-password.html">Forgot Password</a></li>
+                            </ul>
+                        </li>
+                    </ul>*@
+                                        <!-- HEADING -->
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+
+
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+
+
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <div class="drawer-heading">
+                                            .
+                                        </div>
+                                        <!-- ACTIVITY -->
+                                        @*<div class="list-group list-group-flush drawer-activity">
+                        <div class="list-group-item flex-column align-items-start active">
+                            <div class="media">
+                                <div class="list-dot d-flex align-self-center"></div>
+                                <div class="media-body">
+
+
+
+                                      </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item flex-column align-items-start">
+                            <div class="media">
+                                <div class="list-dot d-flex align-self-center"></div>
+                                <div class="media-body">
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+</nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // END drawer-layout -->
+    </div>
+    <!-- jQuery -->
+    @*<script src="~/assets/vendor/jquery.min.js"></script>*@
+    <!-- Bootstrap -->
+    <script src="~/assets/vendor/popper.js"></script>
+    <script src="~/assets/vendor/bootstrap.min.js"></script>
+    <!-- Simplebar -->
+    <!-- Used for adding a custom scrollbar to the drawer -->
+    <script src="~/assets/vendor/simplebar.js"></script>
+
+    <script src="~/assets/vendor/Chart.min.js"></script>
+    <script src="~/assets/vendor/moment.min.js"></script>
+    <script src="~/assets/vendor/dateformat.js"></script>
+    <script src="~/assets/vendor/bootstrap-datepicker.min.js"></script>
+    <script>
+        window.theme = "default";
+    </script>
+    <script src="~/assets/js/color_variables.js"></script>
+    <script src="~/assets/js/app.js"></script>
+
+    <script src="~/assets/vendor/dom-factory.js"></script>
+    <!-- DOM Factory -->
+    <script src="~/assets/vendor/material-design-kit.js"></script>
+    <!-- MDK -->
+
+    <script>
+        (function () {
+            'use strict';
+
+            // Self Initialize DOM Factory Components
+            domFactory.handler.autoInit()
+
+            // Connect button(s) to drawer(s)
+            var sidebarToggle = Array.prototype.slice.call(document.querySelectorAll('[data-toggle="sidebar"]'))
+
+            sidebarToggle.forEach(function (toggle) {
+                toggle.addEventListener('click', function (e) {
+                    var selector = e.currentTarget.getAttribute('data-target') || '#default-drawer'
+                    var drawer = document.querySelector(selector)
+                    if (drawer) {
+                        drawer.mdkDrawer.toggle()
+                    }
+                })
+            })
+
+            //////////////////////////////////////////
+            // BREAK OUT OF ENVATO LIVE DEMO IFRAME //
+            //////////////////////////////////////////
+
+            window.top.location.hostname !== window.location.hostname && (window.top.location = window.location)
+
+        })();
+    </script>
+
+    <div class="modal fade" id="newTicketModal" tabindex="-1" role="dialog" aria-labelledby="newTicketModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newTicketModalLabel">Add a new ticket</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="description" class="mr-1">Description</label>
+                            <input type="text" class="form-control" name="description" id="description" placeholder="Ticket description">
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="mr-1">Status</label>
+                            <select class="custom-select form-control">
+                                <option selected>None</option>
+                                <option value="1">Resolved</option>
+                                <option value="2">Active</option>
+                                <option value="3">Closed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="mr-1">Milestone</label>
+                            <select class="custom-select form-control">
+                                <option selected>None</option>
+                                <option value="1">Initial Release</option>
+                                <option value="2">Alpha Release</option>
+                                <option value="3">Bug Fixes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Add ticket</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEventModalLabel">Edit event</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="name" class="mr-1">Name</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Event name">
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="mr-1">Description</label>
+                            <input type="text" class="form-control" name="description" placeholder="Event description">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Update event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="newCollaboratorModal" tabindex="-1" role="dialog" aria-labelledby="newCollaboratorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newCollaboratorModalLabel">Add a new collaborator</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="task_id" class="mr-1">Task ID</label>
+                            <input type="text" class="form-control" name="task_id" id="task_id" placeholder="Task ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="task" class="mr-1">Task Name</label>
+                            <input type="text" class="form-control" name="task" id="task" placeholder="Task name">
+                        </div>
+                        <div class="form-group">
+                            <label for="collaborator" class="mr-1">Collaborator's Name</label>
+                            <input type="text" class="form-control" name="collaborator" id="collaborator" placeholder="Collaborator's name">
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="mr-1">Status</label>
+                            <select class="custom-select form-control">
+                                <option selected>None</option>
+                                <option value="1">Resolved</option>
+                                <option value="2">Active</option>
+                                <option value="3">Closed</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Add collaborator</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="newTaskModal" tabindex="-1" role="dialog" aria-labelledby="newTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newTaskModalLabel">Add a new task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="mr-1">Task Description</label>
+                            <input type="text" class="form-control" name="task" id="modal-task" placeholder="Short description of the task">
+                        </div>
+                        <div class="form-group">
+                            <label class="mr-1">Due Date</label>
+                            <input type="text" class="form-control" name="end_date" id="end_date" placeholder="Due date">
+                        </div>
+                        <div class="form-group">
+                            <label class="mr-1">Assigned User</label>
+                            <select class="custom-select form-control">
+                                <option selected>None</option>
+                                <option value="1">Andrew Robles</option>
+                                <option value="2">Tara Knows</option>
+                                <option value="3">Mark Ups</option>
+                                <option value="4">Steven Short</option>
+                                <option value="5">Karen Smith</option>
+                                <option value="6">John Smith</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="mr-1">Type</label>
+                            <select class="custom-select form-control">
+                                <option selected>None</option>
+                                <option value="1">Request</option>
+                                <option value="2">Bug</option>
+                                <option value="3">Feature</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Add task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/assets/vendor/fullcalendar.min.js"></script>
+    <script src="~/assets/js/calendars.js"></script>
+
+    @*<script src="~/assets/js/charts_index.js"></script>*@
+    @*<script src="~/assets/vendor/jquery.dataTables.js"></script>
+    <script src="~/assets/vendor/dataTables.bootstrap4.js"></script>
+    <script>
+        $('#data-table').dataTable();
+    </script>*@
+</body>
+
+
+@*<body>
+        <div>
+            @RenderBody()
+        </div>
+    </body>*@
+</html>

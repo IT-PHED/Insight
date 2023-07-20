@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ERDBManager</id>
+    <version>1.0.1</version>
+    <title>ERDBManager</title>
+    <authors>Hasibul</authors>
+    <owners>Hasibul</owners>
+    <licenseUrl>http://license_url_here_or_delete_this_line/</licenseUrl>
+    <projectUrl>http://erdbmanager.codeplex.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A Generic way to access Data Base,  using ADO.net.
+It supports MS SQL, Oracle, My SQL, MS Access</description>
+    <summary>A Generic way to access DataBase  usine ADO.net.
+It supports MS SQL, Oracle, My SQL, MS Access</summary>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>ERDBManager DBManager DB Manager Data Access</tags>
+  </metadata>
+</package>

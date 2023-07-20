@@ -1,0 +1,797 @@
+﻿@{
+    Layout = null;
+
+    //Parammeters for POST
+
+
+}
+
+<!DOCTYPE html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width">
+    <title>PHEDPay</title>
+
+    <style>
+        #mask {
+            background-color: #1e82d7;
+            opacity: 0.5;
+            filter: blur(10px);
+            -webkit-filter: blur(10px);
+            -moz-filter: blur(10px);
+            -o-filter: blur(10px);
+            -ms-filter: blur(10px);
+            filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='svgMask'><feGaussianBlur stdDeviation='10' /></filter></svg>#svgMask");
+        }
+    </style>
+    <link href="~/Content/elephant.min.css" rel="stylesheet" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" rel="stylesheet" />
+
+
+    <link rel="stylesheet" type="text/css" href="~/includes/StyleSheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/includes/StyleSheets/fonts.css" />
+    <link rel="stylesheet" type="text/css" href="~/includes/StyleSheets/ddsmoothmenu.css" />
+    <link rel='stylesheet' media='screen and (max-width: 400px)' href='~/includes/StyleSheets/mobile.css' />
+    <script type="text/javascript" src="~/includes/Javascript/validate.js"></script>
+    <script type="text/javascript" src="~/includes/Javascript/jquery.js"></script>
+    <script src="~/Scripts/elephant.min.js"></script>
+    <script src="Scripts/application.min.js"></script>
+    <script type="text/javascript" src="~/includes/Javascript/cycle.js"></script>
+    <script type="text/javascript" src="~/includes/Javascript/ddsmoothmenu.js"></script>
+    <script type="text/javascript" src="~/includes/Javascript/mobile.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
+    <script type="text/javascript">
+        ddsmoothmenu.init({
+            mainmenuid: "navbar", //menu DIV id
+            orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+            classname: 'ddsmoothmenu', //class added to menu's outer DIV
+            //customtheme: ["#1c5a80", "#18374a"],
+            contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
+        })
+    </script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#slideshow').cycle({
+                fx: 'fade',
+                sync: 1,
+                speed: 1000,
+                timeout: 6000,
+            });
+        });
+    </script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '../www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-54002826-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+<body>
+
+    
+    
+    <div id="header">
+        <div id="colorbar">
+            <div class="color1"></div>
+            <div class="color2"></div>
+            <div class="color3"></div>
+            <div class="color4"></div>
+        </div>
+        <div id="innerHeader">
+            <div id="headerCallout">
+                <span class="line1">CONTACT US</span>
+                <span class="line2">08139834000-2<span class="subPhone">09087838800-2</span></span>
+                <span class="line3"><a href="contact_port-harcourt_electricity_distribution_company ">or contact us here &gt;</a></span>
+                <span class="line4"><a href="http://phedcrm.jboano.com/bills/howitworks.aspx" target="_blank">Check your eBill</a></span>
+            </div>
+        </div>
+        <div id="navbar">
+            <ul>
+                <li class="MenuItem1">
+                    <a href="http://www.phed.com.ng/index ">Home</a>
+                    <ul>
+                        <li><a href="http://www.phed.com.ng/about_us ">About Us</a></li>
+                        <li><a href="http://www.phed.com.ng/our_company_port-harcourt_electricity_distribution_Plc ">Our Company</a></li>
+                        <li><a href="http://www.phed.com.ng/contact_port-harcourt_electricity_distribution_plc ">Contact Us</a></li>
+                        <li><a href="http://www.phed.com.ng/leadership_port-harcourt_electricity_distribution_plc ">Leadership</a></li>
+                    </ul>
+                </li>
+                <li class="MenuItem2">
+                    <a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company ">Support Centre</a>
+                    <ul>
+                        <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/power_advice ">Energy Advice</a></li>
+                        <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/phed_energy_calculator ">Phed Energy Calculator</a></li>
+                        <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/safety ">Safety</a></li>
+                        <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/service_information ">Service Information</a></li>
+                        <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/phed_forms ">Forms</a></li>
+                        <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/faq ">FAQs</a></li>
+                    </ul>
+                </li>
+                <li class="MenuItem3">
+                    <a href="http://www.phed.com.ng/Integrated_Business_Centres_port-harcourt_electricity_distribution_plc ">IBC's</a>
+                    <ul>
+                        <li><a href="http://www.phed.com.ng/Integrated_Business_Centres_port-harcourt_electricity_distribution_plc/service_centres_port-harcourt_electricity_distribution_plc ">Service Centres</a></li>
+                    </ul>
+                </li>
+                <li class="MenuItem4"><a href="http://www.phed.com.ng/investors_overview_port-harcourt_electricity_distribution_plc ">Investors</a></li>
+                <li class="MenuItem5"><a href="http://www.phed.com.ng/media ">Media</a></li>
+                <li class="MenuItem6"><a href="http://www.phed.com.ng/careers_at_port-harcourt_electricity_distribution_company ">Careers</a></li>
+                <li class="MenuItem7"><a href="http://www.phed.com.ng/customerregulations ">Customer Regulations</a></li>
+                <li class="MenuItem8"><a href="http://www.phed.com.ng/payments ">Payments</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div id="mobileNavbar">
+            <a href="#mobileNavbar" class="scroll" id="menuOpen"></a>
+            <a href="#header" class="scroll" id="menuClose"></a>
+        </div>
+    </div>
+    <div id="mobileNav">
+        <ul>
+            <li class="MenuItem1">
+                <a href="index ">Home</a>
+                <ul>
+                    <li><a href="http://www.phed.com.ng/about_us ">About Us</a></li>
+                    <li><a href="http://www.phed.com.ng/our_company_port-harcourt_electricity_distribution_Plc ">Our Company</a></li>
+                    <li><a href="http://www.phed.com.ng/contact_port-harcourt_electricity_distribution_plc ">Contact Us</a></li>
+                    <li><a href="http://www.phed.com.ng/leadership_port-harcourt_electricity_distribution_plc ">Leadership</a></li>
+                </ul>
+            </li>
+            <li class="MenuItem2">
+                <a href="support_port-harcourt_electricity_distribution_company ">Support Centre</a>
+                <ul>
+                    <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/power_advice ">Energy Advice</a></li>
+                    <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/phed_energy_calculator ">Phed Energy Calculator</a></li>
+                    <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/safety ">Safety</a></li>
+                    <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/service_information ">Service Information</a></li>
+                    <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/phed_forms ">Forms</a></li>
+                    <li><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company/faq ">FAQs</a></li>
+                </ul>
+            </li>
+            <li class="MenuItem3">
+                <a href="http://www.phed.com.ng/Integrated_Business_Centres_port-harcourt_electricity_distribution_plc ">IBC's</a>
+                <ul>
+                    <li><a href="http://www.phed.com.ng/Integrated_Business_Centres_port-harcourt_electricity_distribution_plc/service_centres_port-harcourt_electricity_distribution_plc ">Service Centres</a></li>
+                </ul>
+            </li>
+            <li class="MenuItem4"><a href="http://www.phed.com.ng/investors_overview_port-harcourt_electricity_distribution_plc ">Investors</a></li>
+            <li class="MenuItem5"><a href="http://www.phed.com.ng/media ">Media</a></li>
+            <li class="MenuItem6"><a href="http://www.phed.com.ng/careers_at_port-harcourt_electricity_distribution_company ">Careers</a></li>
+            <li class="MenuItem7"><a href="http://www.phed.com.ng/customerregulations ">Customer Regulations</a></li>
+            <li class="MenuItem8"><a href="http://www.phed.com.ng/payments ">Payments</a></li>
+        </ul>
+    </div>
+    <div id="slideshow">
+        <div class="slide" style="background-image: url(../../images/HomeSlideshowsBackgrounds/5_1.jpg);">
+            <!--<div class="slideInner" style="background-image:url(images/HomeSlideshowsBackgrounds/5_2.jpg);">
+
+
+                    </div>-->
+        </div>
+        <div class="slide" style="background-image: url(../../images/HomeSlideshowsBackgrounds/4_1.jpg); ">
+            <!--<div class="slideInner" style="background-image:url(images/HomeSlideshowsBackgrounds/4_2.jpg);">  </div>-->
+        </div>
+        <!--<div class="slide" style="background-image:url(images/HomeSlideshowsBackgrounds/6_1.jpg);">
+        <div class="slideInner" style="background-image:url(images/HomeSlideshowsBackgrounds/6_2.jpg);">
+
+        <p>&nbsp;</p>
+                </div>
+            </div>-->
+    </div>
+    <div class="pageContent" style="width:977px;  margin-top: -525px;">
+        <input type="hidden" value="@ViewBag.Id" id="TransId" name="TransId" />
+        <div class="clear"></div>
+        <div id="bannerImage" class="bannerImage" style="width: 935px; background-image: url(../../images/PagesBackgrounds/1_1.jpg); height: 750px; ">
+
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div id="tabs" class="demo-form-wrapper">
+                        @*<form id="demo-form-wizard-1" novalidate=novalidate>*@
+
+                        <ul id="stepss" class="steps">
+                            <li class="step col-xs-4 " id="tab1">
+                                <a class="step-segment" onclick="verify1(); return false" data-toggle="tab">
+                                    <span class="step-icon icon icon-credit-card"></span>
+                                </a>
+                                <div class="step-content">
+                                    <strong class="hidden-xs">Customer account</strong>
+                                </div>
+                            </li>
+                            <li class="step col-xs-4" id="tab2">
+                                <a class="step-segment" onclick="verify2(); return false" data-toggle="tab">
+                                    <span class="step-icon icon icon-user"></span>
+                                </a>
+                                <div class="step-content">
+                                    <strong class="hidden-xs">Customer Details</strong>
+                                </div>
+                            </li>
+                            <li class="step col-xs-4 active" id="tab3">
+                                <a class="step-segment" href="#" data-toggle="tab">
+                                    <span class="step-icon icon icon-refresh"></span>
+                                </a>
+                                <div class="step-content">
+                                    <strong class="hidden-xs">Payment details</strong>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                       
+
+                            <div id="tab-3" class="tab-pane active">
+
+                                <div id="PaymentDetails" class="col-sm-12 col-md-12" data-toggle="match-height" style="color:transparent">
+
+                                   
+
+                                    <div class="list-group" style="opacity:0.9;color:transparent; text-decoration:none">
+                                        <a class="list-group-item " style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="AccountNo">xxxx</span> </b></span>
+                                            <span class="icon icon-cubes icon-lg icon-fw"></span>
+                                            <b>Account No</b>
+                                            
+                                           
+                                        </a>
+                                        <a class="list-group-item" style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="AccountName22">xxxxxxxxxxxxxx</span></b></span>
+                                            <span class="icon icon-user icon-lg icon-fw"></span>
+                                            <b>Account Name</b> 
+                                        </a>
+                                        <a class="list-group-item" style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="Address22">xxxxxxxxxxxxxx</span></b></span>
+                                            <span class="icon icon-user icon-lg icon-fw"></span>
+                                            <b>Address</b>
+                                        </a>
+                                        <a class="list-group-item " style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="MeterNo">xxxx</span></b></span>
+                                            <span class="icon icon-calendar icon-lg icon-fw"></span>
+                                            <b> Meter No.</b>
+                                        </a>
+                                        <a class="list-group-item " style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="Status">xxxx</span></b></span>
+                                            <span class="icon icon-bookmark icon-lg icon-fw"></span>
+                                            <b> Receipt No.</b>
+                                        </a>
+
+                                        <a class="list-group-item " style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="AmountPaid">xxxx</span></b></span>
+                                            <span class="icon icon-credit-card icon-lg icon-fw"></span>
+                                            <b> Amount Paid</b>
+                                        </a>
+                                        <a class="list-group-item" style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="Units">xxxx</span></b></span>
+                                            <span class="icon icon-building icon-lg icon-fw"></span>
+                                            <b>Units</b>
+                                        </a>
+                                        <a class="list-group-item" id="Tariffs" style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="Tariff">xxxx</span></b></span>
+                                            <span class="icon icon-building icon-lg icon-fw"></span>
+                                            <b>Tariff</b>
+                                        </a>
+
+
+                                        <a class="list-group-item" id="Tokens" style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="Token">xxxx</span></b></span>
+                                            <span class="icon icon-building icon-lg icon-fw"></span>
+                                            <b>Token</b>
+                                        </a>
+
+                                        <a class="list-group-item" id="Arrearss" style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="Arrears">xxxx</span></b></span>
+                                            <span class="icon icon-building icon-lg icon-fw"></span>
+                                            <b>Arrears</b>
+                                        </a>
+
+                                        <a class="list-group-item" id="Bypasss" style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="Bypass">xxxx</span></b></span>
+                                            <span class="icon icon-calculator icon-lg icon-fw"></span>
+                                            <b>Bypass</b>
+                                        </a>
+
+                                        <a class="list-group-item" id="Preloads" style="text-decoration:none; color:#1e82d7">
+                                            <span class="pull-right"><b><span id="Preload">xxxx</span></b></span>
+                                            <span class="icon icon-refresh icon-lg icon-fw"></span>
+                                            <b>Preload</b>
+                                        </a>
+                                         
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <div id="Receipt" class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2" data-toggle="match-height" style="display:none;color:transparent">
+                                     
+                                    <div class="list-group" style="opacity:0.9;color:transparent; text-decoration:none">
+                                       <br />
+                                        <a class="list-group-item " style="text-decoration:none; color:black">
+                                            <div style="text-align:center">
+                                                <img src="~/images/Layout/headerLogo2.jpg" />
+                                            </div>
+                                            <div style="text-align:center">
+                                                <h5 style="color:black"><span>Port-harcourt Electricity Distribution Company</span> </h5>
+                                            </div>
+                                            <div style="text-align:center">
+                                              
+                                                <h3 style="color:black"><span>Payment Receipt</span> </h3>
+ 
+                                            </div>
+                                        </a>
+                                        <a class="list-group-item " style="text-decoration:none; text-align:center; color:black">
+                                           
+                                            
+                                           
+                                        <span id="dates"></span>
+                                           
+                                        </a>
+                                        
+                                        <a class="list-group-item " style="text-decoration:none; color:black">
+    <span class="pull-right"><b><span id="AccountNo1">xxxx</span> </b></span>
+    <span class="icon icon-cubes icon-lg icon-fw"></span>
+    <b>Account No</b>
+</a>
+                                        <a class="list-group-item " style="text-decoration: none; color: black">
+                                            <span class="pull-right"><b><span id="MeterNo1">xxxx</span></b></span>
+                                            <span class="icon icon-calendar icon-lg icon-fw"></span>
+                                            <b> Meter No.</b>
+                                        </a>
+                                        <a class="list-group-item " style="text-decoration: none; color: black">
+                                            <span class="pull-right"><b><span id="Status1">xxxx</span></b></span>
+                                            <span class="icon icon-bookmark icon-lg icon-fw"></span>
+                                            <b> Receipt No.</b>
+                                        </a>
+
+                                        <a class="list-group-item " style="text-decoration: none; color: black">
+                                            <span class="pull-right"><b><span id="AmountPaid1">xxxx</span></b></span>
+                                            <span class="icon icon-credit-card icon-lg icon-fw"></span>
+                                            <b> Amount Paid</b>
+                                        </a>
+                                        <a class="list-group-item" style="text-decoration: none; color: black">
+                                            <span class="pull-right"><b><span id="Units1">xxxx</span></b></span>
+                                            <span class="icon icon-building icon-lg icon-fw"></span>
+                                            <b>Units</b>
+                                        </a>
+                                        <a class="list-group-item" id="Tariffs1" style="text-decoration: none; color: black">
+                                            <span class="pull-right"><b><span id="Tariff1">xxxx</span></b></span>
+                                            <span class="icon icon-building icon-lg icon-fw"></span>
+                                            <b>Tariff</b>
+                                        </a>
+
+                                        <a class="list-group-item" id="Tokens1" style="text-decoration: none; color: black">
+                                            <span class="pull-right"><b><span id="Token1">xxxx</span></b></span>
+                                            <span class="icon icon-building icon-lg icon-fw"></span>
+                                            <b>Token</b>
+                                        </a>
+                                        <a class="list-group-item" id="Arrearss1" style="text-decoration: none; color: black">
+                                            <span class="pull-right"><b><span id="Arrears1">xxxx</span></b></span>
+                                            <span class="icon icon-building icon-lg icon-fw"></span>
+                                            <b>Arrears</b>
+                                        </a>
+
+                                        <a class="list-group-item" id="Bypasss1" style="text-decoration: none; color: black">
+                                            <span class="pull-right"><b><span id="Bypass1">xxxx</span></b></span>
+                                            <span class="icon icon-calculator icon-lg icon-fw"></span>
+                                            <b>Bypass</b>
+                                        </a>
+
+                                        <a class="list-group-item" id="Preloads1" style="text-decoration: none; color: black">
+                                            <span class="pull-right"><b><span id="Preload1">xxxx</span></b></span>
+                                            <span class="icon icon-refresh icon-lg icon-fw"></span>
+                                            <b>Preload</b>
+                                        </a>
+                                        
+                                    </div>
+                                     
+                                </div>   
+                                <div class="form-group">
+    <div class="col-md-6 col-md-offset-3" id="showrec">
+        <label for="username-1" style="text-decoration:none; color:#1e82d7" class="control-label">.</label>
+        <button class="btn btn-primary btn-block btn-next" onclick="print()" type="button">Show Receipt</button>
+    </div>
+                                    <div class="col-md-6 col-md-offset-3" id="printrec" style="display:none">
+                                        <label for="username-1" style="text-decoration:none; color:#1e82d7" class="control-label">.</label>
+                                        @*<button id="newpayment" class="btn btn-primary btn-block btn-next" onclick="@Html.Action("Pay","PhedPay") type="button">Make a new Payment</button>*@
+                                    </div>
+</div>
+                            </div>
+
+
+                        </div>
+                        @*</form>*@
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="footerLinks" style="height:110px">
+        <div class="footerblock">
+            <span>SITE LINKS</span>
+            <p><a href="http://www.phed.com.ng/about_us ">About Us</a><a href="http://www.phed.com.ng/support_port-harcourt_electricity_distribution_company ">Support</a></p>
+        </div>
+        <div class="footerblock">
+            <span>CUSTOMERS</span>
+            <p><a href="http://www.phed.com.ng/customers_of_port-harcourt_electricity_distribution_company ">For Our Customers</a></p>
+            <p><a style="display: inline !important;" href="http://www.phed.com.ng/customers_port-harcourt_electricity_distribution_company ">CAPMI FAQS</a></p>
+            <p><a href="http://www.phed.com.ng/Documents/PHED_consumer_handbook_1125.pdf">Download handbook</a></p>
+            <p>&nbsp;</p>
+        </div>
+        <div class="footerblock">
+            <span>EMPLOYEES</span>
+            <p><a href="http://www.phed.com.ng/employee_letter_of_port-harcourt_electricity_distribution_company ">For Our Employees</a><a href="employees_port-harcourt_electricity_distribution_company ">EMPLOYEE FAQS</a><a href="Documents/Employee%20Package_yeb1.pdf">EMPLOYEE HANDBOOK</a></p>
+        </div>
+        <div class="footerblock">
+            <span>SUPPLIERS</span>
+            <p><a href="http://www.phed.com.ng/supplier_letter_of_port-harcourt_electricity_distribution_company ">For Our Suppliers<br /></a><a href="suppliers_port-harcourt_electricity_distribution_company ">Supplier FAQS</a><a href="Documents/RFQ%20for%20Proposed%20Construction%20of%2033KV%20and%2011KV%20Commercial%20Feeders%20in%20Riv.pdf">RFQ - PROJECTS</a></p>
+        </div>
+        <div class="footerblock last">
+            <span>INVESTORS</span>
+            <p><a href="http://www.phed.com.ng/investors_overview_port-harcourt_electricity_distribution_company ">Overview<br /></a><a style="display: inline !important;" href="investors_port-harcourt_electricity_distribution_company ">investor FAQS</a></p>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="footer">
+    </div>
+
+
+
+ 
+
+
+
+    <script language="javascript" type="text/javascript">
+        function printDiv() {
+            
+            //Get the HTML of div
+            var divElements = document.getElementById("Receipt").innerHTML;
+            //Get the HTML of whole page
+            var oldPage = document.body.innerHTML;
+
+            //Reset the page's HTML with div's HTML only
+            document.body.innerHTML =
+              "<html><head><title></title></head><body>" +
+              divElements + "</body>";
+
+            //Print Page
+            window.print();
+
+            //Restore orignal HTML
+            document.body.innerHTML = oldPage;
+
+        }
+    </script>
+
+    <script>
+        function verify1() {
+            return false;
+        }
+
+        function verify2() {
+            return false;
+        }
+        function printout() { $("#printrec").print()(); }
+        function print() {
+            $("#PaymentDetails").slideUp(); $("#Receipt").slideDown(); $("#stepss").slideUp(); $("#showrec").slideUp(); $("#printrec").slideDown();
+        }
+        function p() {
+
+
+            var AmountPay = $("#AmountPay").val();
+            var EmailPay = $("#EmailPay").val();
+            var PhonePay = $("#PhonePay").val();
+
+
+            if (AmountPay == "" || AmountPay == '' || AmountPay == 'undefined') {
+
+
+                swal("Required", "Please enter a value for the purchase Amount", "info");
+
+                return;
+            }
+
+
+            if (PhonePay == "" || PhonePay == '' || PhonePay == 'undefined') {
+
+
+                swal("Required", "Please enter a valid Phone Number", "info");
+
+                return;
+            }
+
+            if (EmailPay == "" || EmailPay == '' || EmailPay == 'undefined') {
+
+
+                swal("Required", "Please enter a value for your Email Address", "info");
+
+                return;
+            }
+
+
+
+            document.getElementById('tab-3').classList.add('active');
+            document.getElementById('tab-1').classList.remove('active');
+            document.getElementById('tab-2').classList.remove('active');
+
+            document.getElementById('tab3').classList.add('active');
+            document.getElementById('tab1').classList.remove('active');
+            document.getElementById('tab2').classList.remove('active');
+
+        }
+        function v() {
+            var AccountNo = $("#AccountNo1").val();
+            var AmountPaid = $("#AmountPay1").val();
+            var PhoneNumber = $("#PhoneNumber1").val();
+            var EmailAddress = $("#EmailAddress1").val();
+
+
+
+
+
+            var AccountType = $("input[name='AccountType']:checked").val();
+
+
+
+
+            if (AccountType === 'undefined' || AccountType === '' || AccountType === "undefined" || AccountType == undefined || AccountType === undefined) {
+
+
+                swal("Account Type", "Please select an account type", "info");
+
+                return;
+            }
+
+            if (AccountNo == "" || AccountNo == '' || AccountNo == 'undefined') {
+
+
+                swal("Account No", "Please enter a value for your account Number", "info");
+
+                return;
+            }
+
+            if (AmountPaid == "" || AmountPaid == '' || AmountPaid == 'undefined') {
+
+
+                swal("Account No", "Please enter a value for the amount you're buying", "info");
+
+                return;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: '/PhedPay/v',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: {
+
+                    AccountNo: AccountNo,
+                    PhoneNumber: PhoneNumber,
+                    EmailAddress: EmailAddress,
+                    AccountType: AccountType,
+                    AmountPaid: AmountPaid
+                },
+                success: function (result) {
+
+                    var x = JSON.parse(result.result);
+                    //console.log("dsssssssssssssssssssss " + x);
+                    //console.log("dsssssssssssssssssssss " + x[0].METER_NO);
+                    //console.log(result.result);
+                    //console.log(result.result[0].METER_NO);
+                    //console.log(result.result.METER_NO);
+                    //console.log(result[0].result.METER_NO);
+                    //return;
+
+                    //console.log("dddddddddddddddddd " + result.amount);
+                  //  AccountName22, Address22
+                    $("#AccountNo2").html(x[0].CUSTOMER_NO);
+                    $("#MeterNo").html(x[0].METER_NO);
+                    $("#PhoneNumber2").html(x[0].STATUS);
+                    $("#HouseAddress2").html(x[0].ADDRESS);
+                    $("#EmailAddress2").html(x[0].STATUS);
+                    $("#Arrears").html("₦ " + x[0].ARREAR);
+                    $("#AccountType2").html(x[0].CONS_TYPE);
+                    $("#AccountName2").html(x[0].CONS_NAME);
+                    $("#BusinessServiceCenter").html(x[0].BSC_NAME);
+                    $("#IntegratedBusinessCenter").html(x[0].IBC_NAME);
+                    $("#Tariff").html(x[0].TARIFFCODE);
+                    $("#TotalBill").html("₦ " + x[0].TOTAL_BILL);
+                    $("#AmountPaid").html(result.amount);
+                    $("#EmailAccount1").html(result.customer_email);
+
+                    //find the POST Paremeters and Evoke
+         
+
+                    $('#amount').val(result.amount);
+                    $('#customer-email').val(result.customer_email);
+                    $('#hash').val(result.HashCode);
+                    $('#product-id').val(result.ProductId);
+                    $('#trans-id').val(result.trans_id);
+                    $('#product-desc').val(result.ProductDescription);
+                    $('#public-key').val(result.PublicKey);
+                    /// $('#f').val(result.hashString);
+
+                    document.getElementById('tab-2').classList.add('active');
+                    document.getElementById('tab-1').classList.remove('active');
+                    // document.getElementById('tab-3').classList.remove('active');
+
+                    document.getElementById('tab2').classList.add('active');
+                    document.getElementById('tab1').classList.remove('active');
+                    //document.getElementById('tab3').classList.remove('active');
+
+                },
+                error: function (err) {
+                    console.log("errrrrrrrrrrrrrrrrrrrrrrp " + err.responseText);
+                    if (err.responseText == "Customer Not Found" || err.responseText == "Consumer Not Found") {
+
+                        swal("Error", err.responseText, "error"); return;
+                    }
+                    else {
+
+                        swal("Error", "There was an error verifying your account details, please check your network connection and try again.", "error");
+                        return;
+
+                    }
+                }
+            });
+
+        }
+
+    </script>
+</body>
+
+
+
+
+</html>
+
+
+<script>
+
+
+    function showloader() {
+        swal({
+            title: "Processing...",
+            text: "Please wait",
+            imageUrl: 'http://phedpayments.nepamsonline.com/images/loader4.gif',
+
+            showConfirmButton: false,
+            allowOutsideClick: false
+        }); 
+    };
+
+
+
+    $(window).load(function () {
+
+        showloader();
+        // executes when complete page is fully loaded, including all frames, objects and images
+        var id = $('#TransId').val();
+
+ 
+        $.ajax({
+            type: "GET",
+            url: '/PhedPay/ShowDetails',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: { 
+                id: id,
+            },
+            success: function (result) { 
+                console.log(result[0]); 
+                $("#AccountNo").html(result[0].CUSTOMER_NO);
+                $("#MeterNo").html(result[0].METER_NO);
+                $("#Status").html(result[0].RECEIPTNUMBER);
+                $("#Tariff").html(result[0].TARIFF);
+
+                $("#Address22").html(result[0].ADDRESS);
+                $("#AccountName22").html(result[0].CONS_NAME);
+                 
+                $("#AmountPaid").html("₦ " + result[0].AMOUNT); 
+                $("#AccountNo1").html(result[0].CUSTOMER_NO); 
+                $("#MeterNo1").html(result[0].METER_NO);
+                $("#Status1").html(result[0].RECEIPTNUMBER);
+                $("#Tariff1").html(result[0].TARIFF);
+                $("#AmountPaid1").html("₦ " + result[0].AMOUNT);
+                if (result[0].TOKENDESC == 0 || result[0].TOKENDESC == "0")
+                {
+                    //hide the other list items 
+                    $("#Tokens").slideUp(); $("#Tokens1").slideUp();
+                }
+                else
+                {
+                    $("#Token").html(result[0].TOKENDESC); $("#Token1").html(result[0].TOKENDESC);
+                } 
+                $("#Units").html(result[0].UNITSACTUAL);
+                $("#Units1").html(result[0].UNITSACTUAL);
+                $("#dates").html(result[0].PAYMENTDATETIME);
+                 
+                if (result[0].DEATILS == null || result[0].DEATILS == "null") {
+                     
+                    $("#Arrearss").slideUp();
+                    $("#Bypasss").slideUp();
+                    $("#Preloads").slideUp(); $("#Arrearss1").slideUp();
+                    $("#Bypasss1").slideUp();
+                    $("#Preloads1").slideUp();
+                }
+                else {
+
+                    $("#Bypass").html(result[0].DEATILS[1].AMOUNT);
+                    $("#Preload").html(result[0].DEATILS[2].AMOUNT);
+                    $("#Arrears").html("₦ " + result[0].DEATILS[0].AMOUNT); 
+                    $("#Bypass1").html(result[0].DEATILS[1].AMOUNT);
+                    $("#Preload1").html(result[0].DEATILS[2].AMOUNT);
+                    $("#Arrears1").html("₦ " + result[0].DEATILS[0].AMOUNT);
+                }
+
+                swal.close(); 
+                SendEmail(id);
+
+            },
+            error: function (err) {
+                console.log("errrrrrrrrrrrrrrrrrrrrrrp " + err.responseText);
+                if (err.responseText == "Customer Not Found" || err.responseText == "Consumer Not Found") {
+
+                    swal("Error", err.responseText, "error"); return;
+                }
+                else {
+
+                    swal("Error", "There was an error completing your payment, please check your network connection or contact PHED Support", "error");
+                    return;
+
+                }
+            }
+        });
+
+    });
+
+
+    function  SendEmail (id)
+    {
+
+        $.ajax({
+            type: "GET",
+            url: '/PhedPay/SendEmail',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: {
+                id: id,
+            },
+            success: function (result) {
+
+                
+
+            },
+            error: function (err) {
+               
+            }
+        });
+
+    }
+
+    function h() { 
+        $("#newpayment").click(function (event) {
+            event.preventDefault();
+            var url = '@Url.Action("Pay","PhedPay")';
+            window.location.href = url;
+        });
+    }
+
+</script>

@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "ClaimPayments";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            PHED Customer Payment Data Upload
+        </h4>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">From Date</label>
+                    <input type="date" class="form-control" id="exampleFormControlInput1">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">To Date</label>
+                    <input type="date" class="form-control" id="exampleFormControlInput1">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Bank Statement input</label>
+                    @*<input type="file" class="form-control-file" id="exampleFormControlFile1">*@
+
+                    <input type="file" class="form-control" id="yourfileID" placeholder="Select the Evidence of Payment">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Payment Description</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <hr />
+
+        <div class="col-md-4 pull-right">
+
+            <input type="button" style="background-color:green" data-bind="click:UploadAgency" class="btn form-control btn-success" value="Upload Files" />
+
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+</div>
+
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="~/Scripts/PHEDServe/PHEDServe.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var AllTaxPayersViewModel;
+        $.ajax({
+            url: '/Payments/BindCustomers',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                AllTaxPayersViewModel = new PHEDServeEnergyViewModel(data);
+                ko.applyBindings(AllTaxPayersViewModel);
+            },
+            error: function (result) {
+                alert("Failed" + result.responseText);
+            }
+        });
+    });
+
+
+</script>
+
+

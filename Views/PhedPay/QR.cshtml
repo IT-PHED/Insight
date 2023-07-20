@@ -1,0 +1,778 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="~/PHEDMobile/~/PHEDMobile/images/apple-touch-icon.png" />
+    <link rel="apple-touch-startup-image" href="~/PHEDMobile/~/PHEDMobile/images/apple-touch-startup-image-640x920.png">
+    <title>PHEDPay - QRPayments</title>
+    <link rel="stylesheet" href="~/PHEDMobile/css/framework7.css">
+    <link href="~/Content/elephant.min.css" rel="stylesheet" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" rel="stylesheet" />
+ 
+    <link rel="stylesheet" href="~/PHEDMobile/style.css">
+    <link type="text/css" rel="stylesheet" href="~/PHEDMobile/css/swipebox.css" />
+    <link type="text/css" rel="stylesheet" href="~/PHEDMobile/css/animations.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,900" rel="stylesheet">
+</head>
+<body id="mobile_wrap">
+   
+    <input type="hidden" value="@ViewBag.Account" id="Account" name="Account" />
+    <input type="hidden" value="@ViewBag.Amount" id="Amount" name="Amount" />
+    <input type="hidden" value="@ViewBag.Email" id="Email" name="Email" />
+    <input type="hidden" value="@ViewBag.Phone" id="Phone" name="Phone" />
+    <input type="hidden" value="@ViewBag.AccountType" id="AccountType" name="AccountType" />
+
+    <div class="pages">
+        <div data-page="form" class="page no-toolbar no-navbar">
+            <div class="page-content">
+
+                <div class="navbarpages navbarpagesbg">
+                    <div class="navbar_left">
+                        <div class="logo_text"><a href="index-2.html">PHEDPay</a></div>
+                    </div>
+                    <div class="navbar_right navbar_right_menu">
+                        <a href="#" data-panel="left" class="open-panel"><img src="~/PHEDMobile/images/icons/white/menu.png" alt="" title="" /></a>
+                    </div>
+                    <div class="navbar_right">
+                        <a href="#" data-panel="right" class="open-panel"><img src="~/PHEDMobile/images/icons/white/user.png" alt="" title="" /></a>
+                    </div>
+                    @*<div class="navbar_right">
+                        <a href="cart.html" data-view=".view-main"><img src="~/PHEDMobile/images/icons/white/cart.png" alt="" title="" /><span>3</span></a>
+                    </div>*@
+                </div>
+
+                <div id="pages_maincontent">
+
+                    <h2  class="page_title"> Account Info </h2>
+
+                    <div class="page_single layout_fullwidth_padding">
+
+                        <div class="contactform" id="QRInfo">
+                            <form class="" id="CustomForm" method="post" action="#">
+                                <div class="form_row">
+                                    <label>Account No:</label>
+                                    <input type="text" id="AccountNo1" name="name" value="" class="form_input" />
+                                </div>
+
+                                <div class="form_row">
+                                    <label>Email:</label>
+                                    <input type="text" name="email" id="EmailAddress1" value="" class="form_input required email" />
+                                </div>
+
+                                <div class="form_row">
+                                    <label>Phone Number:</label>
+                                    <input type="text" name="email" id="PhoneNumber1" value="" class="form_input" />
+                                </div>
+
+                                <div class="form_row">
+                                    <label>Amount to Pay:</label>
+                                    <input type="text" name="email" id="AmountPay1" value="" class="form_input" />
+                                </div>
+                                @*<div class="form_row">
+                    <label>Select:</label>
+                    <div class="selector_overlay">
+                        <select name="selectoptions" class="required">
+                            <option value="" disabled selected>Account Type</option>
+                            <option value="1">PrePaid</option>
+                            <option value="2">PostPaid</option>
+                        </select>
+                    </div>
+                </div>*@
+
+
+                                <div class="form_row">
+                                    <label>Account Type:</label>
+                                    <div class="form_row_right">
+                                        <label class="label-radio item-content">
+                                            <!-- Checked by default -->
+                                            <input type="radio" name="AccountType" value="Prepaid" checked="checked">
+                                            <div class="item-inner">
+                                                <div class="item-title">PREPAID</div>
+                                            </div>
+                                        </label>
+
+                                        <label class="label-radio item-content">
+                                            <!-- Checked by default -->
+                                            <input type="radio" name="AccountType" value="PostPaid">
+                                            <div class="item-inner">
+                                                <div class="item-title">POSTPAID</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                @*<div class="form_row">
+                    <label>Checkbox:</label>
+                    <div class="form_row_right">
+                        <label class="label-checkbox item-content">
+                            <!-- Checked by default -->
+                            <input type="checkbox" name="my-checkbox" value="Books" checked="checked">
+                            <div class="item-media">
+                                <i class="icon icon-form-checkbox"></i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">Books</div>
+                            </div>
+                        </label>
+
+                        <label class="label-checkbox item-content">
+                            <input type="checkbox" name="my-checkbox" value="Movies">
+                            <div class="item-media">
+                                <i class="icon icon-form-checkbox"></i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">Movies</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>*@
+
+                                @*<div class="form_row">
+                    <label>Remember Me</label>
+                    <div class="form_row_right">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title">On/Off</div>
+                                <div class="item-input">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+                                @*<div class="form_row">
+                    <label>Datepicker:</label>
+                    <input type="text" name="email" value="" class="form_input required" readonly="readonly" id="calendar-input" />
+                </div>*@
+
+                                @*<div class="form_row">
+                    <label>Message:</label>
+                    <textarea name="message" class="form_textarea" rows="" cols="">your message here</textarea>
+                </div>*@
+
+
+                                <input type="button" onclick="v()" style="background-color: #445cfd; color:white; border-radius:25px"  name="submit" class="form_submit" id="submit" value="Pay" />
+
+                            </form>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12" id="CustomerInfo" data-toggle="match-height" style="display:none;color:transparent">
+
+                            <div class="list-group" style="opacity:0.9;color:transparent; text-decoration:none">
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="AccountName2"></span></b></span>
+                                    <span class="icon icon-user icon-lg icon-fw"></span>
+                                    <b>Name</b>
+                                </a>
+                                <a class="list-group-item " style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="AccountNo2"></span> </b></span>
+                                    <span class="icon icon-cubes icon-lg icon-fw"></span>
+                                    <b>Account No</b>
+                                </a>
+                                <a class="list-group-item " style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="MeterNo"></span></b></span>
+                                    <span class="icon icon-calendar icon-lg icon-fw"></span>
+                                    <b> Meter No.</b>
+                                </a>
+
+                                <a class="list-group-item " style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="AccountType2"></span></b></span>
+                                    <span class="icon icon-bookmark icon-lg icon-fw"></span>
+                                    <b> Account Type</b>
+                                </a>
+
+                                <a class="list-group-item " style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="HouseAddress2"></span></b></span>
+                                    <span class="icon icon-map icon-lg icon-fw"></span>
+                                    <b> Add.</b>
+                                </a>
+
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="IntegratedBusinessCenter"></span></b></span>
+                                    <span class="icon icon-building icon-lg icon-fw"></span>
+                                    <b>IBC</b>
+                                </a>
+
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="BusinessServiceCenter"></span></b></span>
+                                    <span class="icon icon-building icon-lg icon-fw"></span>
+                                    <b>BSC</b>
+                                </a>
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="EmailAccount1"> </span></b></span>
+                                    <span class="icon icon-envelope icon-lg icon-fw"></span>
+                                    <b>Email</b>
+                                </a>
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="Tariff"></span></b></span>
+                                    <span class="icon icon-calculator icon-lg icon-fw"></span>
+                                    <b>Tariff</b>
+                                </a>
+
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="Arrears"></span></b></span>
+                                    <span class="icon icon-refresh icon-lg icon-fw"></span>
+                                    <b>Arrears</b>
+                                </a>
+
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="Min"> </span></b></span>
+                                    <span class="icon icon-envelope icon-lg icon-fw"></span>
+                                    <b>Minimum Payable</b>
+                                </a>
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="TotalBill"></span></b></span>
+                                    <span class="icon icon-refresh icon-lg icon-fw"></span>
+                                    <b>Total Bill</b>
+                                </a>
+
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="AmountPaid"></span></b></span>
+                                    <span class="icon icon-credit-card icon-lg icon-fw"></span>
+                                    <b>Amount </b>
+                                </a>
+
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <span class="pull-right"><b><span id="Message"></span></b></span>
+                                    <span class="icon icon-building icon-lg icon-fw"></span>
+                                    <b></b>
+                                </a>
+                                <a class="list-group-item" style="text-decoration: none; color: #445cfd">
+                                    <input type="submit" name="Proceed to pay" onclick="showloader(); " class="btn btn-primary btn-block btn-next" value="Proceed to pay" />
+                                    
+                                </a>
+                            </div>
+
+
+                          
+                          
+
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-2">
+                                    @*<label for="username-1" style="text-decoration:none; color:#1e82d7" class="control-label">.</label>*@
+                                    <form id="XpressPay" action="https://xpresspayonline.com:8000/xp-gateway/v2" method="post">
+                                        <input type="hidden" style="color:black" value="" name="amount" id="amount" />
+                                        <input type="hidden" style="color:black" value="http://phedpayments.nepamsonline.com/PhedPay/SuccessQR" id="callback-url" name="callback-url" />
+                                        <input type="hidden" style="color:black" value="NGN" name="currency" id="currency" />
+                                        <input type="hidden" style="color:black" value="" name="customer-email" id="customer-email" />
+                                        <input type="hidden" style="color:black" value="" name="hash" id="hash" />
+                                        <input type="hidden" style="color:black" value="SHA256" name="hash-type" id="hash-type" />
+                                        <input type="hidden" style="color:black" value="00024" name="merchant-id" id="merchant-id" />
+                                        <input type="hidden" style="color:black" value="" name="product-desc" id="product-desc" />
+                                        <input type="hidden" style="color:black" value="" name="product-id" id="product-id" />
+                                        <input type="hidden" style="color:black" value="" name="public-key" id="public-key" />
+                                        <input type="hidden" style="color:black" value="" name="trans-id" id="trans-id" />
+                                        @*<input type="text" style="color:black" value="" name="f" id="f" />*@
+                                        @*<button    type="button">Proceed to pay</button>*@
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Login Popup -->
+    <div class="popup popup-login">
+        <div class="content-block">
+            <h4>LOGIN</h4>
+            <div class="loginform">
+                <form id="LoginForm" method="post">
+                    <input type="text" name="Username" value="" class="form_input required" placeholder="username" />
+                    <input type="password" name="Password" value="" class="form_input required" placeholder="password" />
+                    <div class="forgot_pass"><a href="#" data-popup=".popup-forgot" class="open-popup">Forgot Password?</a></div>
+                    <input type="submit" name="submit" class="form_submit" id="submitlogin" value="SIGN IN" />
+                </form>
+                <div class="signup_bottom">
+                    <p>Don't have an account?</p>
+                    <a href="#" data-popup=".popup-signup" class="open-popup">SIGN UP</a>
+                </div>
+            </div>
+            <div class="close_popup_button">
+                <a href="#" class="close-popup"><img src="images/icons/black/menu_close.png" alt="" title="" /></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Popup -->
+    <div class="popup popup-signup">
+        <div class="content-block">
+            <h4>REGISTER</h4>
+            <div class="loginform">
+                <form id="RegisterForm" method="post">
+                    <input type="text" name="Username" value="" class="form_input required" placeholder="Username" />
+                    <input type="text" name="Email" value="" class="form_input required" placeholder="Email" />
+                    <input type="password" name="Password" value="" class="form_input required" placeholder="Password" />
+                    <input type="submit" name="submit" class="form_submit" id="submitregister" value="SIGN UP" />
+                </form>
+                <h5>- OR REGISTER WITH A SOCIAL ACCOUNT -</h5>
+                <div class="signup_social">
+                    <a href="http://www.facebook.com/" class="signup_facebook external">FACEBOOK</a>
+                    <a href="http://www.twitter.com/" class="signup_twitter external">TWITTER</a>
+                </div>
+            </div>
+            <div class="close_popup_button">
+                <a href="#" class="close-popup"><img src="images/icons/black/menu_close.png" alt="" title="" /></a>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function showloader() {
+            swal({
+                title: "Loading...",
+                text: "Please wait",
+                imageUrl: 'http://phedpayments.nepamsonline.com/images/loader4.gif',
+
+                showConfirmButton: false,
+                allowOutsideClick: false
+            }); document.forms['XpressPay'].submit();
+        };
+        function ShowSlide() {
+
+            //$("#QRInfo").Drop();
+            $("#CustomerInfo").slideDown();
+
+            $("#QRInfo").slideUp();
+
+            $("#Labels").InnerHTML.slideUp();
+
+
+           
+        }
+
+
+
+
+
+
+
+     
+
+
+        function v() {
+            var AccountNo = $("#AccountNo1").val();
+            var AmountPaid = $("#AmountPay1").val();
+            var PhoneNumber = $("#PhoneNumber1").val();
+            var EmailAddress = $("#EmailAddress1").val();
+
+
+
+
+
+            var AccountType = $("input[name='AccountType']:checked").val();
+
+
+
+
+            if (AccountType === 'undefined' || AccountType === '' || AccountType === "undefined" || AccountType == undefined || AccountType === undefined) {
+
+
+                swal("Account Type", "Please select an account type", "info");
+
+                return;
+            }
+
+            if (AccountNo == "" || AccountNo == '' || AccountNo == 'undefined') {
+
+
+                swal("Account No", "Please enter a value for your account Number", "info");
+
+                return;
+            } if (PhoneNumber === 'undefined' || PhoneNumber === '' || PhoneNumber === "undefined" || PhoneNumber == undefined || PhoneNumber === undefined) {
+
+
+                swal("Phone Number", "Please input a valid  Phone number", "info");
+
+                return;
+            } var value = $.trim(PhoneNumber).replace(/\D/g, '');
+            if (value.length != 11) {
+
+                swal("Phone Number", "Please input a valid Phone number", "info");
+
+                return;
+            }
+            if (EmailAddress === 'undefined' || EmailAddress === '' || EmailAddress === "undefined" || EmailAddress == undefined || EmailAddress === undefined) {
+
+
+                swal("Email Address", "Please input a valid  Email Address", "info");
+
+                return;
+            }
+            var filter = /^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+            if (!filter.test(EmailAddress)) {
+                swal("Email Address", "Please input a valid email address to proceed", "info");
+
+                return;
+            }
+            if (AmountPaid == "" || AmountPaid == '' || AmountPaid == 'undefined') {
+
+
+                swal("Amount", "Please enter a value for the amount you're buying", "info");
+
+                return;
+            }
+            //swal.showLoading();
+            //$('#cover').fadeOut(1000);
+            swal({
+                title: "Checking...",
+                text: "Please wait",
+                imageUrl: 'http://phedpayments.nepamsonline.com/images/loader4.gif',
+
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+            $.ajax({
+                type: "GET",
+                url: '/PhedPay/s',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: {
+
+                    AccountNo: AccountNo,
+                    PhoneNumber: PhoneNumber,
+                    EmailAddress: EmailAddress,
+                    AccountType: AccountType,
+                    AmountPaid: AmountPaid
+                },
+                success: function (result) {
+                    $("#tab-1").delay(1500).slideUp('slow');
+                    var x = JSON.parse(result.result);
+                    //console.log("dsssssssssssssssssssss " + x);
+                    //console.log("dsssssssssssssssssssss " + x[0].METER_NO);
+                    //console.log(result.result);
+                    //console.log(result.result[0].METER_NO);
+                    //console.log(result.result.METER_NO);
+                    //console.log(result[0].result.METER_NO);
+                    //return;
+
+                    //console.log("dddddddddddddddddd " + result.amount);
+
+                    $("#AccountNo2").html(x[0].CUSTOMER_NO);
+                    $("#MeterNo").html(x[0].METER_NO);
+                    $("#PhoneNumber2").html(x[0].STATUS);
+                    $("#HouseAddress2").html(x[0].ADDRESS);
+                    $("#EmailAddress2").html(x[0].STATUS);
+                    $("#Arrears").html("₦ " + x[0].ARREAR);
+                    $("#AccountType2").html(x[0].CONS_TYPE);
+                    $("#AccountName2").html(x[0].CONS_NAME);
+                    $("#BusinessServiceCenter").html(x[0].BSC_NAME);
+                    $("#IntegratedBusinessCenter").html(x[0].IBC_NAME);
+                    $("#Tariff").html(x[0].TARIFFCODE);
+                    $("#TotalBill").html("₦ " + x[0].TOTAL_BILL);
+                    $("#AmountPaid").html("₦ " + result.amount);
+                    $("#EmailAccount1").html(result.customer_email);
+                    $("#Min").html("₦ " + x[0].CURRENT_AMOUNT);
+                    //find the POST Paremeters and Evoke
+
+
+                    $('#amount').val(result.amount);
+                    $('#customer-email').val(result.customer_email);
+                    $('#hash').val(result.HashCode);
+                    $('#product-id').val(result.ProductId);
+                    $('#trans-id').val(result.trans_id);
+                    $('#product-desc').val(result.ProductDescription);
+                    $('#public-key').val(result.PublicKey);
+                    /// $('#f').val(result.hashString);
+                    if (x[0].CONS_TYPE == "POSTPAID") {
+                        if (parseFloat(result.amount) <= parseFloat(x[0].CURRENT_AMOUNT)) {
+
+                            $("#Message").html('Note: You are paying less than the minimum ');
+
+
+                        }
+                        else {
+
+                            $("#Message").html('Note: You can proceed to pay');
+
+                        }
+                    }
+                    if (x[0].CONS_TYPE == "PREPAID") {
+                        if (parseFloat(result.amount) <= parseFloat(x[0].CURRENT_AMOUNT)) {
+
+                            $("#Message").html('Note: Payment will be used to Offset Debt');
+
+
+                        }
+                        else {
+
+                            $("#Message").html('Note: You can proceed to pay');
+
+                        }
+                    }
+
+                    //document.getElementById('tab-2').classList.add('active');
+                    //document.getElementById('tab-1').classList.remove('active');
+
+
+                    //document.getElementById('tab2').classList.add('active');
+                    //document.getElementById('tab1').classList.remove('active');
+                    //swal.close();
+                    $("#CustomerInfo").delay(500).slideDown();
+                   
+                    $("#QRInfo").delay(500).slideUp();
+                    swal.close();
+                    //$("#tab-2").delay(1500).slideDown();
+                },
+                error: function (err) {
+                    console.log("errrrrrrrrrrrrrrrrrrrrrrp " + err.responseText);
+                    if (err.responseText == "Customer Not Found" || err.responseText == "Consumer Not Found") {
+                        swal.close();
+                        swal("Error", err.responseText, "error"); return;
+                    }
+                    else {
+                        swal.close();
+                        swal("Error", "There was an error verifying your account details, please check your network connection and try again.", "error");
+                        return;
+
+                    }
+                }
+            });
+
+        }
+
+      
+    </script>
+
+    <script>
+
+
+        window.addEventListener("load", function () {
+
+            var Account = $('#Account').val();
+            var Amount = $('#Amount').val();
+            var Email = $('#Email').val();
+            var Phone = $('#Phone').val();
+            var AccountType = $('#AccountType').val();
+
+
+            //assign the values to the text boxes
+
+            if (Account != "" && Amount != "" && Email != "" && Phone != "") {
+
+                $("#AccountNo1").val(Account);
+                $("#AmountPay1").val(Amount);
+                $("#PhoneNumber1").val(Phone);
+                $("#EmailAddress1").val(Email);
+                $("[name=AccountType]").val([AccountType]);
+                //if (AccountType == "PREPAID") {
+                //    document.CustomForm.AccountType[0].checked = true;
+                //}
+
+                //if (AccountType == "POSTPAID") {
+                //    document.CustomForm.AccountType[1].checked = true;
+                //} alert("dfssssafasdfasdfasdfasfsdfsdfsdfsdfdasfs ");
+                swal({
+                    title: "Checking...",
+                    text: "Please wait",
+                    imageUrl: 'http://phedpayments.nepamsonline.com/images/loader4.gif',
+
+                    showConfirmButton: false,
+                    allowOutsideClick: false
+                });
+                $.ajax({
+                    type: "GET",
+                    url: '/PhedPay/x',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: {
+
+                        AccountNo: Account,
+                        PhoneNumber: Phone,
+                        EmailAddress: Email,
+                        AccountType: AccountType,
+                        AmountPaid: Amount
+                    },
+                    success: function (result) {
+                        if (result.result == "Customer Not Found") {
+                            swal.close();
+                            swal("Error","Customer Not Found" , "error"); return;
+                        }
+                        //$("#tab-1").delay(1500).slideUp('slow');
+                        var x = JSON.parse(result.result);
+                        //console.log("dsssssssssssssssssssss " + x);
+                        //console.log("dsssssssssssssssssssss " + x[0].METER_NO);
+                        //console.log(result.result);
+                        //console.log(result.result[0].METER_NO);
+                        //console.log(result.result.METER_NO);
+                        //console.log(result[0].result.METER_NO);
+                        //return;
+
+                        //console.log("dddddddddddddddddd " + result.amount);
+
+                        $("#AccountNo2").html(x[0].CUSTOMER_NO);
+                        $("#MeterNo").html(x[0].METER_NO);
+                        $("#PhoneNumber2").html(x[0].STATUS);
+                        $("#HouseAddress2").html(x[0].ADDRESS);
+                        $("#EmailAddress2").html(x[0].STATUS);
+                        $("#Arrears").html("₦ " + x[0].ARREAR);
+                        $("#AccountType2").html(x[0].CONS_TYPE);
+                        $("#AccountName2").html(x[0].CONS_NAME);
+                        $("#BusinessServiceCenter").html(x[0].BSC_NAME);
+                        $("#IntegratedBusinessCenter").html(x[0].IBC_NAME);
+                        $("#Tariff").html(x[0].TARIFFCODE);
+                        $("#TotalBill").html("₦ " + x[0].TOTAL_BILL);
+                        $("#AmountPaid").html("₦ " + result.amount);
+                        $("#EmailAccount1").html(result.customer_email);
+                        $("#Min").html("₦ " + x[0].CURRENT_AMOUNT);
+                        //find the POST Paremeters and Evoke
+
+
+                        $('#amount').val(result.amount);
+                        $('#customer-email').val(result.customer_email);
+                        $('#hash').val(result.HashCode);
+                        $('#product-id').val(result.ProductId);
+                        $('#trans-id').val(result.trans_id);
+                        $('#product-desc').val(result.ProductDescription);
+                        $('#public-key').val(result.PublicKey);
+                        /// $('#f').val(result.hashString);
+                        if (x[0].CONS_TYPE == "POSTPAID") {
+                            if (parseFloat(result.amount) <= parseFloat(x[0].CURRENT_AMOUNT)) {
+
+                                $("#Message").html('Note: You are paying less than the minimum ');
+
+
+                            }
+                            else {
+
+                                $("#Message").html('Note: You can proceed to pay');
+
+                            }
+                        }
+                        if (x[0].CONS_TYPE == "PREPAID") {
+                            if (parseFloat(result.amount) <= parseFloat(x[0].CURRENT_AMOUNT)) {
+
+                                $("#Message").html('Note: Payment will be used to Offset Debt');
+
+
+                            }
+                            else {
+
+                                $("#Message").html('Note: You can proceed to pay');
+
+                            }
+                        }
+
+                        //document.getElementById('tab-2').classList.add('active');
+                        //document.getElementById('tab-1').classList.remove('active');
+
+
+                        //document.getElementById('tab2').classList.add('active');
+                        //document.getElementById('tab1').classList.remove('active');
+                        //swal.close();
+                        swal.close(); $("#CustomerInfo").slideDown();
+
+                        $("#QRInfo").delay(500).slideUp();
+                    
+                        //$("#tab-2").delay(1500).slideDown();
+                    },
+                    error: function (err) {
+                        console.log("errrrrrrrrrrrrrrrrrrrrrrp " + err.responseText);
+                        if (err.responseText == "Customer Not Found" || err.responseText == "Consumer Not Found") {
+                            swal.close();
+                            swal("Error", err.responseText, "error"); return;
+                        }
+                        else {
+                            swal.close();
+                            swal("Error", "There was an error verifying your account details, please check your network connection and try again.", "error");
+                            return;
+
+                        }
+                    }
+                });
+
+              
+            } else {
+               
+                $("#AccountNo1").val(Account);
+                $("#AmountPay1").val(Amount);
+                $("#PhoneNumber1").val(Email);
+                $("#EmailAddress1").val(Email);
+                $("[name=AccountType]").val([AccountType]);
+                //if (AccountType == "PREPAID") {
+                //    $("[name=AccountType]").val([AccountType]);
+                //}
+
+                //if (AccountType == "POSTPAID") {
+                //    $("[name=AccountType]").val([AccountType]);
+                //}
+
+                //alert("dfssssafasdfasdfasdfasfsdfsdfsdfsdfdasfs ");
+                //swal({
+                //    title: "Checking...",
+                //    text: "Please wait",
+                //    imageUrl: 'http://phedpayments.nepamsonline.com/images/loader4.gif',
+
+                //    showConfirmButton: false,
+                //    allowOutsideClick: false
+                //});
+                //console.log("reaching");
+            }
+
+
+        });
+
+      
+
+
+    </script>
+
+
+
+
+
+
+
+
+    <script src="~/PHEDMobile/js/jquery-1.10.1.min.js"></script>
+    <script src="~/PHEDMobile/js/jquery.validate.min.js"></script>
+    <script src="~/PHEDMobile/js/framework7.js"></script>
+    <script src="~/PHEDMobile/js/jquery.swipebox.js"></script>
+    <script src="~/PHEDMobile/js/jquery.fitvids.js"></script>
+    <script src="~/PHEDMobile/js/email.js"></script>
+    <script src="~/PHEDMobile/js/audio.min.js"></script>
+    <script src="~/PHEDMobile/js/my-app.js"></script>
+ 
+</body>
+
+</html>
+
+

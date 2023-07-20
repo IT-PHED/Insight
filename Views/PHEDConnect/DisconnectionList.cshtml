@@ -1,0 +1,254 @@
+﻿@{
+    ViewBag.Title = "ReconnectedCustomers";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+
+
+
+
+<link href="~/Scripts/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Scripts/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Scripts/bootstrap-datatable/css/dataTables.custom.css" rel="stylesheet" />
+<link href="~/assets/css/AMRCustomCSS/custom.min.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+           Disconnected Customers
+        </h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="dashboard_graph">
+
+
+                    <div class="row tile_count">
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                            <span class="count_top"><i class="fa fa-clock-o"></i> Number of Disconnected </span>
+                            <div class="count blue" data-bind="text:RCDCStatData.DisconnectedCustomers">1,598</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i>PHED Customers</span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                            <span class="count_top"><i class="fa fa-clock-o"></i>Number of  Reconnected</span>
+                            <div class="count blue" data-bind="text:RCDCStatData.ReconnectedCustomers">798</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i>PHED Customers</span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Number of Customers </span>
+                            <div class="count green" data-bind="text:RCDCStatData.PendingForCustomer">433</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>Pending for Reconnection </span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Number of Disconnected </span>
+                            <div class="count green" data-bind="text:RCDCStatData.DisconnectedPOSTPAID">433</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Postpaid Customers </span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Number of Disconnected </span>
+                            <div class="count green" data-bind="text:RCDCStatData.DisconnectedPREPAID">433</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Prepaid Customers </span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> %age Success with</span>
+                            <div class="count blue" data-bind="text:RCDCStatData.PercentageSuccess">66% </div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>Reconnection & Disconnection </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <hr />
+                <div class="dataTables_wrapper container-fluid dt-bootstrap4">
+                    <div class="row">
+
+
+                        <div class="col-md-3 form-group">
+                            <label>Zone</label>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: IBCList, selectedOptions: SelectedIBC, optionsText: 'IBCName',optionValue: 'IBCId', value: SelectedIBC,  valueUpdate:'change',optionsCaption: 'Select Zone',event:{change: filterBSCFromIBC} "></select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label>Feeder</label>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: filteredBSCList, selectedOptions: SelectedBSC, optionsText: 'BSCName',optionValue: 'BSCId', value: SelectedBSC,  valueUpdate:'change',optionsCaption: 'Select Feeder'"></select>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label>Status</label>
+
+                            <select class="custom-select" data-bind="value:Category">
+                                <option>--Select Category--</option>
+                                <option>DISCONNECT</option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label>Account Type</label>
+                            <select class="custom-select" data-bind="value:AccountType">
+                                <option>--Select Mode--</option>
+                                <option>ALL ACCOUNTS</option>
+                                <option>POSTPAID</option>
+                                <option>PREPAID</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="form-group" style="overflow: hidden;">
+                                <button style="float: right" type="submit" class="btn btn-primary center-block" data-bind="click:DisconnectedCustomers">Process Action</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+
+                <div class="table-responsive">
+                    <table data-bind="if: DisconnectionList().length >= 1" id="EbillsDatatable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>AccountNo</th>
+                                <th>AccountName</th>
+                                <th>Address</th>
+                                <th>Arrears</th>
+                                <th>Zone</th>
+                                <th>Feeder</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--ko foreach:DisconnectionList() -->
+                            <tr>
+                                <td><span data-bind="text:$index() +1"></span></td>
+                                <td><span data-bind="text: AccountNo"></span></td>
+                                <td><span data-bind="text: AccountName"></span></td>
+                                <td><span data-bind="text: Address"></span></td>
+                                <td><span data-bind="text: Arrears"></span></td>
+                                <td><span data-bind="Date: Zone"></span></td>
+                                <td><span data-bind="text: Feeder"></span></td>
+                                <td><span data-bind="text: CustomerEmail"></span></td>
+                            </tr>
+
+                            <!--/ko-->
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>S/N</th>
+                                <th>AccountNo</th>
+                                <th>AccountName</th>
+                                <th>Address</th>
+                                <th>Arrears</th>
+                                <th>Date Reconnected</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+
+<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+<script src="~/Scripts/datepicker.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/jszip.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/pdfmake.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/vfs_fonts.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.print.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="~/Scripts/PHEDServe/PHEDConnect.js"></script>
+
+<script>
+
+    ko.bindingHandlers.Date = {
+        update: function (element, valueAccessor) {
+            var value = valueAccessor();
+            var date = moment(value());
+            var strDate = date.format("LL");
+            $(element).text(strDate);
+        }
+    };
+
+
+</script>
+
+
+<script type="text/javascript">
+
+    function AddFileTo(d) {
+        console.log(d.TicketId);
+
+        alert("Yes");
+    }
+
+    $(document).ready(function () {
+        showloader();
+
+        $.ajax({
+            url: '/PHEDConnect/LoadIndexPage',
+            type: 'GET',
+            dataType: 'JSON',
+
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                AllCustomerPaymentViewModel = new PHEDConnectViewModel(data);
+                ko.applyBindings(AllCustomerPaymentViewModel);
+                hideloader();
+            },
+            error: function (result) {
+                hideloader();
+                alert("Failed" + result.responseText);
+            }
+        });
+    });
+</script>
+
+<script>
+
+    function hideloader() {
+
+        swal.close();
+    }
+    function showloader() {
+        swal({
+            title: "Verifying...",
+            text: "Please wait while we upload your account details",
+            imageUrl: 'http://phedpayments.nepamsonline.com/images/loader4.gif',
+            showConfirmButton: false,
+            allowOutsideClick: false
+        });
+    };
+
+</script>
+

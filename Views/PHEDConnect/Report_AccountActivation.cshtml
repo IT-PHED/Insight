@@ -1,0 +1,865 @@
+﻿@{
+    ViewBag.Title = "New Account Approval";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+
+
+
+
+<link href="~/Scripts/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Scripts/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Scripts/bootstrap-datatable/css/dataTables.custom.css" rel="stylesheet" />
+<link href="~/assets/css/AMRCustomCSS/custom.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+Field Report- Separated Accounts
+        </h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <input type="hidden" id="ApprovalStatus" value="FEEDER" />
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="dashboard_graph">
+
+                    <div class="row tile_count">
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                            <span class="count_top"><i class="fa fa-clock-o"></i> Unprocessed Illegal </span>
+                            <div class="count blue" data-bind="text:RCDCStatData.IllegalConnections">0</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> Customers Connections</span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                            <span class="count_top"><i class="fa fa-clock-o"></i>Unprocessed New Customer</span>
+                            <div class="count blue" data-bind="text:RCDCStatData.NewCustomers">0</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> Captured Accounts</span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Number of Customers </span>
+                            <div class="count green" data-bind="text:RCDCStatData.Separation">0</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>Pending for Separation </span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Number of Tarriff </span>
+                            <div class="count green" data-bind="text:RCDCStatData.Approved">0</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>Changes Captured </span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Total Pending for </span>
+                            <div class="count green" data-bind="text:RCDCStatData.TotalPending">0</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Approval Customers </span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> %age Success with</span>
+                            <div class="count blue" data-bind="text:RCDCStatData.PercentageSuccess">0% </div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>All Accounts Captured</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <hr />
+                <div class="dataTables_wrapper container-fluid dt-bootstrap4">
+                    <div class="row">
+                         
+                        <div class="col-md-2 form-group">
+                            <label>Zone</label>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: IBCList, selectedOptions: SelectedIBC, optionsText: 'IBCName',optionValue: 'IBCId', value: SelectedIBC,  valueUpdate:'change',optionsCaption: 'Select Zone',event:{change: filterBSCFromIBC} "></select>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label>Feeder</label>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: filteredBSCList, selectedOptions: SelectedBSC, optionsText: 'BSCName',optionValue: 'BSCId', value: SelectedBSC,  valueUpdate:'change',optionsCaption: 'Select Feeder'"></select>
+                        </div>
+
+                        <div class="col-md-2 form-group">
+                            <label>Category</label>
+
+                            <select class="custom-select" data-bind="value:Category">
+                                <option>--Select Category--</option>  
+                                <option>ACTIVATION</option> 
+                            </select>
+                        </div>
+
+                        <div class="col-md-2 form-group">
+                            <label>Phase Type</label>
+                            <select class="custom-select" data-bind="value:AccountType">
+                                <option>--Select Mode--</option>
+                                <option>ALL PHASES</option>
+                                <option>SINGLE PHASE</option>
+                                <option>THREE PHASE</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2 form-group">
+                            <label>FromDate</label>
+                            <input type="date" value="" class="form-control" data-bind="value:FromDate" />
+                        </div>
+
+                        <div class="col-md-2 form-group">
+                            <label>ToDate</label>
+                            <input type="date" value="" class="form-control" data-bind="value:ToDate" />
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="form-group" style="overflow: hidden;">
+                                <button style="float: right" type="submit" class="btn btn-primary center-block" data-bind="click:NewConnectionApprovalFeeder">Process Action</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+                
+                <div class="table-responsive">
+                    <table data-bind="if: NewCustomerOnboardList().length >= 1" id="EbillsDatatable2" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Zone</th>
+                                <th>Feeder</th>
+                                <th>DTR</th>
+                                <th>TicketNo</th>
+                                <th>CustomerName</th>
+                                <th>Address</th> 
+                               
+                              
+                               
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Date Captured</th>
+                                <th>CapturedBy</th>
+                              
+                               
+                            </tr>
+                        </thead>
+                         
+                        <tbody>
+                            <!--ko foreach:NewCustomerOnboardList() -->
+                            <tr>
+                                <td><span data-bind="text:$index() +1"></span></td>
+                                <td><span data-bind="text: Zone"></span></td>
+                                <td><span data-bind="text: FeederName"></span></td>
+                                <td><span data-bind="text: DTRName"></span></td>
+                                <td><span data-bind="text: TicketNo"></span></td>
+                                <td><span data-bind="text: Surname"></span> 
+                               </td>
+                                <td> 
+                                 <span data-bind="text: StreetName"></span>
+                             </td>
+                                
+                                <td><span data-bind="text: Latitude"></span></td>
+                                <td><span data-bind="text: Longitude"></span></td>
+                                <td><span data-bind="Date: DateCaptured"></span></td>
+                                <td> <span data-bind="text: StaffId"></span> ~  <span data-bind="text: CapturedBy"></span></td>
+                                 
+                              
+                            </tr>
+
+                            <!--/ko-->
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Zone</th>
+                                <th>Feeder</th>
+                                <th>DTR</th>
+                                <th>TicketNo</th>
+                                <th>CustomerName</th>
+                                <th>Address</th> 
+                                <th>Type Of Premises</th> 
+                                <th>Phone</th>
+                                <th>No of Accounts</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Date Captured</th>
+                                <th>CapturedBy</th> 
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="largeModal1" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="largeModalLabel">View Documents</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <ul class="list-group">
+
+                        <!--ko foreach:UploadedDocumentList() -->
+                        <li class="list-group-item" style="cursor:pointer">
+                            <a data-bind="attr:{href: DOCUMENT_PATH(), target: '_blank'}">
+                                <div class="media align-items-center">
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PNG'-->
+                                    <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PDF'-->
+                                    <i style="color:green" class="fa fa-file-pdf-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'DOCX'-->
+                                    <i style="color:purple" class="fa fa-file-word-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'DOC'-->
+                                    <i style="color:magenta" class="fa fa-file-word-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'XLS'-->
+                                    <i style="color:red" class="fa fa-file-excel-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'XLSX'-->
+                                    <i style="color:yellowgreen" class="fa fa-file-excel-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'MP4'-->
+                                    <i class="fa fa-file-video-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'MP3'-->
+                                    <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'TXT'-->
+                                    <i class="fa fa-file-text-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'ZIP'-->
+                                    <i class="fa fa-file-archive-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'RAR'-->
+                                    <i class="fa fa-file-archive-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PPT'-->
+                                    <i class="fa fa-file-powerpoint-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PPTX'-->
+                                    <i class="fa fa-file-powerpoint-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PNG'-->
+                                    <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'JPG'-->
+                                    <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'JPEG'-->
+                                    <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'OGG'-->
+                                    <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'AMR'-->
+                                    <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'WAV'-->
+                                    <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'WMA'-->
+                                    <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                    <!--/ko-->
+                                    <div class="media-body ml-3">
+                                        <h6 class="mb-0"><span data-bind="text:DOCUMENT_NAME"></span><small class="ml-4 pull-right"><span data-bind="text:Size"></span></small></h6>
+                                        <p class="mb-0 small-font"><span data-bind="text:DocumentDescription"></span></p>
+                                    </div>
+                                    <div class="star" data-bind="attr:{href:  DOCUMENT_PATH(), target: '_blank'}">
+                                        <i title="Click here to Document the File from the List" class="fa fa-download" style="color:green"></i>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <!--/ko-->
+                    </ul>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="SettlementModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="largeModalLabel">Payment Settlement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                   <div>
+                       <div class="row">
+                           <div class="col-md-6">
+                               <label><b>Account No:</b> <span data-bind="text:AccountNo"></span></label>
+                           </div>
+                           <div class="col-md-6">
+                               <label><b>Account Name:</b> <span data-bind="text:AccountName"></span></label>
+                           </div>
+                           <div class="col-md-12">
+                               <label><b>Address:</b> Plot 78 Ikenegbu Extenson Owerri Plot 45m  New Owerri for the New things that can nwever happenin the life of my Life</label>
+                           </div>
+                          
+
+                           <hr />
+
+
+                           <div class="col-md-6">
+                               <label><b>Zone:</b> 810097323452</label>
+                           </div>
+                           <div class="col-md-6">
+                               <label><b>Feeder:</b> 810097323452</label>
+                           </div> 
+                           <div class="col-md-6">
+                               <label><b>Arrears:</b> PREPAID</label>
+                           </div>
+                           <div class="col-md-6">
+                               <label><b>Date Disconnected:</b> 23/13/2020</label>
+                           </div>
+                            
+                           <div class="col-md-6">
+                               <label><b>Settlement Status:</b> 810097323452</label>
+                           </div>
+                           <div class="col-md-6">
+                               <label><b>Disconnection Status:</b> 810097323452</label>
+                           </div>
+                           <div class="col-md-6">
+                               <label><b>Email:</b> ebukaegonu@yahoo.com</label>
+                           </div>
+                           <div class="col-md-6">
+                               <label><b>Phone No:</b> 08067807821</label>
+                           </div>
+                       </div>
+
+                       <hr />
+                       <div class="rows">
+                           <div class="col-md-3">
+                               <label>Amount To Settle</label>
+                               <input type="text" class="form-control"/>
+                           </div>
+
+                           <div class="col-md-3">
+                               <label>Duration Of Settlement</label>
+                               <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: IBCList, selectedOptions: SelectedIBC, optionsText: 'IBCName',optionValue: 'IBCId', value: SelectedIBC,  valueUpdate:'change',optionsCaption: 'Select Zone',event:{change: filterBSCFromIBC} "></select>
+
+                           </div>
+
+                           <div class="col-md-3">
+
+                               <label>Agreement Status</label>
+                               <select data-bind="value:AgreementStatus" class="form-control">
+                                   <option>SIGNED</option>
+                                   <option>NOT SIGNED</option>
+                               </select>
+                           </div>
+                           <div class="col-md-3">
+                               <label>Select File</label>
+                               <input type="File" class="form-control" /> 
+                           </div>
+                           <hr />
+                           <div class="col-md-12">
+                               <label>Comments</label>
+                               <textarea cols="4" class="form-control"></textarea>
+                           </div>
+
+                           <hr />
+                           <div class="col-md-12">
+                               <hr />
+                               
+                               <ul class="list-group">
+
+                                   <!--ko foreach:UploadedDocumentList() -->
+                                   <li class="list-group-item" style="cursor:pointer">
+                                       <a data-bind="attr:{href: DOCUMENT_PATH(), target: '_blank'}">
+                                           <div class="media align-items-center">
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PNG'-->
+                                               <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PDF'-->
+                                               <i style="color:green" class="fa fa-file-pdf-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'DOCX'-->
+                                               <i style="color:purple" class="fa fa-file-word-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'DOC'-->
+                                               <i style="color:magenta" class="fa fa-file-word-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'XLS'-->
+                                               <i style="color:red" class="fa fa-file-excel-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'XLSX'-->
+                                               <i style="color:yellowgreen" class="fa fa-file-excel-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'MP4'-->
+                                               <i class="fa fa-file-video-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'MP3'-->
+                                               <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'TXT'-->
+                                               <i class="fa fa-file-text-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'ZIP'-->
+                                               <i class="fa fa-file-archive-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'RAR'-->
+                                               <i class="fa fa-file-archive-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PPT'-->
+                                               <i class="fa fa-file-powerpoint-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PPTX'-->
+                                               <i class="fa fa-file-powerpoint-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PNG'-->
+                                               <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'JPG'-->
+                                               <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'JPEG'-->
+                                               <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'OGG'-->
+                                               <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'AMR'-->
+                                               <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'WAV'-->
+                                               <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'WMA'-->
+                                               <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                               <!--/ko-->
+                                               <div class="media-body ml-3">
+                                                   <h6 class="mb-0"><span data-bind="text:DOCUMENT_NAME"></span><small class="ml-4 pull-right"><span data-bind="text:Size"></span></small></h6>
+                                                   <p class="mb-0 small-font"><span data-bind="text:DocumentDescription"></span></p>
+                                               </div>
+                                               <div class="star" data-bind="attr:{href: 'https://portal.gracelandintlschool.com'+DOCUMENT_PATH(), target: '_blank'}">
+                                                   <i title="Click here to Document the File from the List" class="fa fa-download" style="color:green"></i>
+
+                                               </div>
+                                           </div>
+                                       </a>
+                                   </li>
+                                   <!--/ko-->
+                               </ul>
+                           </div>
+
+                           </div>
+                        
+                   </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="LORModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="largeModalLabel">Loss Of Revenue Approval</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label><b>Account No:</b> <span data-bind="text:AccountNo"></span></label>
+                            </div>
+                            <div class="col-md-6">
+                                <label><b>Account Name:</b> <span data-bind="text:AccountName"></span></label>
+                            </div>
+                            <div class="col-md-12">
+                                <label><b>Address:</b> <span data-bind="text:Address"></span></label>
+                            </div> 
+
+                            <hr /> 
+                            <div class="col-md-6">
+                                <label><b>Zone:</b> <span data-bind="text:Zone"></span></label>
+                            </div>
+                            <div class="col-md-6">
+                                <label><b>Feeder:</b> <span data-bind="text:Feeder"></span></label>
+                            </div>
+                            <div class="col-md-6">
+                                <label><b>Arrears:</b> <span data-bind="text:Arrears"></span></label>
+                            </div>
+                            <div class="col-md-6">
+                                <label><b>Date Disconnected:</b> <span data-bind="Date:DateOfDiscon"></span></label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label><b>Settlement Status:</b> <span data-bind="text:Settlement_Agreement"></span></label>
+                            </div>
+                            <div class="col-md-6">
+                                <label><b>Disconnection Status:</b> <span data-bind="text:DisconStatus"></span></label>
+                            </div>
+                            <div class="col-md-6">
+                                <label><b>Email:</b>  <span data-bind="text:CustomerEmail"></span>     </label>
+                            </div>
+                            <div class="col-md-6">
+                                <label><b>Phone No:</b> <span data-bind="text:CustomerPhone"></span> </label>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="row">
+                            <div  class="col-12" >
+
+
+
+                                <table data-bind="if: DisconnectionList().length >= 1" id="EbillsDatatable" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>ApplianceName</th>
+                                            <th>TotalWattage</th>
+                                            <th>Quantity</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--ko foreach:LossOfRevenueList() -->
+                                        <tr>
+                                            <td><span data-bind="text:$index() +1"></span></td>
+                                            <td><span data-bind="text: ApplianceName"></span></td>
+                                            <td><span data-bind="text: TotalWattage"></span></td>
+
+                                            <td><span data-bind="text: Qty"></span></td>
+
+                                        </tr>
+
+                                        <!--/ko-->
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>ApplianceName</th>
+                                            <th>TotalWattage</th>
+                                            <th>Quantity</th>
+
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div> </div>
+
+
+                        <hr />
+
+                   
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Calculated Load</label>
+                                <input type="text" class="form-control" data-bind="value:RPDCalculatedLoad" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Availability</label>
+                                <input type="text" class="form-control" data-bind="value:RPDLossOfRevenueAvailabilty" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Amount Charged(₦)</label>
+                                <input type="text" class="form-control" data-bind="value:RPDLossOfRevenueAmount" />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Duration Of Infraction</label>
+                                <input type="text" class="form-control" data-bind="value:RPDLossOfRevenueInfractionDuration" />
+                            </div>
+                        </div>
+
+                      
+                       
+                            @*--////////////////////////*@
+                        
+                       <br />
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>RPD Approval</label>
+                                <select class="form-control" data-bind="value:RPDApproval">
+                                    <option>-Select-</option>
+                                    <option>APPROVED</option>
+                                    <option>NOT APPROVED</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>RPD Approval Date</label>
+                                <input type="text" class="form-control" data-bind="value:RPDApprovalDate" />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>IAD Approval</label>
+                                <select class="form-control" data-bind="value:IADApproval">
+                                    <option>-Select-</option>
+                                    <option>APPROVED</option>
+                                    <option>NOT APPROVED</option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <label>IAD Approval Date</label>
+                                <input type="text" class="form-control" data-bind="Date:IADApprovalDate" />
+                            </div>
+                        </div>
+
+                            <hr />
+
+                            <div class="col-md-12">
+                                <label>Comments</label>
+                                <textarea cols="4" class="form-control" data-bind="value:RPDApprovalComments"></textarea>
+                            </div>
+
+
+                            <!--ko if: RPDApproval == 'APPROVED' -->
+                            <div class="col-md-12" data-bind="visible:">
+                            <label>Comments</label>
+                            <textarea cols="4" class="form-control" data-bind="text:IADApprovalComments"></textarea>
+                            </div>
+                            <!--/ko-->
+
+                            <hr />
+                            <div class="col-md-12">
+                                <hr />
+
+                                <ul class="list-group">
+
+                                    <!--ko foreach:UploadedDocumentList() -->
+                                    <li class="list-group-item" style="cursor:pointer">
+                                        <a data-bind="attr:{href: DOCUMENT_PATH(), target: '_blank'}">
+                                            <div class="media align-items-center">
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PNG'-->
+                                                <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PDF'-->
+                                                <i style="color:green" class="fa fa-file-pdf-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'DOCX'-->
+                                                <i style="color:purple" class="fa fa-file-word-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'DOC'-->
+                                                <i style="color:magenta" class="fa fa-file-word-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'XLS'-->
+                                                <i style="color:red" class="fa fa-file-excel-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'XLSX'-->
+                                                <i style="color:yellowgreen" class="fa fa-file-excel-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'MP4'-->
+                                                <i class="fa fa-file-video-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'MP3'-->
+                                                <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'TXT'-->
+                                                <i class="fa fa-file-text-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'ZIP'-->
+                                                <i class="fa fa-file-archive-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'RAR'-->
+                                                <i class="fa fa-file-archive-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PPT'-->
+                                                <i class="fa fa-file-powerpoint-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PPTX'-->
+                                                <i class="fa fa-file-powerpoint-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'PNG'-->
+                                                <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'JPG'-->
+                                                <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'JPEG'-->
+                                                <i class="fa fa-file-image-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'OGG'-->
+                                                <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'AMR'-->
+                                                <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'WAV'-->
+                                                <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <!--ko if:DOCUMENT_EXTENSION().toUpperCase() == 'WMA'-->
+                                                <i class="fa fa-file-audio-o text-facebook text-right fa-2x"></i>
+                                                <!--/ko-->
+                                                <div class="media-body ml-3">
+                                                    <h6 class="mb-0"><span data-bind="text:DOCUMENT_NAME"></span><small class="ml-4 pull-right"><span data-bind="text:Size"></span></small></h6>
+                                                    <p class="mb-0 small-font"><span data-bind="text:DocumentDescription"></span></p>
+                                                </div>
+                                                <div class="star" data-bind="attr:{href: DOCUMENT_PATH(), target: '_blank'}">
+                                                    <i title="Click here to Document the File from the List" class="fa fa-download" style="color:green"></i>
+
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <!--/ko-->
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+            
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bind="click:RPDApprovalLOR">Save changes</button>
+                </div>
+                </div>
+             
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AccountStatusModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="largeModalLabel">Payment Settlement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+ 
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+
+<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+<script src="~/Scripts/datepicker.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/jszip.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/pdfmake.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/vfs_fonts.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.print.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="~/Scripts/PHEDServe/PHEDConnect.js"></script>
+
+<script>
+
+    ko.bindingHandlers.Date = {
+        update: function (element, valueAccessor) {
+            var value = valueAccessor();
+            var date = moment(value());
+            var strDate = date.format("LL");
+            $(element).text(strDate);
+        }
+    }; 
+</script>
+
+
+<script type="text/javascript">
+
+    function AddFileTo(d) 
+    {
+        console.log(d.TicketId);
+
+        alert("Yes");
+    }
+
+    $(document).ready(function () {
+        showloader();
+
+        $.ajax({
+            url: '/PHEDConnect/LoadIndexPages',
+            type: 'GET',
+            dataType: 'JSON',
+            data:  { 
+                'Status': $("#ApprovalStatus").val() 
+            },
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                AllCustomerPaymentViewModel = new PHEDConnectViewModel(data);
+                ko.applyBindings(AllCustomerPaymentViewModel);
+                hideloader();
+            },
+            error: function (result) {
+                hideloader();
+                alert("Failed" + result.responseText);
+            }
+        });
+    });
+</script>
+
+<script>
+
+    function hideloader() {
+
+        swal.close();
+    }
+    function showloader() {
+        swal({
+            title: "Verifying...",
+            text: "Please wait while we upload your account details",
+            imageUrl: 'http://phedpayments.nepamsonline.com/images/loader4.gif',
+            showConfirmButton: false,
+            allowOutsideClick: false
+        });
+    };
+
+</script>
+

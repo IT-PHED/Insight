@@ -1,0 +1,481 @@
+﻿
+@{
+    ViewBag.Title = "AMRDashboard";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPageAMR.cshtml";
+}
+<link href="~/assets/css/AMRCustomCSS/custom.min.css" rel="stylesheet" />
+
+
+ <!-- page content -->
+<div class="right_col" role="main">
+    <!-- top tiles -->
+   
+    <!-- /top tiles -->
+    <div class="row"> 
+
+     
+
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+            <div class="dashboard_graph">
+                 
+                <br /><br /><br />
+
+                <div class="row">
+                     
+                    <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                        <label>Account</label>
+                        <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: LinkedAccountList, selectedOptions: SelectedLinkedAccount1, optionsText: 'AccountName',optionValue: 'MeterNo', value: SelectedLinkedAccount1,  valueUpdate:'change',optionsCaption: 'Select Linked Account'"></select>
+
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                        <label>Graph Type</label>
+                        <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
+
+                            <option>Select Grph Type</option>
+                            <option>Data</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                        <label>From Date</label>
+                        <input  class="form-control" data-bind="value:FromDate" type="date"/>
+                    </div>
+
+                    <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                        <label>To Date</label>
+                        <input class="form-control" data-bind="value:ToDate" type="date" />
+                    </div>
+                     
+                    <hr />
+                </div>
+                <br /> 
+                <div class="row">
+                    <div class="col-md-4" style="float:right">
+                        <button  type="button" data-bind="click:SubmitTicket" class="btn btn-primary">View Data</button>
+                    </div> 
+                </div>
+
+
+                <hr />
+
+                <div class="row tile_count">
+                    @*<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Number of </span>
+                <div class="count green"><span data-bind="text:AMRdata.TotalRead"></span></div>
+                <span class="count_bottom"><i class="green"> </i>Meters Read .</span>
+            </div>*@
+
+
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                        <span class="count_top"><i class="fa fa-clock-o"></i> Avg Consumption(KWh)</span>
+                        <div class="count blue" data-bind="text:AverageConsumptionP"></div>
+                        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> in Last 6 Months</span>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                        <span class="count_top"><i class="fa fa-clock-o"></i> Total Payment (₦)</span>
+                        <div class="count blue" data-bind="text:TotalAmountPaid"></div>
+                        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> in Last 6 Months</span>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-user"></i> Total Consumed(KWh) </span>
+                        <div class="count green" data-bind="text:TotalMonth"></div>
+                        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>This Month(in AMPs)</span>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-user"></i>Consumed Today(KWh)</span>
+                        <div class="count green" data-bind="text:TotalToday"></div>
+                        <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i> </i>@DateTime.Now.ToString()</span>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-user"></i> Arrears Not Paid (₦)</span>
+                        <div class="count red" data-bind="text:ArrearsUnpaid"></div>
+                        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>  @DateTime.Now.ToString()</span>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-user"></i> %age Supply </span>
+                        <div class="count blue" data-bind="text:Percentage"> </div>
+                        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>Availability Today </span>
+                    </div>
+
+                </div>
+                @*<hr />*@
+
+                <div class="row x_title">
+                    <div class="col-md-6">
+                        <h4>Bills/Payments(₦)<small>   <span data-bind="text:DateSpan"></span></small></h4>
+                    </div>
+
+                    @*<div class="col-md-6"> 
+                        <div class="col-md-4"> 
+                            <input type="date" id="FromDate" class="form-control" placeholder="From Date" /> 
+                        </div>
+
+                        <div class="col-md-4">
+                            <input type="date" id="FromDate" class="form-control" placeholder="To Date" /> 
+                        </div>
+                        <div class="col-md-3">
+                            <input type="button"  class="form-control" /> 
+                        </div>
+                    </div>*@ 
+
+
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12" id="members-chart-holder">
+                    <canvas id="members-chart" style="height: 250px; width: 100%;"></canvas>
+                </div>
+               
+                <div class="clearfix"></div>
+
+                 
+                <div class="card-header">
+                    <h5 class="card-title">Today's Energy Usage</h5>
+                </div>
+                <div class="card-body">
+                    <div style="height: 300px; width: 100%;">
+                        <canvas id="members-charts"></canvas>
+                    </div>
+                </div>
+
+                 
+                <div class="row x_title">
+                    <div class="col-md-6">
+                        <h4>Billed Energy(KWh)<small>   <span data-bind="text:DateSpan"></span></small></h4>
+                    </div>
+                    @*<div class="col-md-6">
+                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                            <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                        </div>
+                    </div>*@
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <canvas id="members-chartAvgCons" style="height: 250px; width: 100%;"></canvas>
+                </div>
+
+                <div class="clearfix"></div>
+
+
+
+             
+            </div>
+        </div>
+    </div>
+    <br />
+    @*<div class="row">
+
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel tile fixed_height_320">
+
+                <h4>Feeder By State</h4>
+                <hr />
+                <div id="morris-donut-chart" style="height: 220px; margin-left:-90px"></div>
+
+                <div class="clearfix"></div>
+
+
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel tile fixed_height_320">
+
+                <h5>Meters Installed By State</h5>
+                <hr />
+                <div id="morris-donut-chart1" style="height: 220px; margin-left:-90px"></div>
+
+                <div class="clearfix"></div>
+
+
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel tile fixed_height_320">
+
+                <h5>Consumption By State</h5>
+                <hr />
+                <div id="morris-donut-chart2" style="height: 220px; margin-left:-90px"></div>
+
+                <div class="clearfix"></div>
+                 
+            </div>
+        </div>
+    </div>*@
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel tile fixed_height_320 overflow_hidden"> 
+                <div class="x_title">
+                    <h5>Daily Consumption in Last 1 Month (AMP)</h5>
+                    <ul class="nav navbar-right panel_toolbox"></ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <canvas id="dashboard-charts" style="height:220px"></canvas>
+                </div>
+            </div>
+        </div>
+         
+    </div>
+
+
+   
+
+     
+</div>
+
+<!-- /page content -->
+
+ 
+
+    <!-- jQuery -->
+    <script src="~/Vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/Vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+
+
+
+
+
+
+<script src="~/Scripts/moment.js"></script>
+    <link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+    <script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+    <script src="~/Scripts/knockout-3.4.2.debug.js"></script>
+    <script src="~/Scripts/knockout-3.4.2.js"></script>
+    <script src="~/Scripts/KnockOutMapping.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
+
+    <!-- FastClick -->
+    <script src="~/Vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="~/Vendors/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="~/Vendors/Chart.js/dist/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="~/Vendors/gauge.js/dist/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="~/Vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="~/Vendors/iCheck/icheck.min.js"></script>
+    <!-- Skycons -->
+    <script src="~/Vendors/skycons/skycons.js"></script>
+    <!-- Flot -->
+    <script src="~/Vendors/Flot/jquery.flot.js"></script>
+    <script src="~/Vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="~/Vendors/Flot/jquery.flot.time.js"></script>
+    <script src="~/Vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="~/Vendors/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="~/Vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="~/Vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="~/Vendors/flot.curvedlines/curvedLines.js"></script>
+    <!-- DateJS -->
+    <script src="~/Vendors/DateJS/build/date.js"></script>
+    <!-- JQVMap -->
+    <script src="~/Vendors/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="~/Vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="~/Vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="~/Vendors/moment/min/moment.min.js"></script>
+    <script src="~/Vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- Custom Theme Scripts -->
+    @*<script src="../build/js/custom.min.js"></script>*@
+
+    <script src="~/assets/vendor/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/assets/vendor/popper.js"></script>
+    <script src="~/assets/vendor/bootstrap.min.js"></script>
+    <!-- Simplebar -->
+    <!-- Used for adding a custom scrollbar to the drawer -->
+    <script src="~/assets/vendor/simplebar.js"></script>
+
+    @*<script src="~/assets/vendor/Chart.min.js"></script>
+        <script src="~/assets/vendor/moment.min.js"></script>
+        <script src="~/assets/vendor/dateformat.js"></script>
+        <script src="~/assets/vendor/bootstrap-datepicker.min.js"></script>*@
+
+    <script>
+        window.theme = "blue";
+    </script>
+
+    <script src="~/assets/js/color_variables.js"></script>
+    @*<script src="~/assets/js/app.js"></script>*@
+
+    @*<script src="~/assets/vendor/dom-factory.js"></script>*@
+    <!-- DOM Factory -->
+    @*<script src="~/assets/vendor/material-design-kit.js"></script>*@
+    <!-- MDK -->
+    <script src="~/assets/vendor/Chart.min.js"></script>
+    <script src="~/assets/vendor/morris.min.js"></script>
+    <script src="~/assets/vendor/raphael.min.js"></script>
+
+
+
+
+ 
+
+<script>
+
+
+
+    //new Morris.Donut({
+    //    element: 'morris-donut-chart',
+    //    data: [{
+    //        label: 'General',
+    //        value: 20
+    //    },
+    //        {
+    //            label: 'Software',
+    //            value: 10
+    //        },
+    //        {
+    //            label: 'Subscriptions',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Products',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Courses',
+    //            value: 64
+    //        }
+    //    ],
+    //    resize: true,
+    //    colors: [colors.color_primary, colors.color_success, colors.color_warning, colors.color_danger, colors.color_blue]
+    //});
+
+    //new Morris.Donut({
+    //    element: 'morris-donut-chart1',
+    //    data: [{
+    //        label: 'General',
+    //        value: 20
+    //    },
+    //        {
+    //            label: 'Software',
+    //            value: 10
+    //        },
+    //        {
+    //            label: 'Subscriptions',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Products',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Courses',
+    //            value: 64
+    //        }
+    //    ],
+    //    resize: true,
+    //    colors: [colors.color_primary, colors.color_success, colors.color_warning, colors.color_danger, colors.color_blue]
+    //});
+
+    //new Morris.Donut({
+    //    element: 'morris-donut-chart2',
+    //    data: [{
+    //        label: 'General',
+    //        value: 20
+    //    },
+    //        {
+    //            label: 'Software',
+    //            value: 10
+    //        },
+    //        {
+    //            label: 'Subscriptions',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Products',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Courses',
+    //            value: 64
+    //        }
+    //    ],
+    //    resize: true,
+    //    colors: [colors.color_primary, colors.color_success, colors.color_warning, colors.color_danger, colors.color_blue]
+    //});
+</script>
+<script src="~/Scripts/References/AMRReport.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/assets/vendor/popper.js"></script>
+    <script src="~/assets/vendor/bootstrap.min.js"></script>
+    <!-- Simplebar -->
+    <!-- Used for adding a custom scrollbar to the drawer -->
+    <script src="~/assets/vendor/simplebar.js"></script>
+
+    <script src="~/assets/vendor/Chart.min.js"></script>
+    <script src="~/assets/vendor/morris.min.js"></script>
+    <script src="~/assets/vendor/raphael.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var AllCustomerPaymentViewModel; 
+            var AccountNo = $("#AccountNo").val();
+            var MeterNo = $("#MeterNo").val();
+            var LoginCompanyId = $("#StaffId").val();
+
+
+            //alert("1n     " + AccountNo);
+            //alert("2n     " + MeterNo);
+            //alert("3n     " + LoginCompanyId);
+            
+            $.ajax({
+                url: '/Dashboard/LoadMeterReadingValues',
+                type: 'GET',
+                dataType: 'JSON',
+                data: {
+                    AccountNo: AccountNo, 
+                    MeterNo: MeterNo,
+                    LoginCompanyId: LoginCompanyId,
+                    LoadType: "PageLoad"
+                },
+                success: function (result) {
+                    var data = JSON.parse(result);
+                    console.log("Data From Server " + JSON.stringify(data));
+                    AllCustomerPaymentViewModel = new AMRReport(data);
+                    ko.applyBindings(AllCustomerPaymentViewModel);
+                  
+                },
+                error: function (result) {
+                    alert("Failed" + result.responseText);
+                }
+            });
+        });
+
+
+    </script>
+ 

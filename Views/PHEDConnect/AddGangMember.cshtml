@@ -1,0 +1,323 @@
+﻿@{
+    ViewBag.Title = "Add Gang";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+
+
+
+
+<link href="~/Scripts/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Scripts/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Scripts/bootstrap-datatable/css/dataTables.custom.css" rel="stylesheet" />
+<link href="~/assets/css/AMRCustomCSS/custom.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            Add Gang Member
+        </h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="dataTables_wrapper container-fluid dt-bootstrap4">
+                    <div class="row">
+
+
+                        <div class="col-md-3 form-group">
+                            <label>Gang</label>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: GangList, selectedOptions: SelectedGang, optionsText: 'GangName',optionValue: 'Gang_ID', value: SelectedGang,  valueUpdate:'change',optionsCaption: 'Select Gang' "></select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label>Zone</label>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: IBCList, selectedOptions: SelectedIBC, optionsText: 'IBCName',optionValue: 'IBCId', value: SelectedIBC,  valueUpdate:'change',optionsCaption: 'Select Zone',event:{change: filterBSCFromIBC} "></select>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label>Feeder</label>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: filteredBSCList, selectedOptions: SelectedBSC, optionsText: 'BSCName',optionValue: 'BSCId', value: SelectedBSC,  valueUpdate:'change',optionsCaption: 'Select Feeder'"></select>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label>Search Staff</label>
+                            <div class="input-group">
+                                <input type="text" id="SearchItem" class="form-control searchly2" onkeyup="SearchAccountNo()" data-bind="  value: selectedStaff, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select Staff'" placeholder="Search by StaffID or Staff Email  ">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row"> 
+
+                        @*<div class="col-md-3 form-group">
+                            <label>Zone</label>
+                            <input type="text" class="form-control" data-bind="value:Zone" />
+                        </div>*@
+
+                        <div class="col-md-4 form-group">
+                            <label>Staff Name</label>
+                            <input type="text" class="form-control" data-bind="value:GangMember.StaffName" id="TLGN" />
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label>Email</label>
+                            <input type="text" class="form-control" data-bind="value:GangMember.StaffEmail" id="TLGE" />
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label>StaffId</label>
+                            <input type="text" class="form-control" data-bind="value:GangMember.StaffID" id="TLGSI" />
+                        </div>  
+                         
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group" style="overflow: hidden;">
+                            <button style="float: right" type="submit" class="btn btn-primary center-block" data-bind="click:AddGangMemberToGang">Add Staff Gang</button>
+                        </div>
+                    </div>
+
+                </div>
+                <hr />
+
+
+                <div class="table-responsive">
+                    <table data-bind="if: RCDCMemberList().length >= 1" id="EbillsDatatable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Staff Name</th>
+                                <th>Zone</th>
+                                <th>Feeder</th>
+                                <th>Gang Name</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--ko foreach:RCDCMemberList() -->
+                            <tr>
+                                <td><span data-bind="text:$index() +1"></span></td>
+                                <td><span data-bind="text: StaffName"></span></td>
+                                <td><span data-bind="text: Gang.Zone"></span></td>
+                                <td><span data-bind="text: Gang.FeederName"></span></td>
+                                <td><span data-bind="text: Gang.GangName"></span></td>
+                                <td><span data-bind="text: StaffEmail"></span></td>
+
+
+                                <th style="text-align:center">
+                                    <span class="icon icon-trash" style="color:#fb6b5b; font-size:18px; cursor:pointer; padding-top:15px;padding-left:15px"
+                                          title="Click here to delete record"
+                                          data-bind="click:function () { $root.deleteGangMember($data); }"></span>
+                                </th>
+                            </tr>
+
+                            <!--/ko-->
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Staff Name</th>
+                                <th>Zone</th>
+                                <th>Feeder</th>
+                                <th>Gang Name</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+<div class="modal fade" id="AccountStatusModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="largeModalLabel">Payment Settlement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+
+<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+<script src="~/Scripts/datepicker.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/jszip.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/pdfmake.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/vfs_fonts.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.print.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="~/Scripts/PHEDServe/PHEDConnect.js"></script>
+
+<link href="~/Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script>
+
+    ko.bindingHandlers.Date = {
+        update: function (element, valueAccessor) {
+            var value = valueAccessor();
+            var date = moment(value());
+            var strDate = date.format("LL");
+            $(element).text(strDate);
+        }
+    };
+</script>
+
+
+<script type="text/javascript">
+
+    function AddFileTo(d) {
+        console.log(d.TicketId);
+
+        alert("Yes");
+    }
+
+    $(document).ready(function () {
+        showloader();
+
+        $.ajax({
+            url: '/PHEDConnect/LoadIndexPage',
+            type: 'GET',
+            dataType: 'JSON',
+
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                AllCustomerPaymentViewModel = new PHEDConnectViewModel(data);
+                ko.applyBindings(AllCustomerPaymentViewModel);
+                hideloader();
+            },
+            error: function (result) {
+                hideloader();
+                alert("Failed" + result.responseText);
+            }
+        });
+    });
+</script>
+
+
+<script>
+
+
+
+    function SearchAccountNo() {
+        $(".searchly2").autocomplete({
+            minLength: 2,
+            source: function (request, response) {
+                $.ajax({
+                    url: "@Url.Action("SearchStaff")",
+                    data: { searchText: request.term },
+                dataType: "JSON",
+                type: "GET",
+                success: function (data) {
+                    response($.map(data, function (obj) {
+                        return {
+                            label: obj.StaffId + ' - ' + obj.StaffName + ' - ' + obj.Email,
+                            StaffName: obj.StaffName,
+                            StaffId: obj.StaffId,
+                            UserName: obj.UserName,
+                            Email: obj.Email,
+                            Id: obj.Id
+
+                        };
+                    }));
+                }
+            });
+    },
+    select: function(event, ui) {
+
+
+        $("#StaffId").val(ui.item.Id);
+        //$("#SearchItem").val(ui.item.label);
+
+        //------------------------------
+        $("#TLGN").val(ui.item.StaffName);
+        $("#TLGSI").val(ui.item.StaffId);
+        $("#TLGE").val(ui.item.Email);
+
+
+
+
+        return false;
+    }
+    }).data("autocomplete")._renderItem = function (ul, item) {
+        // Inside of _renderItem you can use any property that exists on each item that we built
+        // with $.map above */
+
+        return $("<li></li>")
+            .data("item.autocomplete", item)
+            .append("<a>" + item.StaffName + "</a>")
+            .append("<a>" + item.StaffId + "</a>")
+            .appendTo(ul);
+    }
+    }
+
+
+
+
+
+
+
+
+</script>
+
+<script>
+
+    function hideloader() {
+
+        swal.close();
+    }
+    function showloader() {
+        swal({
+            title: "Verifying...",
+            text: "Please wait while we upload your account details",
+            imageUrl: 'http://phedpayments.nepamsonline.com/images/loader4.gif',
+            showConfirmButton: false,
+            allowOutsideClick: false
+        });
+    };
+
+</script>
+

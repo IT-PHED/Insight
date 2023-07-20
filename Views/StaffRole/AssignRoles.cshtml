@@ -1,0 +1,328 @@
+﻿@{
+    ViewBag.Title = "Roles ";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+<link href="~/Styles/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+
+<link type="text/css" href="assets/css/themes/default/app.css" rel="stylesheet">
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title - Assign Roles to Staff</title>
+	
+    <!-- Global stylesheets -->
+	@*
+    <link rel="stylesheet" href="~/Content/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/font.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/js/calendar/bootstrap_calendar.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/app.css" type="text/css" />*@
+    <!-- /theme JS files -->
+    	
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link data-require="jquery-ui@1.11.2" data-semver="1.11.2" rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" />
+    <script data-require="jquery-ui@1.11.2" data-semver="1.11.2" src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+		
+	
+   
+  
+    <link href="~/Styles/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+    <script src="~/Styles/sweetalert2-master/dist/sweetalert.js"></script>
+    <link type="text/css" href="assets/css/themes/default/app.css" rel="stylesheet">
+</head>
+
+<body>
+    <div>
+        <input type="hidden" id="StaffSelectedMenu" />
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Assign Roles</h4>
+            </div>
+            <div class="card-body">
+                <div class="panel registration-form">
+                    <div class="panel-body">
+                        <div id="tree" class="tree-checkbox-hierarchical fancytree-container well border-left-danger border-left-lg">
+                            <ul id="treeData" class="expanded"></ul>
+                            <div class="panel-body">
+
+                                <div class="col-md-8 justify-content-center">
+
+                                    <label>Search Staff</label>
+                                    @*<select name="staff" id="staff" class="form-control" style="width: 100%" data-bind="options: usersList,optionsText: 'StaffName',optionValue: 'Id', value: selectedStaff, enable: !isProcessing(), valueUpdate:'change',event:{'change':selectUserRole},optionsCaption: 'Select Staff'"></select>*@
+
+                                    <div class="input-group">
+                                        <input type="text" id="SearchItem" class="form-control searchly2" onkeyup="SearchAccountNo()" data-bind="  value: selectedStaff, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select Staff'" placeholder="Search by StaffID or Staff Email  ">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-primary" data-bind="click:loadAssignedRoleToStaff" type="button">View Role</button>
+                                        </div>
+                                    </div>
+
+                                    <hr />
+
+                                    <div class="row ">
+
+                                        <div class="col-md-12">
+
+                                            <div id="tree" class="oshe tree-checkbox-hierarchical">
+                                                <ul>
+                                                    <!--ko foreach: AllMenuLists()-->
+                                                    <li class="folder expanded" data-bind=" attr: { id: ModuleId}">
+                                                        <span data-bind="text:ModuleName"></span>
+                                                        <ul>
+                                                            <!--ko foreach: RoleModuleItem()-->
+                                                            <!--ko if: Status() == true-->
+                                                            <li class="expanded selected" data-bind=" attr: { id: ModuleItemId}">
+
+                                                                <span data-bind="text:ModuleItemName"></span>
+                                                            </li>
+                                                            <!--/ko-->
+                                                            <!--ko if: Status() != true-->
+                                                            <li class="expanded" data-bind=" attr: { id: ModuleItemId}">
+
+                                                                <span data-bind="text:ModuleItemName"></span>
+                                                            </li>
+                                                            <!--/ko-->
+                                                            <!--/ko-->
+                                                        </ul>
+                                                    </li>
+
+
+                                                    <!--/ko-->
+
+                                                </ul>
+                                            </div>
+
+                                            <div class="form-group" style="overflow: hidden;">
+                                                <button style="float: right" type="submit" class="btn btn-primary center-block" data-bind="click:ReassignRolesToStaff">Assign Selected Roles to Staff</button>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                    </div>
+                                </div>
+                            
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="~/Styles/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.fancytree/2.38.0/jquery.fancytree-all.min.js"></script>
+
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.fancytree/2.38.0/skin-awesome/ui.fancytree.min.css" rel="stylesheet" />
+ 
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.fancytree/2.38.0/skin-bootstrap-n/ui.fancytree.min.css" rel="stylesheet" />
+
+
+    <link href="~/Styles/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+
+    <script src="~/Styles/sweetalert2-master/dist/sweetalert.js"></script>
+   
+  
+    <script src="~/Styles/moment.js"></script>
+    <script src="~/Styles/knockout-3.4.0.debug.js"></script>
+    <script src="~/Styles/knockout-3.4.0.js"></script>
+    <script src="~/Styles/knockout-postbox.min.js"></script>
+    <script src="~/Styles/KnockOutMapping.js"></script>
+
+    <script src="~/Styles/StaffRole.js"></script>
+     
+	 
+
+    <script> 
+        $(document).ready(function () {
+            var dataForTreeView = {};
+            var staffRoleViewModel;
+            showloader();
+            $.ajax({
+                url: '/StaffRole/AllMenuList',
+                type: 'GET',
+                dataType: 'JSON',
+                data: {
+                    Category: null
+                },
+                success: function (result) {
+                    var data = JSON.parse(result);
+                    var AllStaffRoles;
+                    console.log("Data From Server " + JSON.stringify(data));
+
+                    var data = JSON.parse(result);
+
+                    console.log("Data From Server " + JSON.stringify(data));
+
+                    AllStaffRoles = new RoleAssignmentVM(data);
+
+                    ko.applyBindings(AllStaffRoles);
+                    hideloader();
+                    LoadStaffMenu();
+
+
+                    
+                },
+                error: function (result) {
+                    //left for brevity
+                    hideloader();
+                    console.log("Failed" + result.responseText);
+                }
+            });
+
+        });
+    </script>
+   
+    <script>
+
+        //  u.StaffId, u.StaffName, u.Email, u.UserName
+        function SearchAccountNo() {
+            $(".searchly2").autocomplete({
+                minLength: 2,
+                source: function (request, response) {
+                    $.ajax({
+                        url: "@Url.Action("SearchStaff")",
+                        data: { searchText: request.term },
+                        dataType: "JSON",
+                        type: "GET",
+                        success: function (data) {
+                            response($.map(data, function (obj) {
+                                return {
+                                    label: obj.StaffId + ' - ' + obj.StaffName + ' - ' + obj.Email,
+                                    StaffName: obj.StaffName,
+                                    StaffId: obj.StaffId,
+                                    UserName: obj.UserName,
+                                    Email: obj.Email,
+                                    Id: obj.Id
+
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+
+
+                    $("#StaffId").val(ui.item.Id);
+                    $("#SearchItem").val(ui.item.label);
+
+                    return false;
+                }
+            }).data("autocomplete")._renderItem = function (ul, item) {
+                // Inside of _renderItem you can use any property that exists on each item that we built
+                // with $.map above */
+
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + item.StaffName + "</a>")
+                    .append("<a>" + item.StaffId + "</a>")
+                    .appendTo(ul);
+            }
+        }
+
+        function LoadStaffMenu() {
+
+            $(".tree-checkbox-hierarchical").fancytree({
+                checkbox: true,
+                selectMode: 3,
+                activate: function (event, data) {
+                    // A node was activated: display its title:
+                    var node = data.node;
+                    console.log("Node Title" + node.title); console.log("Node Key" + node.key); console.log("Node Id" + node.id);
+                },
+                beforeSelect: function (event, data) {
+                    // A node is about to be selected: prevent this, for folder-nodes:
+                    if (data.node.isFolder()) {
+                        // alert(data.node.text());
+                    }
+                },
+                //select: function (event, data) {
+                //     // A node is about to be selected: prevent this, for folder-nodes:
+                //     if (data.node.isFolder()) {
+
+                //     } else {
+                //         alert("Child");
+          
+                //     }
+                //},
+                click: function (event, data) {
+                    var node = data.node,
+                        tt = $.ui.fancytree.getEventTargetType(event.originalEvent);
+                    if (tt === "checkbox") {
+                        // alert(data.node.key);
+                    }
+                    //var nodes = $("#tree-checkbox-hierarchical").fancytree("getActiveNode");
+                    //console.log(nodes.data.id);
+                },
+                select: function (event, data)
+                {
+                    // Get a list of all selected nodes, and convert to a key array:
+                    var selKeys = $.map(data.tree.getSelectedNodes(), function (node) {
+                        //return node.id;
+                        return node.key;
+                    });
+
+                    var parentNode = data.node.getParent().key;
+                        
+                    var StaffMenu = selKeys.join(", ");
+
+                    StaffMenu = StaffMenu + ", " + parentNode;
+
+                    console.log(StaffMenu);
+
+                    $("#StaffSelectedMenu").val(StaffMenu);
+                    //checkbox: function (event, data) {
+                    //    // Hide checkboxes for folders
+                    //    return data.node.isFolder() ? false : true;
+                    //},
+                },
+                //checkbox: function (event, data) {
+                //    // Hide checkboxes for folders
+                //    return data.node.isFolder() ? false : true;
+                //},
+                tooltip: function (event, data) {
+                    // Create dynamic tooltips
+                    //  alert( data.node.title + " (" + data.node.key + ")");
+                },
+            });
+        }
+
+
+        function hideloader() {
+
+            swal.close();
+        }
+        function showloader() {
+            swal({
+                title: "Loading...",
+                text: "Please wait",
+                imageUrl: 'http://phedpayments.nepamsonline.com/images/loader4.gif',
+
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+
+
+        };
+    </script>
+
+</body>
+</html>

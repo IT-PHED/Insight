@@ -1,0 +1,290 @@
+﻿@model PHEDServe.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPageAMR.cshtml";
+}
+
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+ 
+    <form> 
+        @Html.AntiForgeryToken()
+         
+        <div class="card">
+            <div class="card-body">
+                <div class="col-lg-12 ">
+                    <div class="panel registration-form">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <div class="icon-object border-success text-success"><i class="icon-plus3"></i></div>
+                                <h5 class="content-group-lg">Onboard Customers</h5>
+                            </div>
+                            
+
+                            <hr />
+                            <div class="row" style="margin-left:230px">
+                              
+
+                                <div class="col-md-4" >
+                                    <label>Customer AccountNo</label>
+                                    <input class="form-control" data-bind="value:AccountNo" />
+                                </div>
+                                    <div class="col-md-4">
+                                        <label>AccountType</label>
+                                        <select class="form-control" data-bind="value:AccountType">
+                                            <option>--Select Account Type--</option>
+                                            <option>PREPAID</option>
+                                            <option>POSTPAID</option>
+
+                                        </select>
+                                    </div>
+                                    @*<div class="col-md-2">.</div>*@
+                                    <div class="col-md-4" style="margin-top:25px">
+
+                                        <button type="button" class="btn btn-primary btn-labeled btn-labeled-right ml-10" data-bind="event:{click: VerifyAccount}"><b><i class="icon-search4"></i></b> Verify account</button>
+                                    </div>
+                                
+                            </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group has-feedback" style="margin-top:10px;">
+                <label>Customer Name</label>
+                <input type="text" class="form-control" readonly="readonly" placeholder="First name" data-bind="value: ApplicationUser.FirstName,valueUpdate:'change'">
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group has-feedback" style="margin-top:10px;">
+                <label>*Username(Email ONLY)</label>
+                <input type="text" class="form-control" placeholder="Login Username" data-bind="value: ApplicationUser.UserName,valueUpdate:'change'">
+
+            </div>
+        </div>
+
+
+
+
+        <div class="col-md-3">
+            <div class="form-group has-feedback" style="margin-top:10px;">
+                <label>*Account No</label>
+                <input type="text" readonly="readonly" class="form-control" placeholder="Account No" data-bind="value: ApplicationUser.AccountNumber,valueUpdate:'change'">
+                
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group has-feedback" style="margin-top:10px;">
+                <label>Meter No</label>
+                <input type="text" readonly="readonly" class="form-control" placeholder="Meter No" data-bind="value: ApplicationUser.MeterNo,valueUpdate:'change'">
+
+            </div>
+        </div>
+      
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group has-feedback" style="margin-top:10px;">
+                <label>Address Name</label>
+                <textarea class="form-control" readonly="readonly" data-bind="value: ApplicationUser.Address,valueUpdate:'change'"></textarea>
+                <div class="form-control-feedback" style="margin-top:-24px; padding-left:5px">
+                    <i class="icon-user-check text-muted"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>IBC</label>
+                                        <input type="email" readonly="readonly" class="form-control" placeholder="IBC" data-bind="value: ApplicationUser.IBC,valueUpdate:'change'">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>BSC</label>
+                                        <input type="email" readonly="readonly" class="form-control" placeholder="BSC" data-bind="value: ApplicationUser.BSC,valueUpdate:'change'">
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>*Password</label>
+                                        <input type="email" class="form-control" placeholder="Password" data-bind="value: Password,valueUpdate:'change'">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>*Confirm Password</label>
+                                        <input type="email" class="form-control" placeholder="Confirm Password" data-bind="value: ConfirmPassword,valueUpdate:'change'">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>*PHED Key Accounts Name</label>
+                                        <input type="email" class="form-control" placeholder="PHED Key Accounts Person Name" data-bind="value: ApplicationUser.PHEDKeyAccountsName,valueUpdate:'change'">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>*PHED Key Accounts Email</label>
+                                        <input type="email" class="form-control" placeholder="PHED Key Accounts Email" data-bind="value: ApplicationUser.PHEDKeyAccountsEmail,valueUpdate:'change'">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>*PHED Key Accounts Phone</label>
+                                        <input type="email" class="form-control" placeholder="PHED Key Accounts Phone" data-bind="value: ApplicationUser.PHEDKeyAccountsPhone,valueUpdate:'change'">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>*Contact Person Name</label>
+                                        <input type="email" class="form-control" placeholder="Contact Person Name" data-bind="value: ApplicationUser.ContactPersonName,valueUpdate:'change'">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>*Contact Person Email</label>
+                                        <input type="email" class="form-control" placeholder="Contact Person Email" data-bind="value: ApplicationUser.ContactPersonEmail,valueUpdate:'change'">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>*Contact Person Phone</label>
+                                        <input type="email" class="form-control" placeholder="Contact Person Phone" data-bind="value: ApplicationUser.ContactPersonPhone,valueUpdate:'change'">
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                          
+
+                             
+                             
+                            <div class="text-right">
+                                @*<button type="submit" class="btn btn-link"><i class="icon-arrow-left13 position-left"></i> Back to login form</button>*@
+                                <button type="button" class="btn btn-primary btn-labeled btn-labeled-right ml-10" data-bind="event:{click: RegisterMD}"><b><i class="icon-plus3"></i></b> Create account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+           
+        </div> 
+    </form> 
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+
+<script src="~/Scripts/Register.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var RegVM;
+        $.ajax({
+            url: '/Account/loadRegisterModel',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (result) {
+                var data = JSON.parse(result);
+
+                console.log("Data From Server " + JSON.stringify(data));
+                RegVM = new RegViewModel(data);
+                ko.applyBindings(RegVM);
+
+                //$("#ContinentPage").DataTable({ responsive: true });
+            },
+            error: function (result) {
+                //left for brevity
+
+                alert("Failed" + result.responseText);
+            }
+        });
+
+
+    });
+
+</script>
+<script>
+    ko.bindingHandlers.stopBinding = {
+        init: function () {
+            return { controlsDescendantBindings: true };
+        }
+    };
+
+    ko.virtualElements.allowedBindings.stopBinding = true;
+
+</script>
+<script>
+    ko.bindingHandlers.date = {
+        // https://disqus.com/home/discussion/jasonmitchellcom/binding_and_formatting_dates_using_knockout_and_moment_js/#comment-1374417079
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            ko.utils.registerEventHandler(element, 'change', function () {
+                var value = valueAccessor();
+                if (element.value !== null && element.value !== undefined && element.value.length > 0) {
+                    value(element.value);
+                }
+                else {
+                    value('');
+                }
+            });
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = valueAccessor();
+            var allBindings = allBindingsAccessor();
+            var valueUnwrapped = ko.utils.unwrapObservable(value);
+
+            // Date formats: http://momentjs.com/docs/#/displaying/format/
+            var pattern = allBindings.format || 'DD/MM/YYYY';
+
+            var output = "-";
+            if (valueUnwrapped !== null && valueUnwrapped !== undefined && valueUnwrapped.length > 0) {
+                output = moment(valueUnwrapped).format(pattern);
+            }
+
+            if ($(element).is("input") === true) {
+                $(element).val(output);
+            } else {
+                $(element).text(output);
+            }
+        }
+    };
+</script>
+
+
+ 
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,38 @@
+MAP Meeting Demo
+1. Down Payment on the MAP for MSC
+2. is the MSC 0 - 10 Years or 0 - 3 Years?
+3.  Add Load calculator to the MEter Application form 
+4 Include the load calculator in the BRC Application Form
+5.Prefill meter Number on the Application Page with NO Meter
+
+
+
+Meter installtion Schedule
+1. If MSC wait for the Schedule
+2. If Upfront, Pay and get the meter in 10 - 15 days
+3. 
+
+Customer can register himself
+BRC
+Walk in Customer
+
+
+Fill application,
+Make Payment for the MAP,
+Applicaiton goes to the Budget Team
+Information goes to the Finance Department
+Confirm Payment
+Sort the Application Area Wise and 
+Do the Pre-Installation Survey
+Do Network Rehab
+Install the Meter on the Pole
+Capture Infromation by the Meter Engineer
+Sign off
+Push Meter into DLEnhance
+
+
+
+----MASS METERING---
+Network Rehab
+Distribute the Meters to the Customers
+Disconnect the Meters

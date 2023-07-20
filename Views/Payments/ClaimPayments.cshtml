@@ -1,0 +1,266 @@
+﻿
+@{
+    ViewBag.Title = "ClaimPayments";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+
+
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+<div class="modal fade" id="largeModal"  tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="largeModalLabel">Attach Account for Claims</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body" id="ViewReceiptDiv">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Amount</label>
+                        <input   type="text" data-bind="value:Amount" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label>STATUS</label>
+                        <input disabled type="text" data-bind="value:Status" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label>Date Paid</label> 
+                        <input disabled type="text" data-bind="value:ModalDatepaid" class="form-control" />
+                    </div>
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Description</label>
+                        <textarea class="form-control" readonly cols="6" data-bind="value:ModalDescription"></textarea>
+                    </div>
+                </div>
+                 
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Account Number</label>
+                        <input type="text" data-bind="value:AccountNumber" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label>Account Name</label>
+                        <input type="text" data-bind="value:ModalAccountName" readonly class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label>.</label>
+                        <br /> 
+                        <button type="button" class="btn btn-primary" data-bind="click:VerifyAccountNumber">Verify Account Number</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"> 
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click:ApplyPaymentDirects">Apply Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            PHED Customer Payment Data Upload
+        </h4>
+        </div>
+
+    <div class="card-body">
+
+
+
+        <div class="table-responsive">
+            <label for="exampleFormControlInput1"><b>All Direct Payments This Month</b></label>
+            <table id="data-tabled" class="table table-striped table-bordered" style="width:100%">
+
+
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Payment Description</th>
+                        <th>Date Paid</th>
+                        <th>Amount</th>
+                        <th>Status</th> 
+                        <th>Claims</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ko if: DirecPaymentList().length > 0 -->
+                    <!-- ko foreach: DirecPaymentList() -->
+                    <tr>
+                        <td><span data-bind="text:$index()+1"></span></td>
+                        <td>   <span data-bind="text:PaymentDescription"> </span>   </td>
+                        <td><span data-bind="date:Datepaid"> </span></td>
+                        <td>   <span data-bind="money:Amount"> </span>      </td>
+                        <td>  <span data-bind="text:Status"> </span>    </td>
+                        
+                        <td style="padding:5px 0px 0px 0px">
+                            <div class="btn-group m-1" role="group">
+                                @*<button type="button" class="btn btn-danger btn-sm waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Approve
+                                </button>*@
+
+                                <button type="button" data-bind="click:function () { $root.ClaimPaymentAction($data); }" class="btn btn-danger btn-sm waves-effect waves-light" aria-haspopup="true" aria-expanded="false">
+                                    Claim This Payment
+                                </button>
+                                @*<div class="dropdown-menu">
+                                    <a href="javaScript:void();" class="dropdown-item">Claim Payment</a>
+                                    <a href="javaScript:void();" class="dropdown-item">Add Accounts</a>
+                                    <a href="javaScript:void();" class="dropdown-item">Dispute</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="javaScript:void();" class="dropdown-item"><b style="color:red">Approve Payment</b></a>
+                                </div>*@
+                            </div>
+                        </td>
+                    </tr> 
+                    <!--/ko-->  
+                    <!--/ko-->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Payment Description</th>
+                        <th>Date Paid</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Claims</th>
+                    </tr>
+                </tfoot>
+            </table> 
+        </div>
+
+        <hr />
+
+       
+        </div>
+  
+    <br />
+    <br />
+
+    </div>
+
+
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/moment.js"></script>
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+
+<script src="~/Scripts/PHEDServe/PHEDServe.js"></script> 
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var AllTaxPayersViewModel;
+        $.ajax({
+            url: '/Payments/DirectPaymentClaims',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                AllTaxPayersViewModel = new PHEDServeEnergyViewModel(data);
+                ko.applyBindings(AllTaxPayersViewModel); },
+            error: function (result) {
+                alert("Failed" + result.responseText);
+            }
+        });
+    });
+
+
+</script>
+
+
+<script>
+    (function () {
+
+        var toMoney = function (num) {
+
+            if (num == undefined || num == "" || num == null) {
+
+
+            }
+            else {
+
+                return '' + (num.replace(/(\d)(?=(\d{3})+\.)/g, '$1,'));
+            }
+
+        };
+
+        var handler = function (element, valueAccessor, allBindings) {
+            var $el = $(element);
+            var method;
+
+            // Gives us the real value if it is a computed observable or not
+            var valueUnwrapped = ko.unwrap(valueAccessor());
+
+            if ($el.is(':input')) {
+                method = 'val';
+            } else {
+                method = 'text';
+            }
+            return $el[method](toMoney(valueUnwrapped));
+        };
+
+        ko.bindingHandlers.money = {
+            update: handler
+        };
+    })();
+</script>
+<script>
+
+    ko.bindingHandlers.date = {
+        // https://disqus.com/home/discussion/jasonmitchellcom/binding_and_formatting_dates_using_knockout_and_moment_js/#comment-1374417079
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            ko.utils.registerEventHandler(element, 'change', function () {
+                var value = valueAccessor();
+                if (element.value !== null && element.value !== undefined && element.value.length > 0) {
+                    value(element.value);
+                }
+                else {
+                    value('');
+                }
+            });
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = valueAccessor();
+            var allBindings = allBindingsAccessor();
+            var valueUnwrapped = ko.utils.unwrapObservable(value);
+
+            // Date formats: http://momentjs.com/docs/#/displaying/format/
+            var pattern = allBindings.format || 'DD/MM/YYYY';
+
+            var output = "-";
+            if (valueUnwrapped !== null && valueUnwrapped !== undefined && valueUnwrapped.length > 0) {
+                output = moment(valueUnwrapped).format(pattern);
+            }
+
+            if ($(element).is("input") === true) {
+                $(element).val(output);
+            } else {
+                $(element).text(output);
+            }
+        }
+    };
+</script>
+<script>
+    ko.bindingHandlers.stopBinding = {
+        init: function () {
+            return { controlsDescendantBindings: true };
+        }
+    };
+
+    ko.virtualElements.allowedBindings.stopBinding = true;
+
+</script>

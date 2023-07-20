@@ -1,0 +1,369 @@
+﻿@{
+    ViewBag.Title = "Index"; Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+
+
+@*<link href="~/js/PagingTable/dataTables.bootstrap.css" rel="stylesheet" />*@
+
+@*<script src="~/js/materialize.js"></script>*@
+
+
+
+
+
+
+
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Module Sub Item</h4>
+    </div>
+    <div class="card-body">
+        <div class="col-lg-12 ">
+            <div class="panel registration-form">
+                <div class="panel-body">
+
+
+
+
+
+                    <div class="row">
+                        <div class="col m2">
+
+
+                        </div>
+                        <div class="input-field col m8">
+
+                            <select class="browser-default" data-bind="materializeSelect: { options: ModuleList},options: ModuleList,optionsText: 'Module_Name',optionValue: 'Module_ID', value: selectedModule, optionsCaption: 'Select Module',valueUpdate: 'change', valueAllowUnset: true"></select>
+
+                        </div>
+                        <div class="col m2">
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+
+
+                        </div>
+                        <div class="col-md-8">
+                            <section class="panel panel-default">
+
+                                <div class="panel-body">
+
+                                    <div class="outter_table">
+                                        <div class="row wrap">
+
+
+                                            <div>
+                                                <table class="table bordered striped" cellpadding="0" cellspacing="0">
+
+                                                    <thead>
+
+                                                        <tr>
+
+                                                            <th colspan="5" class="text-center" style="text-align:left; ">
+                                                                <button class="btn btn-primary" data-bind="click:$root.addRecord">
+                                                                    <span class="glyphicon glyphicon-plus-sign " aria-hidden="true"></span>
+                                                                    Add New
+                                                                </button>
+
+                                                                <button class="btn btn-primary" data-bind="click:$root.save">
+                                                                    <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                                                                    Save Changes
+
+                                                                </button>
+                                                            </th>
+
+                                                            <th class="text-center" style="text-align:left; ">
+                                                                <img src="~/images/cube30.gif" data-bind="visible: isProcessing" />
+                                                            </th>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th style=" width:5%">
+                                                                S/N
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Name
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Icon
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Class
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Left Bg  Class
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Controller
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Action
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Position
+                                                            </th>
+
+                                                            <th class="text-center" style=" width:10px">
+
+
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <!-- ko foreach: pagedList() -->
+                                                        <tr>
+                                                            <td style=" width:5%">
+                                                                <span data-bind="text: $index() + 1 "></span>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.Module_Sub_Item_Name" />
+                                                                @*<input  id="name" type="text" >*@
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.Module_Sub_Icon" />
+                                                                @*<input  id="name" type="text" >*@
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.Module_Sub_Class" />
+                                                                @*<input  id="name" type="text" >*@
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.Left_bg_Class" />
+                                                                @*<input  id="name" type="text" >*@
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.Module_Sub_Controller_Name" />
+                                                                @*<input  id="name" type="text" >*@
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.Module_Sub_Action_Name" />
+                                                                @*<input  id="name" type="text" >*@
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control" style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.Module_Menu_Order" />
+                                                                @*<input  id="name" type="text" >*@
+
+                                                            </td>
+
+                                                            <td style=" width:10px">
+
+                                                                <span class="glyphicon glyphicon-trash" style="color:#fb6b5b; font-size:18px; cursor:pointer"
+                                                                      title="Click here to delete record"
+                                                                      data-bind="click:function () { $root.delete($data); }"></span>
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <!-- /ko -->
+                                                    </tbody>
+
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <div class="pagination ">
+                                                                    <ul>
+                                                                        <li data-bind="css: { disabled: pageIndex() === 0 }"><a href="#" data-bind="click: previousPage">Prev</a></li>
+                                                                        <li>
+
+
+                                                                            <ul data-bind="foreach: allPages">
+                                                                                <li data-bind="css: { active: $data.pageNumber === ($root.pageIndex() + 1) }"><a href="#" data-bind="text: $data.pageNumber, click: function() { $root.moveToPage($data.pageNumber-1); }"></a></li>
+                                                                            </ul>
+                                                                        </li>
+                                                                        <li data-bind="css: { disabled: pageIndex() === maxPageIndex() }"><a href="#" data-bind="click: nextPage">Next</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </section>
+                        </div>
+
+                        <div class="col-md-2">
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+
+                    <script src="~/Scripts/jquery-1.10.2.js"></script>
+
+                    <script src="~/js/materialize.js"></script>
+                    <script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+                    <script src="~/Scripts/knockout-3.4.0.js"></script>
+                    <script src="~/Scripts/KnockOutMapping.js"></script>
+
+                    <script src="~/Scripts/ReferencesScript/ModuleSubItem.js"></script>
+                    @*<script src="~/js/materialize.js"></script>*@
+                    <script type="text/javascript">
+
+
+
+
+                        $(document).ready(function () {
+
+
+
+                            var AllReferenceCheckViewModel;
+                            $.ajax({
+                                url: '/ModuleSubItem/loadAllReferenceViewModel',
+                                type: 'GET',
+                                dataType: 'JSON',
+                                success: function (result) {
+
+
+
+                                    var data = JSON.parse(result);
+
+                                    console.log("Data From Server " + JSON.stringify(data));
+                                    AllReferenceCheckViewModel = new AllReferenceViewModel(data);
+                                    AllReferenceCheckViewModel.isProcessing(false);
+                                    ko.applyBindings(AllReferenceCheckViewModel);
+
+                                    //$("#ContinentPage").DataTable({ responsive: true });
+                                },
+                                error: function (result) {
+                                    //left for brevity
+
+                                    alert("Failed" + result.responseText);
+                                }
+                            });
+
+                            //$('select#materialize-select').material_select();
+                            $('select').material_select();
+                            //$('select').material_select('destroy');
+
+                            $('.datepicker').pickadate({
+                                selectMonths: true, // Creates a dropdown to control month
+                                selectYears: 15 // Creates a dropdown of 15 years to control year
+                            });
+
+
+
+                        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </script>
+
+                    <script>
+                        ko.bindingHandlers["materializeSelect"] = {
+                            after: ['options'],
+                            init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+                                // Initial initialization:
+                                $(element).material_select();
+
+                                // Find the "options" sub-binding:
+                                var boundValue = valueAccessor();
+
+                                // Register a callback for when "options" changes:
+                                boundValue.options.subscribe(function () {
+                                    $(element).material_select('destroy');
+                                    $(element).material_select();
+                                });
+                            },
+                            update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+
+                            }
+                        };
+
+                    </script>
+
+
+                    <script>
+                        ko.bindingHandlers.date = {
+                            // https://disqus.com/home/discussion/jasonmitchellcom/binding_and_formatting_dates_using_knockout_and_moment_js/#comment-1374417079
+                            init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                                ko.utils.registerEventHandler(element, 'change', function () {
+                                    var value = valueAccessor();
+                                    if (element.value !== null && element.value !== undefined && element.value.length > 0) {
+                                        value(element.value);
+                                    }
+                                    else {
+                                        value('');
+                                    }
+                                });
+                            },
+                            update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                                var value = valueAccessor();
+                                var allBindings = allBindingsAccessor();
+                                var valueUnwrapped = ko.utils.unwrapObservable(value);
+
+                                // Date formats: http://momentjs.com/docs/#/displaying/format/
+                                var pattern = allBindings.format || 'DD/MM/YYYY';
+
+                                var output = "-";
+                                if (valueUnwrapped !== null && valueUnwrapped !== undefined && valueUnwrapped.length > 0) {
+                                    output = moment(valueUnwrapped).format(pattern);
+                                }
+
+                                if ($(element).is("input") === true) {
+                                    $(element).val(output);
+                                } else {
+                                    $(element).text(output);
+                                }
+                            }
+                        };
+                    </script>
+
+
+
+
+

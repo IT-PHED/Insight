@@ -1,0 +1,267 @@
+﻿@model PHEDServe.Models.CustomerPaymentInfo
+@{
+    ViewBag.Title = "Success";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+ 
+<style>
+    .MAPButton {
+        background: #383b74 none repeat scroll 0 0;
+        border: 1px solid #383b74 !important;
+        display: block;
+        font-size: 17px;
+        font-weight: 400;
+        height: 50px;
+        padding: 0 15px;
+        width: 100%;
+        margin-bottom: 14px;
+        transition: all 500ms ease;
+        color: #fff;
+    } 
+    .MapButton:hover {
+            background: #fff none repeat scroll 0 0;
+            border: 1px solid #383b74 !important;
+            display: block;
+            font-size: 17px;
+            font-weight: 400;
+            height: 50px;
+            padding: 0 15px;
+            width: 100%;
+            margin-bottom: 14px;
+            transition: all 500ms ease;
+            color: #3C90DF;
+        } 
+    .selectMAP {
+        background: #fff none repeat scroll 0 0;
+        border: 1px solid #2b3363 !important;
+        display: block;
+        font-size: 18px;
+        font-weight: 400;
+        height: 50px;
+        padding: 0 15px;
+        width: 100%;
+        margin-bottom: 14px;
+        transition: all 500ms ease;
+    } 
+    .selectMAP2 {
+        background: #fff none repeat scroll 0 0;
+        border: 1px solid #2b3363 !important;
+        transition: all 500ms ease;
+    }
+</style>
+
+<input type="hidden" id="TicketIDHidden" value="@ViewBag.CustomerDetails" />
+
+ <table id="main" width="100%" height="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F4F7FA">
+    <tbody>
+        <tr>
+            <td valign="top">
+                <table class="innermain" cellpadding="0" width="580" cellspacing="0" border="0"
+                       bgcolor="#F4F7FA" align="center" style="margin:0 auto; table-layout: fixed;">
+                    <tbody>
+                        <!-- START of MAIL Content -->
+                        <tr>
+                            <td colspan="4">
+                                <!-- Logo start here -->
+                                <table class="logo" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2" height="30"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2" height="30"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- Logo end here -->
+                                <!-- Main CONTENT -->
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff"
+                                       style="border-radius: 4px; border-top:4px solid #3C90DF; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                                    <tbody> 
+                                        <tr>
+                                            <td height="40"></td>
+                                        </tr>
+                                        <tr style="font-family: -apple-system,BlinkMacSystemFont,&#39;Segoe UI&#39;,&#39;Roboto&#39;,&#39;Oxygen&#39;,&#39;Ubuntu&#39;,&#39;Cantarell&#39;,&#39;Fira Sans&#39;,&#39;Droid Sans&#39;,&#39;Helvetica Neue&#39;,sans-serif; color:#4E5C6E; font-size:14px; line-height:20px; margin-top:20px;">
+                                            <td class="content" colspan="2" valign="top" align="center" style="padding-left:90px; padding-right:90px;">
+                                                <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td height="30" &nbsp;=""></td>
+                                                        </tr>
+
+                                                        <tr style="height:100px; width:200px">
+                                                            <td align="center" valign="bottom" colspan="2" cellpadding="3">
+                                                                <img alt="Coinbase" width="80" src="http://phedpayments.nepamsonline.com/EmailTemplate/Images/succeed-green.png" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td height="30" &nbsp;=""></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center">
+                                                                <div style="font-size: 22px; line-height: 32px; font-weight: 500; margin-left: 20px; margin-right: 20px; margin-bottom: 25px;">Dear @ViewBag.CustomerName<b> </b> Your payment<span id="Amount"></span>  was successful</div>
+                                                              
+                                                                <p style="font-size: 28px; font-weight: 800;"></p>
+                                                               
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td height="24" &nbsp;=""></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td height="1" bgcolor="#DAE1E9"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td height="24" &nbsp;=""></td>
+                                                        </tr>
+
+
+
+                                                        <tr>
+                                                            <td>
+                                                                <table style="width: 100%; border-collapse:collapse;">
+                                                                <tbody style="border: 0; padding: 0; margin-top:20px;">
+                                                                <tr>
+                                                                <td style="padding-bottom: 10px; padding-top: 10px;"><b>Ticket Id:</b></td> 
+                                                                <td style="padding-bottom: 10px; padding-top: 10px;">@ViewBag.TicketId</td>
+                                                            </td>
+                                                        </tr>
+                                                        
+
+                                                     
+                              
+                                                        <!--<tr>
+                                                            <td style="padding-bottom: 10px; padding-top: 10px;"><b>VAT</b></td>
+                                                            <td style="padding-bottom: 10px; padding-top: 10px;">{{VAT}}</td>
+                                                        </tr>-->
+
+                                                        <tr>
+                                                            <td style="padding-bottom: 10px; padding-top: 10px;">
+                                                                <b>Amount:</b>
+                                                                <br />
+                                                            </td>
+                                                            <td style="padding-bottom: 10px; padding-top: 10px;">
+                                                                <strong>₦@ViewBag.AmountPaid</strong>
+                                                                <br />
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <tr>
+                                                            <td style="padding-bottom: 10px; padding-top: 10px;">
+                                                                <b>Description:</b>
+                                                                <br />
+                                                            </td>
+                                                            <td style="padding-bottom: 10px; padding-top: 10px;">
+                                                                <strong>@ViewBag.Description</strong>
+                                                                <br />
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td style="padding-bottom: 10px; padding-top: 10px;">
+                                                                <b>Receipt No:</b>
+                                                                <br />
+                                                            </td>
+                                                            <td style="padding-bottom: 10px; padding-top: 10px;">
+                                                                <strong> @ViewBag.ReceiptNo<span id="AmountPaid"></span></strong>
+                                                                <br />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td height="10">&nbsp;</td>
+                                        </tr>
+                                       
+                                        <tr>
+                                            <td height="24" &nbsp;=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td height="1" bgcolor="#DAE1E9"></td>
+                                        </tr>
+                                        <tr>
+                                            <td height="24" &nbsp;=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="color:#48545d; font-size:14px; line-height:24px; text-align:center;">
+                                                    
+                                                    <p>
+                                                        @*<a href="#"
+                                                           style="color: #2E7BC4;" class="btn btn-success">Click here to Proceed with Application</a>*@
+                                                   
+                                                        <button class="MAPButton" style="height:60px; cursor:pointer; width:100%;  color:white; border:none; border-radius:10px" type="button" data-bind="click:ArrearsForm">Proceed to Application</button>
+
+                                                     </p>
+                                                 </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        
+                                       
+                                       
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="60"></td>
+                        </tr>
+                    </tbody>
+                </table>
+              
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<script src="~/assets/jquery/jquery-3.1.1.min.js"></script>
+ 
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //var AllOptionItemViewModel;
+        $.ajax({
+            url: '/MAPRegister/ShowSuccessDetails',
+            type: 'GET',
+            dataType: 'JSON',
+            data: {
+                TicketIDHidden: TicketIDHidden
+            },
+            success: function (result) {
+                var data = JSON.parse(result);
+
+
+                console.log("ccccccccccccccccccccccccccccccc    " + data.PaymentInfo);
+
+                $("#TicketId").html(data.PaymentInfo);
+
+
+
+
+
+
+
+                console.log("Data From Server " + JSON.stringify(data)); 
+                ko.applyBindings(new RegisterCustomerViewModel(data));
+
+                 
+            },
+            error: function (result) {
+
+
+                alert("Failed" + result.responseText);
+            }
+        });
+
+
+    });
+
+</script>
+
