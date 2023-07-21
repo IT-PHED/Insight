@@ -18,6 +18,7 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Net.Mail;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -297,6 +298,8 @@ namespace PHEDServe.Controllers
                   }
                   else
                   {
+                    conn.Close();
+                    conn.Dispose();
                       Message = "An Error Occured Getting the Data from DLEnhance. Please try again.";
                   }
               }
@@ -357,6 +360,8 @@ namespace PHEDServe.Controllers
                             list.Add(acctno.Substring(acctno.Length - 1));
                             } 
                         }
+                        conn.Close();
+                        conn.Dispose();
                         
                         String[] str = list.ToArray();
                         IEnumerable<string> alphas = from planet in alphabet.Except(str)
@@ -375,6 +380,8 @@ namespace PHEDServe.Controllers
                     }
                     else
                     {
+                        conn.Close();
+                        conn.Dispose();
                         subactlist.Add("Separation has been requested for this Primary Account Before.");
                     }
                 }
@@ -661,7 +668,6 @@ namespace PHEDServe.Controllers
             string s = "";
             String[] secacctRepo = Data.SeparationAccount.Split(',');
 
-            conn = new OracleConnection(strConnString);
             foreach (var secact in secacctRepo)
             {
                 /*categoryRepo.Add(new Category()
@@ -681,10 +687,6 @@ namespace PHEDServe.Controllers
                 {
                     s += s + ",";
                 }
-
-              
-
-
 
                 #region Add Secondary Account to DLEnhance
                 string StaffID = "PHEDConnect-" + Data.staffid;
@@ -783,7 +785,6 @@ namespace PHEDServe.Controllers
                         var suc = true;
                         categoryRepo.Add(new Category { success = suc });
                         // return Request.CreateResponse(HttpStatusCode.OK, categoryRepo);
-                        conn.Close();
                     }
                 }
                 else
@@ -800,7 +801,6 @@ namespace PHEDServe.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.OK, categoryRepo); 
         }
-
          
         //POST: api/AccountSeperation
         [System.Web.Http.HttpPost]
@@ -809,19 +809,7 @@ namespace PHEDServe.Controllers
         {
             List<string> list = new List<string>();
             List<Category> categoryRepo = new List<Category>();
-            string s = "";
-            // String[] secacctRepo = Data.SeparationAccount.Split(',');
-
-            conn = new OracleConnection(strConnString);
-            // conn.Open(); 
-            //int i = 0;
-            //s = secact;
-            //bool isNumeric = int.TryParse(s.Substring(s.Length - 1), out i);
-            //Console.WriteLine(isNumeric + " " + s); 
-            //if (isNumeric)
-            //{
-            //    s += s + ",";
-            //}
+            
             string AccountToSeparate = "";
 
             try
@@ -851,68 +839,25 @@ namespace PHEDServe.Controllers
 
             string StaffID = "PHEDConnect-" + Data.StaffId;
 
-
-            //#region  Insert into Training
-
-            //connLOAD = new OracleConnection(_strConnString);
-            //connLOAD.Open(); 
-            //OracleDataAdapter _da = new OracleDataAdapter();
-            //int _res = 0;
-            //OracleCommand _cmd = new OracleCommand
-            //{
-            //    Connection = connLOAD,
-            //    CommandType = CommandType.StoredProcedure,
-            //    CommandText = "ENSERV.SP_MAP_INSERT_SEPARATEDACCOUNTS"
-            //};
-            //_cmd.CommandTimeout = 900;
-            //_cmd.Parameters.Add("p_createdby", OracleDbType.Varchar2, ParameterDirection.Input).Value = StaffID;
-            //_cmd.Parameters.Add("p_PRIACCOUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
-            //_cmd.Parameters.Add("p_SEPACCOUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = AccountToSeparate;
-
-
-            //try
-            //{
-
-            //    _cmd.ExecuteNonQuery();
-            //    connLOAD.Close();
-            //    connLOAD.Dispose();
-            //    var msg = "An Error Occured try again";
-             
-            //    categoryRepo.Add(new Category { success = false, message = msg, AccountNo = "" });
-            //    return Request.CreateResponse(HttpStatusCode.NotFound, categoryRepo);
-            //}
-            //catch (Exception ex)
-            //{
-            //    string x = ex.Message;
-
-            //}
-          
-
-            //#endregion
-
-
-
-            #region Add Secondary Account to DLEnhance
-
-            conn  = new OracleConnection(strConnString);
-            conn.Open(); 
-
-            OracleDataAdapter da = new OracleDataAdapter();
-            int res = 0;
-
-            OracleCommand cmd = new OracleCommand
-            {
-                Connection = conn,
-                CommandType = CommandType.StoredProcedure,
-                CommandText = "ENSERV.SP_MAP_INSERT_SEPARATEDACCOUNTS"
-            };
-            cmd.CommandTimeout = 900;
-            cmd.Parameters.Add("p_createdby", OracleDbType.Varchar2, ParameterDirection.Input).Value = StaffID;
-            cmd.Parameters.Add("p_PRIACCOUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
-            cmd.Parameters.Add("p_SEPACCOUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = AccountToSeparate;
+            
 
             try
             {
+                conn = new OracleConnection(strConnString);
+                conn.Open();
+
+                int res = 0;
+
+                OracleCommand cmd = new OracleCommand
+                {
+                    Connection = conn,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "ENSERV.SP_MAP_INSERT_SEPARATEDACCOUNTS"
+                };
+                cmd.CommandTimeout = 900;
+                cmd.Parameters.Add("p_createdby", OracleDbType.Varchar2, ParameterDirection.Input).Value = StaffID;
+                cmd.Parameters.Add("p_PRIACCOUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
+                cmd.Parameters.Add("p_SEPACCOUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = AccountToSeparate;
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
@@ -933,15 +878,6 @@ namespace PHEDServe.Controllers
             }
              
             #endregion
-
-
-
-
-      
-
-
-
-
 
 
             return Request.CreateResponse(HttpStatusCode.OK, categoryRepo);
@@ -1250,6 +1186,8 @@ namespace PHEDServe.Controllers
                     }
                     catch (Exception Ex)
                     {
+                        conn.Close();
+                        conn.Dispose();
                         return Ex.Message;
 
                     }
@@ -1314,8 +1252,6 @@ namespace PHEDServe.Controllers
                 db.Customercomplaintss.Add(fbk);
                 db.SaveChanges();
 
-
-
                 #region Send Email
 
                 MailMessage mail = new MailMessage();
@@ -1347,8 +1283,6 @@ namespace PHEDServe.Controllers
                 MailSMTPserver.Send(mail);
 
                 #endregion
-
-
 
                 var message = string.Format("Saved Successfully. Thank you.");
                 HttpError err = new HttpError(message);
@@ -1574,11 +1508,14 @@ namespace PHEDServe.Controllers
       
             try
             {
-                cmd.ExecuteNonQuery();
-                res = 1;
+                res = cmd.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
             }
             catch (Exception ex)
             {
+                conn.Close();
+                conn.Dispose();
                 var suc = false;
                 var msg = "Account not added because " + ex.Message;
                 res = 0;
@@ -1685,7 +1622,6 @@ namespace PHEDServe.Controllers
         //}
 
 
-        #endregion
          
         #region Enumeration 
 
@@ -2165,11 +2101,8 @@ namespace PHEDServe.Controllers
             else
             { 
                 DataSet dataSet = new DataSet();
-
-
-
+                
                 #region GetCustomerInfoFromDenhance
-
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://dlenhance.phed.com.ng/dlenhanceapi/Collection/GetCustomerInfo");
                 httpWebRequest.ContentType = "application/json";
@@ -2191,8 +2124,6 @@ namespace PHEDServe.Controllers
                 }
 
                 KYC p = new KYC();
-
-
 
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -3438,53 +3369,36 @@ namespace PHEDServe.Controllers
             }
             else
             {
-                //convert the Date to DateTime and Get Year
-
-                string Year = DateTime.Now.Year.ToString();
-                string Month = DateTime.Now.Month.ToString();
-                DateTime DateofDiscon = Convert.ToDateTime(Data.Date);
-                DataSet dataSet = new DataSet();
-                DBManager dBManager = new DBManager(DataProvider.Oracle)
-                {
-                    ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
-                };
-
-                dBManager.Open();
-                // string str = string.Concat("SELECT ID AS ID,PURPOSE AS VAL FROM TBL_PAYMENTPURPOSE where id not in (select purpose from tbl_incident where consumerno='", consno, "')");
-
-
-                string AccountNo = Data.AccountNo;
-                int Count = 6;
-                // string str = "select CONSUMER_NO AccountNo, receiptnumber,  Amount, paymentdatetime, paymentpurpose, channelname from ENSERV.tbl_allpayment where consumer_no = '" + AccountNo + "' and cancel_status = '0' and  rownum <= '" + Count + "' order by paymentdatetime desc";
-
-                string str = "select CONSUMER_NO AccountNo, receiptnumber,  Amount, paymentdatetime, paymentpurpose, channelname from ENSERV.tbl_allpayment  where consumer_no = '" + AccountNo + "' and cancel_status = '0' and  rownum <= '" + Count + "' order by paymentdatetime desc";
-
-                dBManager.Open();
                 try
                 {
-                    DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, str);
-                    dBManager.Close(); 
-                    dBManager.Dispose();
-
-                    if (dataSet1.Tables[0].Rows.Count <= 0)
+                    conn = new OracleConnection(ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString());
+                conn.Open();
+                OracleDataAdapter da = new OracleDataAdapter();
+                OracleCommand cmd = new OracleCommand
+                {
+                    Connection = conn,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "ENSERV.SP_WF_GET_CUSTOMERDATA_BY_ACCOUNTNO"
+                };
+                int Count = 6;
+                cmd.CommandTimeout = 900;
+                cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                cmd.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
+                cmd.Parameters.Add("P_COUNT", OracleDbType.Int64, ParameterDirection.Input).Value =Count;
+                using (OracleDataReader rdr = cmd.ExecuteReader())
+                {
+                    if (rdr.HasRows)
                     {
-                        var message = string.Format("No Account record exists for this Account Selected ");
-                        HttpError err = new HttpError(message);
-                        return Request.CreateResponse(HttpStatusCode.NotFound, err);
-
-                    }
-                    else
-                    {
-                        //Formulate the Customer details here before Sending
-
                         RCDCCustomer Customer = new RCDCCustomer();
                         List<RCDCCustomerPayments> Pay = new List<RCDCCustomerPayments>();
 
                         RCDCCustomerPayments _pay = new RCDCCustomerPayments();
                         var DefaultingCustomer = db.RCDCDisconnectionLists.FirstOrDefault(p => p.DisconID == Data.DisconnId);
-
                         if (DefaultingCustomer == null)
                         {
+                            conn.Close();
+                            conn.Dispose();
+                            cmd.Dispose();
                             var message = string.Format("It seems the Disconnection Id you passed in is wrong, kindly crosscheck and try again.");
                             HttpError err = new HttpError(message);
                             return Request.CreateResponse(HttpStatusCode.NotFound, err);
@@ -3492,7 +3406,6 @@ namespace PHEDServe.Controllers
                         }
                         else
                         {
-
                             Customer.AccountName = DefaultingCustomer.AccountName;
                             Customer.AccountNo = DefaultingCustomer.AccountNo;
                             Customer.Address = DefaultingCustomer.Address;
@@ -3506,32 +3419,38 @@ namespace PHEDServe.Controllers
                             Customer.DTR_Name = DefaultingCustomer.DTR_Name;
                             Customer.Feeder = DefaultingCustomer.FeederName;
                             Customer.IncidenceHistory = db.RCDC_Disconnection_Incidence_Historys.Where(p => p.DisconnId == Data.DisconnId).ToList();
-
-
-
-                            for (int i = 0; i < dataSet1.Tables[0].Rows.Count; i++)
+                            while (rdr.Read())
                             {
+
                                 _pay = new RCDCCustomerPayments();
                                 //Iterate through the Dataset and Set the Payment history Objects to the Model
-                                _pay.AmountPaid = Convert.ToDouble(dataSet1.Tables[0].Rows[i]["Amount"].ToString());
-                                _pay.DatePaid = (DateTime)dataSet1.Tables[0].Rows[i]["paymentdatetime"];
-                                _pay.PaymentDescription = dataSet1.Tables[0].Rows[i]["paymentpurpose"].ToString();
-                                _pay.PaymentID = dataSet1.Tables[0].Rows[i]["receiptnumber"].ToString();
+                                _pay.AmountPaid = Convert.ToDouble(rdr[2].ToString());
+                                _pay.DatePaid = (DateTime)(rdr[3]);
+                                _pay.PaymentDescription = rdr[4].ToString();
+                                _pay.PaymentID = rdr[1].ToString();
                                 Pay.Add(_pay);
                             }
-
                             Customer.PaymentHistory = Pay;
-
                         }
 
+                        conn.Close();
+                        conn.Dispose();
+                        cmd.Dispose();
                         return Request.CreateResponse(HttpStatusCode.OK, (Customer));
                     }
-
+                    else
+                    {
+                        var message = string.Format("No Account record exists for this Account Selected ");
+                        HttpError err = new HttpError(message);
+                        return Request.CreateResponse(HttpStatusCode.NotFound, err);
+                    }
+                }
                 }
                 catch (Exception exception1)
                 {
+                    conn.Close();
+                    conn.Dispose();
                     Exception exception = exception1;
-                    dBManager.Close(); dBManager.Dispose();
                     var message = string.Format("Could not retrieve Customer records because " + exception1.Message + ". Please try again Thank you");
                     HttpError err = new HttpError(message);
                     return Request.CreateResponse(HttpStatusCode.NotFound, err);
@@ -3544,13 +3463,11 @@ namespace PHEDServe.Controllers
         [System.Web.Http.HttpPost]
         [Route("api/PHEDConnectAPI/getCustomerDetailsByAccountNo")]
         public HttpResponseMessage getCustomerDetailsByAccountNo(RCDCModel Data)
-        { 
-            RCDCModel d = new RCDCModel(); 
-
+        {
+            try
+            {
             GlobalMethodsLib DTRExec = new GlobalMethodsLib(); 
-
             db = new ApplicationDbContext();
-
             if (Data == null || string.IsNullOrEmpty(Data.AccountNo))
             {
                 // var message = string.Format("The Zone or the Feeder was not Selected with id = {0} not found", id,32);
@@ -3561,104 +3478,44 @@ namespace PHEDServe.Controllers
             }
             else
             {
-                string Year = DateTime.Now.Year.ToString();
-                string Month = DateTime.Now.Month.ToString();
-                DateTime DateofDiscon = Convert.ToDateTime(Data.Date);
-                DataSet dataSet = new DataSet();
-                DBManager dBManager = new DBManager(DataProvider.Oracle)
+                conn = new OracleConnection(ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString());
+                conn.Open();
+                OracleDataAdapter da = new OracleDataAdapter();
+                OracleCommand cmd = new OracleCommand
                 {
-                    ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
+                    Connection = conn,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "SP_WF_GET_CUSTOMERBYACCOUNTNO"
                 };
-
-                dBManager.Open();
+                cmd.CommandTimeout = 900;
+                cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                cmd.Parameters.Add(new OracleParameter("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input)).Value = Data.AccountNo;
                 // string str = string.Concat("SELECT ID AS ID,PURPOSE AS VAL FROM TBL_PAYMENTPURPOSE where id not in (select purpose from tbl_incident where consumerno='", consno, "')");
-
-
-                string AccountNo = Data.AccountNo;
-                int Count = 6;
-                // string str = "select CONSUMER_NO AccountNo, receiptnumber,  Amount, paymentdatetime, paymentpurpose, channelname from ENSERV.tbl_allpayment where consumer_no = '" + AccountNo + "' and cancel_status = '0' and  rownum <= '" + Count + "' order by paymentdatetime desc";
-
-
-                string str = @"SELECT t3.Zone,
-            t3.Feeder33Name,
-            t3.FEEDER33ID as FeederID,
-            t3.DTR_Name,
-            t3.DTRID,
-            'DTR Executive ' as DTR_Executive_Name,
-            'DTR_Executive@phed.com.ng' as DTR_Executive_Email,
-            '0809-DTR-PHONE' as DTR_Executive_PhoneNo,
-            t2.cons_name,
-            t2.cons_addr1 || ' ' || cons_addr2 AS address,            
-            t2.cons_meterno AS meter_no,
-            t2.cons_acc AS customer_no,
-            ENSERV.fn_getEC_URBAN_TARIFF_1_fdrwise(t2.cons_acc) Band,
-            t2.con_mobileno AS mob_no,
-            t2.CON_CIN AS CIN,
-            t3.DTRID AS DTRID,
-            t3.DTR_Name as DTR_Name,
-            t2.con_phase as Phase, t2.con_consumerstatus as ConsumerStatus,
-            t2.cons_type as AccountType,
-            t5.AVGCONSUMPTION as AverageConsumption,
-            TO_CHAR(to_number(nvl(t1.slabec1,0) ) + to_number(nvl(t1.ed,0))+to_number(nvl(t1.arr_ec_df,0))+to_number(nvl(t1.arr_ed_df,0) )) AS total_Outstanding,
-            TO_CHAR(to_number(NVL((SELECT NVL(SUM(AMOUNTTOSETTLED),0) FROM ENSERV.TBL_INCIDENT WHERE TBL_INCIDENT.CONSUMERNO=T2.CONS_ACC ),0) )) AS PPM_total_Outstanding,
-            nvl(t2.CONS_CATEGORY,' ') as TariffCode,
-            t4.paymentdatetime as LastPaymentDate,
-            t4.Amount as LastPaymentAmount
-            FROM ENSERV.tbl_consmast t2
-            LEFT JOIN ENSERV.tbl_enumerationfeedermapping t3 ON t2.cons_acc = t3.AccountNo
-            LEFT JOIN ENSERV.tbl_allpayment t4 on t2.cons_acc = t4.consumer_no 
-            and (t4.paymentdatetime = (SELECT MAX(paymentdatetime) FROM ENSERV.tbl_allpayment WHERE consumer_no = t4.consumer_no))
-            LEFT JOIN ENSERV.tbl_billinfo t1 ON t1.consumerno = t2.cons_acc
-            AND (t1.billmonth = (SELECT MAX(billmonth) FROM ENSERV.tbl_billinfo WHERE consumerno = t1.consumerno)) 
-            left join ENSERV.TBL_AVGCONSUMPTION t5 on t2.cons_acc = t5.consumerno
-            WHERE     t2.cons_meterno = '" + Data.AccountNo.Trim() + "'     or  t2.cons_acc = '" + Data.AccountNo.Trim() + "' ";
-
-                dBManager.Open();
-                try
+                using (OracleDataReader rdr = cmd.ExecuteReader())
                 {
-                    DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, str);
-                    dBManager.Close(); dBManager.Dispose();
-                    if (dataSet1.Tables[0].Rows.Count <= 0)
+                    if (rdr.HasRows)
                     {
-                        var message = string.Format("No Account record exists for this Account Selected ");
-                        HttpError err = new HttpError(message);
-                        return Request.CreateResponse(HttpStatusCode.NotFound, err);
-
-                    }
-                    else
-                    {
-                        //Formulate the Customer details here before Sending
-
                         RCDCCustomer Customer = new RCDCCustomer();
                         List<RCDCCustomerPayments> Pay = new List<RCDCCustomerPayments>();
-
                         RCDCCustomerPayments _pay = new RCDCCustomerPayments();
-
-
-
-                        int count = dataSet1.Tables[0].Rows.Count;
-                        RCDC_DisconnectionList da = new RCDC_DisconnectionList();
+                        int Count = 6;
+                        RCDC_DisconnectionList rcdcda = new RCDC_DisconnectionList();
                         string DisconID = Guid.NewGuid().ToString();
-
-                        for (int i = 0; i < count; i++)
+                        while (rdr.Read())
                         {
-                            da = new RCDC_DisconnectionList();
-
+                            rcdcda = new RCDC_DisconnectionList();
                             //Save the List to the Database here
-                            string _AccountNo = dataSet1.Tables[0].Rows[i]["customer_no"].ToString();
-                            string AccountName = dataSet1.Tables[0].Rows[i]["cons_name"].ToString();
-                            string Address = dataSet1.Tables[0].Rows[i]["Address"].ToString();
-                            string CIN = dataSet1.Tables[0].Rows[i]["CIN"].ToString();
-                            string DTR_Name = dataSet1.Tables[0].Rows[i]["DTR_Name"].ToString();
-                            string DTR_Code = dataSet1.Tables[0].Rows[i]["DTRID"].ToString();
-                            string FeederID = dataSet1.Tables[0].Rows[i]["FeederId"].ToString();
-
+                            string _AccountNo = rdr[11].ToString();
+                            string AccountName = rdr[8].ToString();
+                            string Address = rdr[9].ToString();
+                            string CIN = rdr[14].ToString();
+                            string DTR_Name = rdr[16].ToString();
+                            string DTR_Code = rdr[15].ToString();
+                            string FeederID = rdr[2].ToString();
 
                             string DTR_Exec_Name = "";
                             string DTR_Exec_Email = "";
                             string DTR_Exec_Phone = "";
-
-
                             DTRExecutives DTRData = DTRExec.GetDTRExecutiveDetails(DTR_Code);
 
                             if (DTRData.Status)
@@ -3674,45 +3531,39 @@ namespace PHEDServe.Controllers
                                 DTR_Exec_Phone = "N/A";
                             }
 
-                            string MeterNo = dataSet1.Tables[0].Rows[i]["meter_no"].ToString();
-                            string FeederName = dataSet1.Tables[0].Rows[i]["FEEDER33Name"].ToString();
-                            string ZoneName = dataSet1.Tables[0].Rows[i]["Zone"].ToString();
-                            string Band = dataSet1.Tables[0].Rows[i]["Band"].ToString();
+                            string MeterNo = rdr[10].ToString();
+                            string FeederName = rdr[1].ToString();
+                            string ZoneName = rdr[0].ToString();
+                            string Band = rdr[12].ToString();
                             string Arrears = "";
 
-                            string ConsumerStatus = dataSet1.Tables[0].Rows[i]["ConsumerStatus"].ToString();
-                            string LastPaymentDate = dataSet1.Tables[0].Rows[i]["LastPaymentDate"].ToString();
-                            string LastPaymentAmount = dataSet1.Tables[0].Rows[i]["LastPaymentAmount"].ToString();
+                            string ConsumerStatus = rdr[18].ToString();
+                            string LastPaymentDate = rdr[24].ToString();
+                            string LastPaymentAmount = rdr[25].ToString();
                             //string AccountType = dataSet1.Tables[0].Rows[i]["cons_type"].ToString();
                             string DisconReason = "DISCONNECT";
-                            //string Month = ActionDate;
-                            //string Year = ActionDate;
-                            string _AccountType = dataSet1.Tables[0].Rows[i]["AccountType"].ToString();
-                            string TariffCode = dataSet1.Tables[0].Rows[i]["TariffCode"].ToString();
+                            string _AccountType = rdr[19].ToString();
+                            string TariffCode = rdr[23].ToString();
                             string GeneratedBy = "";
 
                             if (_AccountType == "PREPAID")
                             {
-                                Arrears = dataSet1.Tables[0].Rows[i]["PPM_total_Outstanding"].ToString();
+                                Arrears = rdr[22].ToString();
 
                             }
                             else
                             {
-                                Arrears = dataSet1.Tables[0].Rows[i]["total_Outstanding"].ToString();
+                                Arrears = rdr[21].ToString();
 
                             }
-
                             var checkAm = db.RCDCDisconnectionLists.Where(p => p.AccountNo == _AccountNo).ToList();
 
                             if (checkAm.Count > 0)
                             {
 
                                 //update the Data and then return it
-
                                 string DIsconId = checkAm.FirstOrDefault().DisconID;
-
                                 RCDC_DisconnectionList ff = db.RCDCDisconnectionLists.FirstOrDefault(p => p.DisconID == DIsconId);
-
                                 if (ff != null)
                                 {
                                     ff.LastPayDate = LastPaymentDate;
@@ -3737,80 +3588,84 @@ namespace PHEDServe.Controllers
                                     db.SaveChanges();
 
                                 }
-
+                                conn.Close();
                                 var _checkAm = db.RCDCDisconnectionLists.Where(p => p.AccountNo == _AccountNo && (p.DisconStatus == "DISCONNECT" || p.DisconStatus == "DISCONNECTED" || p.DisconStatus == "RECONNECT" || p.DisconStatus == "RECONNECTED")).ToList();
-
                                 return Request.CreateResponse(HttpStatusCode.OK, (_checkAm));
                             }
-
-                            da.AccountNo = _AccountNo;
-                            da.AccountName = AccountName;
-                            da.AccountType = _AccountType;
-                            da.Address = Address;
-                            da.Arrears = Arrears;
+                            rcdcda.AccountNo = _AccountNo;
+                            rcdcda.AccountName = AccountName;
+                            rcdcda.AccountType = _AccountType;
+                            rcdcda.Address = Address;
+                            rcdcda.Arrears = Arrears;
                             if (_AccountType == "PREPAID")
                             {
-                                da.AvgConsumption = "0";
-
+                                rcdcda.AvgConsumption = "0";
                             }
                             else
                             {
-
-                                da.AvgConsumption = dataSet1.Tables[0].Rows[i]["AverageConsumption"].ToString();
+                                rcdcda.AvgConsumption = rdr[20].ToString();
                             }
-
-                            da.CIN = CIN;
-                            da.ConsumerStatus = ConsumerStatus;
-                            da.DateGenerated = DateTime.Now;
-                            da.DisconID = DisconID;
-                            da.DisconStatus = DisconReason;
-                            da.DTR_Exec_Email = DTR_Exec_Email;
-                            da.DTR_Exec_Name = DTR_Exec_Name;
-                            da.DTR_Exec_Phone = DTR_Exec_Phone;
-                            da.DTR_Id = DTR_Code;
-                            da.DTR_Name = DTR_Name;
-                            da.DTRCode = DTR_Code;
-                            da.FeederId = FeederID;
-                            da.MeterNo = MeterNo;
-                            da.FeederName = FeederName;
-                            da.LastPayDate = LastPaymentDate;
-                            da.AmountPaid = LastPaymentAmount;
-                            da.Zone = ZoneName;
-                            da.FeederId = FeederID;
-                            da.Band = Band;
-                            da.GeneratedBy = "RPD";
-                            da.Zone = dataSet1.Tables[0].Rows[i]["Zone"].ToString();
+                            rcdcda.CIN = CIN;
+                            rcdcda.ConsumerStatus = ConsumerStatus;
+                            rcdcda.DateGenerated = DateTime.Now;
+                            rcdcda.DisconID = DisconID;
+                            rcdcda.DisconStatus = DisconReason;
+                            rcdcda.DTR_Exec_Email = DTR_Exec_Email;
+                            rcdcda.DTR_Exec_Name = DTR_Exec_Name;
+                            rcdcda.DTR_Exec_Phone = DTR_Exec_Phone;
+                            rcdcda.DTR_Id = DTR_Code;
+                            rcdcda.DTR_Name = DTR_Name;
+                            rcdcda.DTRCode = DTR_Code;
+                            rcdcda.FeederId = FeederID;
+                            rcdcda.MeterNo = MeterNo;
+                            rcdcda.FeederName = FeederName;
+                            rcdcda.LastPayDate = LastPaymentDate;
+                            rcdcda.AmountPaid = LastPaymentAmount;
+                            rcdcda.Zone = ZoneName;
+                            rcdcda.FeederId = FeederID;
+                            rcdcda.Band = Band;
+                            rcdcda.GeneratedBy = "RPD";
+                            rcdcda.Zone = rdr[0].ToString();
                             string Phase = "";
-                            if (dataSet1.Tables[0].Rows[i]["Phase"].ToString() == "4")
+                            if (rdr[17].ToString() == "4")
                             {
-                                da.Phase = "1";
+                                rcdcda.Phase = "1";
                             }
                             else
                             {
-                                da.Phase = dataSet1.Tables[0].Rows[i]["Phase"].ToString();
+                                rcdcda.Phase = rdr[17].ToString();
                             }
 
-                            da.Tariff = TariffCode;
+                            rcdcda.Tariff = TariffCode;
 
-                            db.RCDCDisconnectionLists.Add(da);
+                            db.RCDCDisconnectionLists.Add(rcdcda);
                             db.SaveChanges();
-                        }
 
+                        }
                         var DefaultingCustomer = db.RCDCDisconnectionLists.Where(p => p.DisconID == DisconID).ToList();
 
                         return Request.CreateResponse(HttpStatusCode.OK, (DefaultingCustomer));
-
                     }
+                    else
+                    {
+                        var message = string.Format("No Account record exists for this Account Selected ");
+                        HttpError err = new HttpError(message);
+                        return Request.CreateResponse(HttpStatusCode.NotFound, err);
+                    }
+                }
+               
+                
+                
+            }
                 }
 
                 catch (Exception exception1)
                 {
-                    Exception exception = exception1;
-                    //dBManager.Close(); dBManager.Dispose();
-                    var message = string.Format("Could not retrieve Customer records because " + exception1.Message + ". Please try again Thank you");
-                    HttpError err = new HttpError(message);
-                    return Request.CreateResponse(HttpStatusCode.NotFound, err);
-                }
+                Exception exception = exception1;
+                //dBManager.Close(); dBManager.Dispose();
+                var message = string.Format("Could not retrieve Customer records because " + exception1.Message + ". Please try again Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
             }
         }
 
@@ -4271,144 +4126,140 @@ namespace PHEDServe.Controllers
                 string Month = DateTime.Now.Month.ToString();
                 DateTime DateofDiscon = Convert.ToDateTime(Data.Date);
                 DataSet dataSet = new DataSet();
-                DBManager dBManager = new DBManager(DataProvider.Oracle)
-                {
-                    ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
-                };
-                dBManager.Open();
-                // string str = string.Concat("SELECT ID AS ID,PURPOSE AS VAL FROM TBL_PAYMENTPURPOSE where id not in (select purpose from tbl_incident where consumerno='", consno, "')");
-
                 string AccountNo = Data.AccountNo;
                 int Count = 30;
-                // string str = "select CONSUMER_NO AccountNo, receiptnumber,  Amount, paymentdatetime, paymentpurpose, channelname from ENSERV.tbl_allpayment where consumer_no = '" + AccountNo + "' and cancel_status = '0' and  rownum <= '" + Count + "' order by paymentdatetime desc";
+                conn = new OracleConnection(ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString());
+                conn.Open();
+                OracleCommand cmd = new OracleCommand
+                {
+                    Connection = conn,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "ENSERV.SP_WF_GET_CUSTOMER_PAYMENTHISTORY"
+                };
+                cmd.CommandTimeout = 900;
+                cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                cmd.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = AccountNo;
+                cmd.Parameters.Add("P_COUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = Count;
 
 
-                //string str = "select CONSUMER_NO AccountNo, receiptnumber,  Amount, to_char(paymentdatetime,'DD/MM/YYYY') as paymentdatetime , paymentpurpose, channelname from ENSERV.tbl_allpayment  where consumer_no = '" + AccountNo + "' and cancel_status = '0' and  rownum <= '" + Count + "' order by  paymentdatetime desc";
-
-               // string str = "select CONSUMER_NO AccountNo, receiptnumber,  Amount, paymentdatetime, paymentpurpose, channelname, rownum from ENSERV.tbl_allpayment  where consumer_no = '" + AccountNo + "' and cancel_status = '0' and  rownum <= '" + Count + "' order by paymentdatetime desc";
-
-                string str = "select * from (select CONSUMER_NO AccountNo, receiptnumber,  Amount, paymentdatetime, paymentpurpose, channelname from ENSERV.tbl_allpayment  where consumer_no = '" + AccountNo + "' and cancel_status = '0' order by paymentdatetime desc) where rownum <= '" + Count + "'";
-
-                dBManager.Open();
                 try
                 {
-                    DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, str);
-                    dBManager.Close(); dBManager.Dispose();
-                    if (dataSet1.Tables[0].Rows.Count <= 0)
+                    RCDCCustomer Customer = new RCDCCustomer();
+                    using (OracleDataReader rdr = cmd.ExecuteReader())
                     {
-                        var message = string.Format("No Account record exists for this Account Selected ");
-                        HttpError err = new HttpError(message);
-                        return Request.CreateResponse(HttpStatusCode.NotFound, err);
-                    }
-                    else
-                    {
-                        //Formulate the Customer details here before Sending
-
-                        RCDCCustomer Customer = new RCDCCustomer();
-                        List<RCDCCustomerPayments> Pay = new List<RCDCCustomerPayments>();
-
-                        RCDCCustomerPayments _pay = new RCDCCustomerPayments();
-                        // var DefaultingCustomer = db.RCDCDisconnectionLists.FirstOrDefault(p=>p.DisconID == Data.DisconnId);
-
-                        //Payment History
-                        for (int i = 0; i < dataSet1.Tables[0].Rows.Count; i++)
+                        if (rdr.HasRows)
                         {
-                            _pay = new RCDCCustomerPayments();
-                            //Iterate through the Dataset and Set the Payment history Objects to the Model
-                            _pay.AmountPaid = Convert.ToDouble(dataSet1.Tables[0].Rows[i]["Amount"].ToString());
-                            _pay.DatePaid = (DateTime)  dataSet1.Tables[0].Rows[i]["paymentdatetime"];
-                            _pay.PaymentDescription = dataSet1.Tables[0].Rows[i]["paymentpurpose"].ToString();
-                            _pay.PaymentID = dataSet1.Tables[0].Rows[i]["receiptnumber"].ToString();
-                            Pay.Add(_pay);
-                        }
-                         
-                        Customer.PaymentHistory = Pay.OrderByDescending(p=>p.DatePaid).ToList();
+                            //Formulate the Customer details here before Sending
 
-                        //provisional Outstanding 
-                        //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            List<RCDCCustomerPayments> Pay = new List<RCDCCustomerPayments>();
 
-                        #region Provisional Outstanding
-                        ProvisionalOutstanding Prov = new ProvisionalOutstanding();
-                        List<ProvisionalOutstanding> _Prov = new List<ProvisionalOutstanding>();
-
-
-                        conn.Open();
-
-                        OracleDataAdapter da = new OracleDataAdapter();
-                        OracleCommand cmd = new OracleCommand
-                        {
-                            Connection = conn,
-                            CommandType = CommandType.StoredProcedure,
-                            CommandText = "ENSERV.SP_RCDC_GETINCIDENTS"
-                        };
-
-                        cmd.CommandTimeout = 900;
-                        cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
-                        cmd.Parameters.Add("IN_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
-
-                        using (OracleDataReader rdr = cmd.ExecuteReader())
-                        {
-                            if (rdr.HasRows)
+                            RCDCCustomerPayments _pay = new RCDCCustomerPayments();
+                            while (rdr.Read())
                             {
-                                while (rdr.Read())
+                                //Status = "DUPLICATE";
+                                _pay = new RCDCCustomerPayments();
+                                //Iterate through the Dataset and Set the Payment history Objects to the Model
+                                _pay.AmountPaid = Convert.ToDouble(rdr["Amount"].ToString());
+                                _pay.DatePaid = (DateTime)rdr["paymentdatetime"];
+                                _pay.PaymentDescription = rdr["paymentpurpose"].ToString();
+                                _pay.PaymentID = rdr["receiptnumber"].ToString();
+                                Pay.Add(_pay);
+                            }
+                            Customer.PaymentHistory = Pay.OrderByDescending(p => p.DatePaid).ToList();
+                            //provisional Outstanding 
+                            //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+                            #region Provisional Outstanding
+                            ProvisionalOutstanding Prov = new ProvisionalOutstanding();
+                            List<ProvisionalOutstanding> _Prov = new List<ProvisionalOutstanding>();
+
+                            OracleDataAdapter da = new OracleDataAdapter();
+                            OracleCommand oracmd = new OracleCommand
+                            {
+                                Connection = conn,
+                                CommandType = CommandType.StoredProcedure,
+                                CommandText = "ENSERV.SP_RCDC_GETINCIDENTS"
+                            };
+
+                            oracmd.CommandTimeout = 900;
+                            oracmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                            oracmd.Parameters.Add("IN_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
+
+                            using (OracleDataReader rdrRcdc = oracmd.ExecuteReader())
+                            {
+                                if (rdrRcdc.HasRows)
                                 {
-                                    Prov = new ProvisionalOutstanding();
-                                    //Iterate through the Dataset and Set the Payment history Objects to the Model
-                                    Prov.INCIDENCE = rdr["Incidence"].ToString();
-                                    Prov.PRI_OUT_CRE_COM = rdr["PRI_FT_FA_OUT_CRE_COM"].ToString();
-                                    _Prov.Add(Prov);
+                                    while (rdrRcdc.Read())
+                                    {
+                                        Prov = new ProvisionalOutstanding();
+                                        //Iterate through the Dataset and Set the Payment history Objects to the Model
+                                        Prov.INCIDENCE = rdr["Incidence"].ToString();
+                                        Prov.PRI_OUT_CRE_COM = rdr["PRI_FT_FA_OUT_CRE_COM"].ToString();
+                                        _Prov.Add(Prov);
+                                    }
+                                }
+
+                                Customer.ProvisionalOutstanding = _Prov;
+                            }
+
+                            // conn.Close();
+                            //conn.Dispose();
+                            oracmd.Dispose();
+                            #endregion
+
+                            //Billing History
+
+
+                            OracleCommand cmdBill = new OracleCommand
+                            {
+                                Connection = conn,
+                                CommandType = CommandType.StoredProcedure,
+                                CommandText = "ENSERV.SP_WF_GET_BILLINFO_BY_CUSTOMERACCOUNT"
+                            };
+                            cmdBill.CommandTimeout = 900;
+                            cmdBill.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                            cmdBill.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = AccountNo;
+                            cmdBill.Parameters.Add("P_COUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = Count;
+                            using (OracleDataReader billrdr = cmdBill.ExecuteReader())
+                            {
+                                RCDC_Spot_Billing Bills = new RCDC_Spot_Billing();
+                                List<RCDC_Spot_Billing> _Bills = new List<RCDC_Spot_Billing>();
+                                if (billrdr.HasRows)
+                                {
+                                    while (billrdr.Read())
+                                    {
+                                        Bills = new RCDC_Spot_Billing();
+                                        //Iterate through the Dataset and Set the Payment history Objects to the Model
+                                        Bills.BilledQty = billrdr["BilledAmount"].ToString();
+                                        Bills.BillingDate = Convert.ToDateTime(billrdr["BillMonth"].ToString());
+                                        _Bills.Add(Bills);
+                                    }
+                                    Customer.BillingHistory = _Bills;
+                                }
+                                else
+                                {
+
                                 }
                             }
 
-                            Customer.ProvisionalOutstanding = _Prov;
+                            //FT-00462 
+                            return Request.CreateResponse(HttpStatusCode.OK, Customer);
+
                         }
-
-                        conn.Close();
-                        conn.Dispose();
-                        cmd.Dispose();
-                        #endregion
-
-                        //Billing History
-
-                         // string Billstr =  "select slabec1+ed as BilledAmount, BILLMONTH as BillMonth from ENSERV.tbl_BILLINFO where consumerno = '" + AccountNo + "' and  rownum <= 6 order by BILLMONTH desc";
-
-                          string Billstr = "select BilledAmount, BillMonth from (select slabec1+ed as BilledAmount, BILLMONTH as BillMonth from ENSERV.tbl_BILLINFO where consumerno = '" + AccountNo + "' order by BILLMONTH desc) where rownum <= 12";
-                        
-                        
-                        dBManager.Open();
-                         RCDC_Spot_Billing Bills = new RCDC_Spot_Billing(); 
-                        
-                       List<RCDC_Spot_Billing> _Bills = new List<RCDC_Spot_Billing>();
-                         DataSet dataSet2 = dBManager.ExecuteDataSet(CommandType.Text, Billstr);
-                          dBManager.Close(); dBManager.Dispose();
-                          if (dataSet2.Tables[0].Rows.Count > 0)
-                          {
-                              for (int i = 0; i < dataSet2.Tables[0].Rows.Count; i++)
-                              {
-                                  Bills = new RCDC_Spot_Billing();
-                                  //Iterate through the Dataset and Set the Payment history Objects to the Model
-                                  Bills.BilledQty = dataSet2.Tables[0].Rows[i]["BilledAmount"].ToString();
-                                  Bills.BillingDate = Convert.ToDateTime(dataSet2.Tables[0].Rows[i]["BillMonth"].ToString());
-                                  _Bills.Add(Bills);
-                              }
-                          }
-
-
-                          Customer.BillingHistory = _Bills;
-                         
-                          dBManager.Open(); 
-                        //DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, str);
-                         dBManager.Close(); 
-                        dBManager.Dispose(); 
-                        //FT-00462 
-                        return Request.CreateResponse(HttpStatusCode.OK, Customer);
+                        else
+                        {
+                            var message = string.Format("No Account record exists for this Account Selected ");
+                            HttpError err = new HttpError(message);
+                            return Request.CreateResponse(HttpStatusCode.NotFound, err);
+                        }
                     }
 
                 }
                 catch (Exception exception1)
                 {
+                    conn.Close();
+                    conn.Dispose();
                     Exception exception = exception1;
-                    dBManager.Close(); dBManager.Dispose();
                     var message = string.Format("Could not retrieve Customer records because " + exception1.Message + ". Please try again Thank you");
                     HttpError err = new HttpError(message);
                     return Request.CreateResponse(HttpStatusCode.NotFound, err);
@@ -5540,48 +5391,42 @@ namespace PHEDServe.Controllers
         private EnergyBill GetEnergyBillComponents(string AccountNo)
         {
             EnergyBill e = new EnergyBill();
-            //Get arrears from DLEnhance
-
-            DataSet dataSet = new DataSet();
-            DBManager dBManager = new DBManager(DataProvider.Oracle)
-            {
-                ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
-            };
-            dBManager.Open();
-
-
-            //  string str = "select TO_CHAR(to_number(nvl(slabec1,0) ) + to_number(nvl(ed,0)) As CurrentCharge,ARR_EC_DF + T1.ARR_ED_DF AS ARREAR,TO_CHAR(to_number(nvl(slabec1,0) ) + to_number(nvl(ed,0))+ARR_EC_DF + T1.ARR_ED_DF AS TOTAL OUTSTANDING from ENSERV.tbl_billinfo  where billmonth = (SELECT MAX(billmonth) FROM ENSERV.tbl_billinfo where consumerno = '" + AccountNo + "') and consumerno = '" + AccountNo + "'";
-
-            // string str = @"select TO_CHAR(to_number(nvl(slabec1,0) ) + to_number(nvl(ed,0))) As CurrentCharge,ARR_EC_DF + ARR_ED_DF AS ARREAR,TO_CHAR(to_number(nvl(slabec1,0) ) + to_number(nvl(ed,0))+ARR_EC_DF + ARR_ED_DF) AS TOTAL OUTSTANDING from tbl_billinfo  where billmonth = (SELECT MAX(billmonth) FROM tbl_billinfo where consumerno = '" + AccountNo + "') and consumerno = '" + AccountNo + "'";
-
-            string str = @"select TO_CHAR(to_number(nvl(slabec1,0) ) + to_number(nvl(ed,0))) As CurrentCharge,
-            ARR_EC_DF + ARR_ED_DF AS ARREAR,
-            TO_CHAR(to_number(nvl(slabec1,0) ) + to_number(nvl(ed,0))+ARR_EC_DF + ARR_ED_DF) AS TOTALOUTSTANDING
-            from ENSERV.tbl_billinfo
-            where billmonth = (SELECT MAX(billmonth) FROM ENSERV.tbl_billinfo where consumerno = '" + AccountNo + "') and consumerno = '" + AccountNo + "'";
-
-
-            dBManager.Open();
 
             try
             {
-                DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, str);
-                
-                dBManager.Close(); 
-                dBManager.Dispose();
-                int divideby = dataSet1.Tables[0].Rows.Count;
-                 
-                if (dataSet1.Tables[0].Rows.Count <= 0)
+                conn = new OracleConnection(strConnString);
+                conn.Open();
+                OracleCommand cmd = new OracleCommand
                 {
-                    e.Status = "FAILED";
-                }
-                else
+                    Connection = conn,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "ENSERV.SP_WF_GET_BILLCOMPONENTS_BY_CUSTOMERACCOUNT"
+                };
+                //Get arrears from DLEnhance
+                cmd.CommandTimeout = 900;
+                cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                cmd.Parameters.Add("P_CONSUMERNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = AccountNo;
+                using (OracleDataReader rdr = cmd.ExecuteReader())
                 {
-                    e.Arrears = dataSet1.Tables[0].Rows[0]["ARREAR"].ToString();
-                    e.CurrentCharges = dataSet1.Tables[0].Rows[0]["CurrentCharge"].ToString();
-                    e.TotalOutstanding = dataSet1.Tables[0].Rows[0]["TOTALOUTSTANDING"].ToString();
-                    e.Status = "SUCCESS";
-                    return e;
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            e.Arrears = rdr["ARREAR"].ToString();
+                            e.CurrentCharges = rdr["CurrentCharge"].ToString();
+                            e.TotalOutstanding = rdr["TOTALOUTSTANDING"].ToString();
+
+                        }
+                        e.Status = "SUCCESS";
+                        conn.Close();
+                        conn.Dispose();
+                        cmd.Dispose();
+                        return e;
+                    }
+                    else
+                    {
+                        e.Status = "FAILED";
+                    }
                 }
             }
             catch (Exception ex)
@@ -6056,11 +5901,11 @@ namespace PHEDServe.Controllers
                 OracleCommand cmd = new OracleCommand
                 {
                     Connection = conn,
-                    CommandType = CommandType.Text,
-                    CommandText = "select season_flag as TariffID, tariff_code as TariffCode, tariff_description as Description, ec_urban_rate_1 as TariffRate from ENSERV.tbl_tariff"
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "SP_WF_GET_TARIFFLIST"
                 };
                 cmd.CommandTimeout = 900;
-               // cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
                 using (OracleDataReader rdr = cmd.ExecuteReader())
                 {
                     if (rdr.HasRows)
@@ -7410,37 +7255,47 @@ namespace PHEDServe.Controllers
           
         private void AddIncidenceToDLEnhance(string IncidenceAmount, string IncidenceId, string AccountNo, string IncidenceName, string CreatedBy, string AccountType)
         {
-                DBManager dBManager = new DBManager(DataProvider.Oracle)
-                {
-                    ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
-                };
+               conn = new OracleConnection(ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString());
+            try
+            {
+                conn.Open();
 
-                dBManager.Open();
-             
-                if (AccountType == "POSTPAID" && IncidenceId == "14")
+            String status = "";
+               OracleCommand cmd = new OracleCommand
+               {
+                Connection = conn,
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "ENSERV.SP_WF_INSERT_INCIDENCE_CUSTOMERACCOUNT"
+               };
+               cmd.CommandTimeout = 900;
+               cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.Int64, ParameterDirection.Output));
+               cmd.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = AccountNo;
+               cmd.Parameters.Add("P_INCIDENCEID", OracleDbType.Varchar2, ParameterDirection.Input).Value = IncidenceId;
+               cmd.Parameters.Add("P_INCIDENCEAMOUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = IncidenceAmount;
+               cmd.Parameters.Add("P_CREATEDBY", OracleDbType.Varchar2, ParameterDirection.Input).Value = CreatedBy;
+               cmd.Parameters.Add("P_ACCOUNTTYPE", OracleDbType.Varchar2, ParameterDirection.Input).Value = AccountType;
+              using (OracleDataReader rdr = cmd.ExecuteReader())
+            {
+                if (rdr.HasRows)
                 {
-                    return;
+                    while (rdr.Read())
+                    {
+                        status = "INSERTED";
 
+                    }
+                    conn.Close();
+                    conn.Dispose();
                 }
-             
-                string str =      @"insert into ENSERV.TBL_INCIDENT (CONSUMERNO,PURPOSE,PRIORITY,TOT_AMOUNT,ADJ_MINRATE,ADJ_AGNST_PERCENTAGE,  
-                ADJ_AGNST_BILL,COMM_DATE,REASON,CREATEDDATETIME,CREATEDBY,SETTLEDAMOUNT,AMOUNTTOSETTLED,STATUS) 
-                VALUES('" + AccountNo + "',TO_NUMBER('" + IncidenceId + "'),  (SELECT PRIORITY FROM ENSERV.TBL_PAYMENTPURPOSE WHERE TBL_PAYMENTPURPOSE.ID =TO_NUMBER('" + IncidenceId + "')),    to_binary_float('" + IncidenceAmount + "'),  (SELECT case when FACTOR_TYPE=2 then FACTOR_AMOUNT else 0 end  FROM ENSERV.TBL_CONSMAST WHERE CONS_ACC ='" + AccountNo + "'), (SELECT case when FACTOR_TYPE=1 then FACTOR_AMOUNT else 0 end  FROM ENSERV.TBL_CONSMAST WHERE CONS_ACC ='" + AccountNo + "'), 0, sysdate, 'Incidence for " + IncidenceId + "', sysdate,'" + CreatedBy + "', 0,  to_binary_float('" + IncidenceAmount + "'), 'A')";
-
-
-  
-                dBManager.Open();
-                try
-                {
-                    DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, str);
-                    dBManager.Close(); dBManager.Dispose();
-
+            }
+            cmd.Dispose();
+           
                 }
                 catch (Exception ex)
                 {
+                conn.Close();
+                conn.Dispose();
 
-
-                }
+            }
 
         }
 
