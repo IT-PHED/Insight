@@ -197,7 +197,7 @@ namespace PHEDServe.Models
     public class RCDC_DTR
     {
         [Key]
-        public string DTR_Id { get; set; }
+        public int DTR_Id { get; set; }
         public string FeederId { get; set; }
         public string FeederName { get; set; }
         public string DTRName { get; set; } 
