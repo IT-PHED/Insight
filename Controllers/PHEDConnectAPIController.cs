@@ -4183,7 +4183,7 @@ namespace PHEDServe.Controllers
 
                             oracmd.CommandTimeout = 900;
                             oracmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
-                            oracmd.Parameters.Add("IN_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
+                            oracmd.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
 
                             using (OracleDataReader rdrRcdc = oracmd.ExecuteReader())
                             {
@@ -4193,8 +4193,8 @@ namespace PHEDServe.Controllers
                                     {
                                         Prov = new ProvisionalOutstanding();
                                         //Iterate through the Dataset and Set the Payment history Objects to the Model
-                                        Prov.INCIDENCE = rdr["Incidence"].ToString();
-                                        Prov.PRI_OUT_CRE_COM = rdr["PRI_FT_FA_OUT_CRE_COM"].ToString();
+                                        Prov.INCIDENCE = rdrRcdc["Incidence"].ToString();
+                                        Prov.PRI_OUT_CRE_COM = rdrRcdc["PRI_FT_FA_OUT_CRE_COM"].ToString();
                                         _Prov.Add(Prov);
                                     }
                                 }

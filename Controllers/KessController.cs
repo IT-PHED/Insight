@@ -17,7 +17,7 @@ namespace PHEDServe.Controllers
     public class KessController : ApiController
     {
         // Define the connection string
-        private readonly string connectionString = "Data Source=172.30.52.89;Initial Catalog=RCDC_App;User ID=RCDC_user;Password=3k3n3@321#com5"; // ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        private readonly string connectionString =  ConfigurationManager.ConnectionStrings["EnumsConnection"].ConnectionString;
 
         // POST api/kess
         [HttpPost]
