@@ -1,0 +1,239 @@
+﻿@{
+    ViewBag.Title = "Account Configuration"; Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+
+<style>
+    .dot-notsaved {
+        height: 15px;
+        width: 15px;
+        background-color: #F0AD4E;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .dot-saved {
+        height: 15px;
+        width: 15px;
+        background-color: #449D44;
+        border-radius: 50%;
+        display: inline-block;
+    }
+</style>
+<script src="~/Scripts/Register.js"></script>
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Module Item</h4>
+    </div>
+    <div class="card-body">
+            <div class="panel registration-form">
+                <div class="panel-body"> 
+                    <section class="panel panel-default">
+                       
+                      
+                        
+                        <div class="row" id="Holder">
+
+                         
+                            <div class="col-md-8 offset-md-2">
+
+                                <div class="card-body">
+
+                                    <div>
+                                        <label for="continent" class="control-label" style="color: black">
+                                            Modules
+                                        </label>
+
+                                        <select name="ModuleItem" id="ModuleItem" class="form-control " style="width: 100%" data-bind="options: MenuMainList,optionsText: 'MenuText',optionValue: 'MenuItemId', value: selectedModule, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select Module'"></select>
+
+                                    </div>
+                                    <br />
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
+
+                                                <tr style="background-color: whitesmoke">
+                                                    <th class="text-center" style="text-align:center" colspan="7">
+
+                                                        <span class="input-group">
+                                                            <button style="float: left" class="btn btn-info" type="button" data-bind="click:$root.addRecord">
+                                                                <span class="icon icon-plus " aria-hidden="true"></span>
+                                                                Add New
+
+                                                            </button>
+                                                            <button style="float:left; margin-left:15px" class="btn btn-primary" type="button" data-bind="click:$root.save">
+                                                                <span class="icon icon-save" aria-hidden="true"></span>
+                                                                Save Changes
+
+                                                            </button>
+                                                        </span>
+                                                    </th>
+
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align:center">#</th>
+                                                    <th>Module Name</th>
+                                                    <th>Icon</th>
+                                                    <th>Controller</th>
+                                                    <th>Action</th>
+                                                    <th>Position</th>
+                                                    <th style="text-align:center">Del</th>
+                                                </tr>
+
+
+                                            </thead>
+                                            <tbody>
+                                                <!-- ko foreach: filteredFromModuleItemList() -->
+                                                <tr>
+                                                    <td style="text-align:center"><span data-bind="text: $index() + 1 "></span></td>
+                                                    <td>
+                                                        <input type="text"   style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.MenuText" />
+
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.icon" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.ControllerName" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.ActionName" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="number"   style="width:100%; border-style:none;  border-top-style:none; background:none; background-color:none; border-radius: 0px; padding:0px; margin:0px" data-bind="value: $data.MenuOrder" />
+                                                    </td>
+
+                                                    <th style="text-align:center">
+                                                        <span class="icon icon-trash" style="color:#fb6b5b; font-size:18px; cursor:pointer; padding-top:15px;padding-left:15px"
+                                                              title="Click here to delete record"
+                                                              data-bind="click:function () { $root.delete($data); }"></span>
+                                                    </th>
+                                                </tr>
+                                                <!-- /ko -->
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <br /> <br />
+                    </section> 
+                </div>
+            </div> 
+    </div>
+</div>
+
+@*<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
+
+<!--------------------------------------------------------------- Include the above in your HEAD tag ---------------------------------------------------------------->
+<!-- container -->
+
+
+
+
+
+
+
+
+
+
+<script src="~/js/bootstrap.js"></script>
+
+<script src="~/js/PagingTable/jquery-1.10.2.min.js"></script>
+
+<script src="~/js/PagingTable/jquery.dataTables.js"></script>
+<script src="~/js/PagingTable/dataTables.bootstrap.js"></script>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+
+<script src="~/Scripts/ModuleItem.js"></script>
+<script src="~/js/sweetalert2-master/dist/sweetalert.js"></script>
+<script src="~/js/sweetalert2-master/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var AllReferenceViewModel;
+        $.ajax({
+            url: '/ModuleItem/loadAllReferencesViewModel',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (result) {
+                var data = JSON.parse(result); 
+                console.log("Data From Server " + JSON.stringify(data));
+                AllReferenceViewModel = new ReferencesViewModel(data);
+                AllReferenceViewModel.isProcessing(false);
+                ko.applyBindings(AllReferenceViewModel); 
+            },
+            error: function (result) {
+                //left for brevity 
+                alert("Failed" + result.responseText);
+            }
+        });
+
+
+    });
+
+</script>
+
+<script>
+    ko.bindingHandlers.date = {
+        // https://disqus.com/home/discussion/jasonmitchellcom/binding_and_formatting_dates_using_knockout_and_moment_js/#comment-1374417079
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            ko.utils.registerEventHandler(element, 'change', function () {
+                var value = valueAccessor();
+                if (element.value !== null && element.value !== undefined && element.value.length > 0) {
+                    value(element.value);
+                }
+
+                else {
+                    value('');
+                }
+            });
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = valueAccessor();
+            var allBindings = allBindingsAccessor();
+            var valueUnwrapped = ko.utils.unwrapObservable(value);
+
+            // Date formats: http://momentjs.com/docs/#/displaying/format/
+            var pattern = allBindings.format || 'DD/MM/YYYY';
+
+            var output = "-";
+            if (valueUnwrapped !== null && valueUnwrapped !== undefined && valueUnwrapped.length > 0) {
+                output = moment(valueUnwrapped).format(pattern);
+            }
+
+            if ($(element).is("input") === true) {
+                $(element).val(output);
+            } else {
+                $(element).text(output);
+            }
+        }
+    };
+
+
+    $('.closeall').click(function () {
+        $('.panel-collapse.in')
+          .collapse('hide');
+    });
+    $('.openall').click(function () {
+        $('.panel-collapse:not(".in")')
+          .collapse('show');
+    });
+</script>

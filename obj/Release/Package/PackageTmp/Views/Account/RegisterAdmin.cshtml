@@ -1,0 +1,213 @@
+﻿@model PHEDServe.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPageAMR.cshtml";
+}
+
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+ 
+    <form> 
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-body">
+                <div class="col-lg-12 ">
+                    <div class="panel registration-form">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <div class="icon-object border-success text-success"><i class="icon-plus3"></i></div>
+                                <h5 class="content-group-lg">Create account <small class="display-block">All fields are required</small></h5>
+                            </div>
+                            @*<div class="form-group has-feedback">
+                                <label>Company Name</label>
+                                <input type="text" class="form-control" placeholder="Choose username" data-bind="value: ApplicationUser.SubscriberName,valueUpdate:'change'">
+                                <div class="form-control-feedback">
+                                    <i class=" icon-user-plus text-muted">
+                                    </i>
+                                </div>
+                            </div>*@
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" placeholder="First name" data-bind="value: ApplicationUser.FirstName,valueUpdate:'change'">
+                                        <div class="form-control-feedback" style="margin-top:-24px; padding-left:5px">
+                                            <i class="icon-user-check text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" placeholder="Second name" data-bind="value: ApplicationUser.LastName,valueUpdate:'change'">
+                                        <div class="form-control-feedback" style="margin-top:-24px; padding-left:5px">
+                                            <i class="icon-user-check text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Password</label>
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <input type="password" class="form-control" placeholder="Create password" data-bind="value: Password,valueUpdate:'change'">
+                                        <div class="form-control-feedback" style="margin-top:-24px; padding-left:5px">
+                                            <i class="icon-user-lock text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Verify Password</label>
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <input type="password" class="form-control" placeholder="Repeat password" data-bind="value: Password,valueUpdate:'change'">
+                                        <div class="form-control-feedback" style="margin-top:-24px; padding-left:5px">
+                                            <i class="icon-user-lock text-muted" style="margin-top:-10px"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" placeholder="Your email" data-bind="value: ApplicationUser.UserName,valueUpdate:'change'">
+                                        <div class="form-control-feedback" style="margin-top:-24px; padding-left:15px">
+                                            <i class="icon-mention text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-feedback" style="margin-top:10px;">
+                                        <label>Phone</label>
+                                        <input type="email" class="form-control" placeholder="Repeat email" data-bind="value: ApplicationUser.PhoneNo,valueUpdate:'change'">
+                                        <div class="form-control-feedback" style="margin-top:-24px; padding-left:15px">
+                                            <i class="icon-mention text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="styled" checked="checked">
+                                        Send me <a href="#">test account settings</a>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="styled" checked="checked">
+                                        Subscribe to monthly newsletter
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="styled">
+                                        Accept <a href="#">terms of service</a>
+                                    </label>
+                                </div>
+                            </div>*@
+                            <div class="text-right">
+                                @*<button type="submit" class="btn btn-link"><i class="icon-arrow-left13 position-left"></i> Back to login form</button>*@
+                                <button type="button" class="btn btn-primary btn-labeled btn-labeled-right ml-10" data-bind="event:{click: registerAdmin}"><b><i class="icon-plus3"></i></b> Create account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+           
+        </div> 
+    </form> 
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+
+<script src="~/Scripts/Register.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var RegVM;
+        $.ajax({
+            url: '/Account/loadRegisterModel',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (result) {
+                var data = JSON.parse(result);
+
+                console.log("Data From Server " + JSON.stringify(data));
+                RegVM = new RegViewModel(data);
+                ko.applyBindings(RegVM);
+
+                //$("#ContinentPage").DataTable({ responsive: true });
+            },
+            error: function (result) {
+                //left for brevity
+
+                alert("Failed" + result.responseText);
+            }
+        });
+
+
+    });
+
+</script>
+<script>
+    ko.bindingHandlers.stopBinding = {
+        init: function () {
+            return { controlsDescendantBindings: true };
+        }
+    };
+
+    ko.virtualElements.allowedBindings.stopBinding = true;
+
+</script>
+<script>
+    ko.bindingHandlers.date = {
+        // https://disqus.com/home/discussion/jasonmitchellcom/binding_and_formatting_dates_using_knockout_and_moment_js/#comment-1374417079
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            ko.utils.registerEventHandler(element, 'change', function () {
+                var value = valueAccessor();
+                if (element.value !== null && element.value !== undefined && element.value.length > 0) {
+                    value(element.value);
+                }
+                else {
+                    value('');
+                }
+            });
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = valueAccessor();
+            var allBindings = allBindingsAccessor();
+            var valueUnwrapped = ko.utils.unwrapObservable(value);
+
+            // Date formats: http://momentjs.com/docs/#/displaying/format/
+            var pattern = allBindings.format || 'DD/MM/YYYY';
+
+            var output = "-";
+            if (valueUnwrapped !== null && valueUnwrapped !== undefined && valueUnwrapped.length > 0) {
+                output = moment(valueUnwrapped).format(pattern);
+            }
+
+            if ($(element).is("input") === true) {
+                $(element).val(output);
+            } else {
+                $(element).text(output);
+            }
+        }
+    };
+</script>
+
+
+ 
+
+
+
+
+
+
+
+ 

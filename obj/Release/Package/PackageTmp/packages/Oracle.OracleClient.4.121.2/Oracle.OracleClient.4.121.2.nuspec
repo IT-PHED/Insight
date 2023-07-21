@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Oracle.OracleClient</id>
+    <version>4.121.2</version>
+    <title>Oracle.OracleClient</title>
+    <authors>xuchonglei</authors>
+    <owners>xuchonglei</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Oracle.ManagedDataAccess</description>
+    <summary />
+  </metadata>
+</package>

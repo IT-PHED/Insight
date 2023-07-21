@@ -1,0 +1,463 @@
+﻿@{
+    ViewBag.Title = "AccountProfile";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPageAMR.cshtml";
+}
+
+ 
+        <div class="py-3 mb-3 bg-white border-bottom " style="margin-top:-31px; width:100%">
+            <div class="container-fluid container-account">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="media align-items-center">
+                            @*<img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="60" alt="">*@
+                            <div class="media-body lh-1">
+                                <p class="h4 m-0"><span data-bind="text:ParentAccountProfile.StaffName"></span></p>
+                                <p class="text-muted mb-0"><span data-bind="text:ParentAccountProfile.AccountNumber"></span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="col-lg-6 d-md-flex align-items-center justify-content-end">
+                         
+                        <p class="mb-0">
+                            <i class="material-icons md-18 align-middle">monetization_on</i> Arrears: <strong>₦<span data-bind="text:ParentAccountProfile.Arrears"></span></strong>
+                        </p>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <ul class="nav" id="accountTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="billing-tab" data-toggle="tab" href="#billing" role="tab" aria-controls="billing">Account Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings">PHED Key Accounts Officer</a>
+                </li>
+              
+            </ul>
+            <div class="tab-content" id="accountTabsContent">
+               
+                <div class="tab-pane fade"  id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Account Officer Name:</label>
+                                        <input type="email" class="form-control" data-bind="value:ParentAccountProfile.PHEDKeyAccountsName" value="user@email.com" disabled="disabled">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Account Officer Email</label><br>
+                                        <input autocomplete="off" data-bind="value:ParentAccountProfile.PHEDKeyAccountsEmail" class="form-control" type="text" name="user[password]">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Account Officer Phone</label><br>
+                                        <input autocomplete="off" class="form-control" data-bind="value:ParentAccountProfile.PHEDKeyAccountsPhone" type="text" name="user[password]">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_password_confirmation">Zone</label><br>
+                                        <input class="form-control" type="text" data-bind="value:ParentAccountProfile.Zone" name="user[password_confirmation]" id="user_password_confirmation">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_password_confirmation">Feeder</label><br>
+                                        <input class="form-control" type="text" data-bind="value:ParentAccountProfile.Feeder" name="user[password_confirmation]" id="user_password_confirmation">
+                                    </div>
+
+
+                                    <button type="submit" class="btn btn-primary">Change Password</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Connect Accounts</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    <svg viewBox="0 0 16 16" width="20%" style="fill: #3b5998;" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M15.117 0H.883C.395 0 0 .395 0 .883v14.234c0 .488.395.883.883.883h7.663V9.804H6.46V7.39h2.086V5.607c0-2.066 1.262-3.19 3.106-3.19.883 0 1.642.064 1.863.094v2.16h-1.28c-1 0-1.195.48-1.195 1.18v1.54h2.39l-.31 2.42h-2.08V16h4.077c.488 0 .883-.395.883-.883V.883C16 .395 15.605 0 15.117 0" /></svg>
+                                    <div>
+                                        <button class="btn btn-white btn-sm">
+                                            Connect Facebook
+                                        </button>
+                                    </div>
+                                    <hr>
+                                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" width="20%" style="fill: #00aced;" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z" /></svg>
+                                    <div>
+                                        <button class="btn btn-white btn-sm">
+                                            Connect Twitter
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show active" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card card-account">
+                                <div class="card-body">
+                                    <form>
+
+                                        <div class="form-group">
+                                            <label>Company</label>
+                                            <div class="input-group input-group--inline">
+                                                <div class="input-group-addon">
+                                                    <i class="material-icons">business</i>
+                                                </div>
+                                                <input type="text" class="form-control" data-bind="value:ParentAccountProfile.StaffName" name="company" placeholder="Company Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-row">
+                                            <div class="col-lg-6">
+                                                <label>Phone Number</label>
+                                                <div class="input-group input-group--inline">
+                                                    <div class="input-group-addon">
+                                                        <i class="material-icons">person</i>
+                                                    </div>
+                                                    <input type="text" class="form-control" data-bind="value:ParentAccountProfile.PhoneNo" name="firstname" placeholder="Adrian">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label>Email Address</label>
+                                                <div class="input-group input-group--inline">
+                                                    <div class="input-group-addon">
+                                                        <i class="material-icons">person</i>
+                                                    </div>
+                                                    <input type="text" class="form-control" data-bind="value:ParentAccountProfile.Email" name="lastname" placeholder="Demian">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group form-row">
+                                            <div class="col-lg-12">
+                                                <label>Address</label>
+                                                <div class="input-group input-group--inline">
+                                                    <div class="input-group-addon">
+                                                        <i class="material-icons">streetview</i>
+                                                    </div>
+                                                    <input type="text" class="form-control" data-bind="value:ParentAccountProfile.Address" name="address" placeholder="Street Avenue, Nr. 24">
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Contact Person Name</label>
+                                            <div class="input-group input-group--inline">
+                                                <div class="input-group-addon">
+                                                    <i class="material-icons">web</i>
+                                                </div>
+                                                <input type="text" data-bind="value:ParentAccountProfile.ContactPersonName" class="form-control" name="website" placeholder="https://www.flow.com/">
+                                            </div>
+                                        </div>
+                                      
+                                        <div class="form-group form-row">
+                                            <div class="col-lg-6">
+                                                <label>Contact Person Phone Number</label>
+                                                <div class="input-group input-group--inline">
+                                                    <div class="input-group-addon">
+                                                        <i class="material-icons">person</i>
+                                                    </div>
+                                                    <input type="text" class="form-control" data-bind="value:ParentAccountProfile.ContactPersonPhone" name="phone" placeholder="1-541-754-3010">
+                                                   </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label>Contact Person Email Address</label>
+                                                <div class="input-group input-group--inline">
+                                                    <div class="input-group-addon">
+                                                        <i class="material-icons">person</i>
+                                                    </div>
+                                                    <input type="text" class="form-control" data-bind="value:ParentAccountProfile.ContactPersonEmail" name="phone" placeholder="1-541-754-3010">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group form-row">
+                                            <div class="col-lg-6">
+                                                <label>IBC</label>
+                                                <div class="input-group input-group--inline">
+                                                    <div class="input-group-addon">
+                                                        <i class="material-icons">web</i>
+                                                    </div>
+                                                    <input type="text" data-bind="value:ParentAccountProfile.IBC" class="form-control" name="phone" placeholder="1-541-754-3010">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <label>BSC</label>
+                                                <div class="input-group input-group--inline">
+                                                    <div class="input-group-addon">
+                                                        <i class="material-icons">web</i>
+                                                    </div>
+                                                    <input type="text" data-bind="value:ParentAccountProfile.BSC" class="form-control" name="phone" placeholder="1-541-754-3010">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        
+                                       
+                                        <button class="btn btn-primary">Save changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">
+                                        Linked Accounts
+                                    </h4>
+                                </div>
+                                <div class="list-group list-group-flush">
+
+                                    <!--ko foreach: LinkedAccountList()-->
+                                    <a href="#paymentMethod" class="list-group-item list-group-item-action" data-toggle="modal">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <h6>Name: <span data-bind="text:AccountName"></span></h6>
+                                                <p class="text-muted mb-0">
+                                                   MeterNo: <span data-bind="text:MeterNo"></span>
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </a>
+                                    <!--/ko-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+ 
+
+<!-- jQuery -->
+<script src="~/Vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="~/Vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+
+
+
+
+
+
+<script src="~/Scripts/moment.js"></script>
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+<script src="~/Scripts/knockout-3.4.2.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.2.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
+
+<!-- FastClick -->
+<script src="~/Vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="~/Vendors/nprogress/nprogress.js"></script>
+<!-- Chart.js -->
+<script src="~/Vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- gauge.js -->
+<script src="~/Vendors/gauge.js/dist/gauge.min.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="~/Vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="~/Vendors/iCheck/icheck.min.js"></script>
+<!-- Skycons -->
+<script src="~/Vendors/skycons/skycons.js"></script>
+<!-- Flot -->
+<script src="~/Vendors/Flot/jquery.flot.js"></script>
+<script src="~/Vendors/Flot/jquery.flot.pie.js"></script>
+<script src="~/Vendors/Flot/jquery.flot.time.js"></script>
+<script src="~/Vendors/Flot/jquery.flot.stack.js"></script>
+<script src="~/Vendors/Flot/jquery.flot.resize.js"></script>
+<!-- Flot plugins -->
+<script src="~/Vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+<script src="~/Vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+<script src="~/Vendors/flot.curvedlines/curvedLines.js"></script>
+<!-- DateJS -->
+<script src="~/Vendors/DateJS/build/date.js"></script>
+<!-- JQVMap -->
+<script src="~/Vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="~/Vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="~/Vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="~/Vendors/moment/min/moment.min.js"></script>
+<script src="~/Vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- Custom Theme Scripts -->
+@*<script src="../build/js/custom.min.js"></script>*@
+
+<script src="~/assets/vendor/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="~/assets/vendor/popper.js"></script>
+<script src="~/assets/vendor/bootstrap.min.js"></script>
+<!-- Simplebar -->
+<!-- Used for adding a custom scrollbar to the drawer -->
+<script src="~/assets/vendor/simplebar.js"></script>
+
+@*<script src="~/assets/vendor/Chart.min.js"></script>
+    <script src="~/assets/vendor/moment.min.js"></script>
+    <script src="~/assets/vendor/dateformat.js"></script>
+    <script src="~/assets/vendor/bootstrap-datepicker.min.js"></script>*@
+
+<script>
+    window.theme = "blue";
+</script>
+
+<script src="~/assets/js/color_variables.js"></script>
+@*<script src="~/assets/js/app.js"></script>*@
+
+@*<script src="~/assets/vendor/dom-factory.js"></script>*@
+<!-- DOM Factory -->
+@*<script src="~/assets/vendor/material-design-kit.js"></script>*@
+<!-- MDK -->
+<script src="~/assets/vendor/Chart.min.js"></script>
+<script src="~/assets/vendor/morris.min.js"></script>
+<script src="~/assets/vendor/raphael.min.js"></script>
+
+
+
+
+
+
+<script>
+
+
+
+    //new Morris.Donut({
+    //    element: 'morris-donut-chart',
+    //    data: [{
+    //        label: 'General',
+    //        value: 20
+    //    },
+    //        {
+    //            label: 'Software',
+    //            value: 10
+    //        },
+    //        {
+    //            label: 'Subscriptions',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Products',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Courses',
+    //            value: 64
+    //        }
+    //    ],
+    //    resize: true,
+    //    colors: [colors.color_primary, colors.color_success, colors.color_warning, colors.color_danger, colors.color_blue]
+    //});
+
+    //new Morris.Donut({
+    //    element: 'morris-donut-chart1',
+    //    data: [{
+    //        label: 'General',
+    //        value: 20
+    //    },
+    //        {
+    //            label: 'Software',
+    //            value: 10
+    //        },
+    //        {
+    //            label: 'Subscriptions',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Products',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Courses',
+    //            value: 64
+    //        }
+    //    ],
+    //    resize: true,
+    //    colors: [colors.color_primary, colors.color_success, colors.color_warning, colors.color_danger, colors.color_blue]
+    //});
+
+    //new Morris.Donut({
+    //    element: 'morris-donut-chart2',
+    //    data: [{
+    //        label: 'General',
+    //        value: 20
+    //    },
+    //        {
+    //            label: 'Software',
+    //            value: 10
+    //        },
+    //        {
+    //            label: 'Subscriptions',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Products',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Courses',
+    //            value: 64
+    //        }
+    //    ],
+    //    resize: true,
+    //    colors: [colors.color_primary, colors.color_success, colors.color_warning, colors.color_danger, colors.color_blue]
+    //});
+</script>
+<script src="~/Scripts/References/AMRReport.js"></script>
+<!-- Bootstrap -->
+<script src="~/assets/vendor/popper.js"></script>
+<script src="~/assets/vendor/bootstrap.min.js"></script>
+<!-- Simplebar -->
+<!-- Used for adding a custom scrollbar to the drawer -->
+<script src="~/assets/vendor/simplebar.js"></script>
+
+<script src="~/assets/vendor/Chart.min.js"></script>
+<script src="~/assets/vendor/morris.min.js"></script>
+<script src="~/assets/vendor/raphael.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var AllCustomerPaymentViewModel;
+        var AccountNo = $("#AccountNo").val();
+        var MeterNo = $("#MeterNo").val();
+        var LoginCompanyId = $("#StaffId").val();
+
+
+        //alert("1n     " + AccountNo);
+        //alert("2n     " + MeterNo);
+        //alert("3n     " + LoginCompanyId);
+
+        $.ajax({
+            url: '/Dashboard/LoadMeterReadingValues',
+            type: 'GET',
+            dataType: 'JSON',
+            data: {
+                AccountNo: AccountNo,
+                MeterNo: MeterNo,
+                LoginCompanyId: LoginCompanyId,
+                LoadType: "PROFILE"
+            },
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                AllCustomerPaymentViewModel = new AMRReport(data);
+                ko.applyBindings(AllCustomerPaymentViewModel);
+
+            },
+            error: function (result) {
+                alert("Failed" + result.responseText);
+            }
+        });
+    });
+
+
+</script>

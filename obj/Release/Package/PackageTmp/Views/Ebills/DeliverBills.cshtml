@@ -1,0 +1,274 @@
+﻿@{
+    ViewBag.Title = "ViewBills";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+
+<link href="~/Scripts/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Scripts/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Scripts/bootstrap-datatable/css/dataTables.custom.css" rel="stylesheet" />
+<link href="~/assets/css/AMRCustomCSS/custom.min.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            E-Bills Delivery
+        </h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+             
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="dashboard_graph">
+                      
+
+                    <div class="row tile_count"> 
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                            <span class="count_top"><i class="fa fa-clock-o"></i> Number of MD Customers</span>
+                            <div class="count blue" data-bind="text:NoOfMDCustomers">1,598</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i>in PHED Billing DB</span>
+                        </div>
+                        
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                            <span class="count_top"><i class="fa fa-clock-o"></i>Number of  Postpaid</span>
+                            <div class="count blue" data-bind="text:NoOfPostpaidCustomers">798</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i>Customers in PHED</span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Number of Email/SMS </span>
+                            <div class="count green" data-bind="text:NoOfMDEmailSent">433</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Sent MD this Month </span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Number of Email/SMS </span>
+                            <div class="count green" data-bind="text:NoOfPOSTPAIDEmailSent">433</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> Sent Postpaid this Month </span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> %age Success with</span>
+                            <div class="count blue" data-bind="text:PercentSuccessMD">66% </div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>MD this Month </span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> %age Success with</span>
+                            <div class="count blue" data-bind="text:PercentSuccessPOSTPAID">66% </div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>Postpaid this Month </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+             
+            
+            <div class="col-md-12">
+                <hr />
+                <div class="dataTables_wrapper container-fluid dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label>Category</label>
+
+                            <select class="form-control" data-bind="value:Category">
+                                <option>--Select Category--</option>
+                                <option>MD Customers</option>
+                                <option>POSTPAID Customers</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label>Mode</label>
+                            <select class="form-control" data-bind="value:ModeOfDelivery">
+                                <option>--Select Mode--</option>
+                                <option>ALL</option>
+                                <option>SMS</option>
+                                <option>E-MAIL</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label>Bill Month/Year</label>
+                            <input type="date" class="form-control" id="DateYear" data-bind="value:SelectedYear" />
+                        </div>
+                         
+                        <div class="col-md-4 form-group">
+                            <label>Process Mode</label>
+                            <select class="form-control" data-bind="value:ModeOfProcess">
+                                <option>--Select Mode--</option>
+                                <option>ALL</option>
+                                <option>BATCH PROCESSING</option> 
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label>Batch Start No</label>
+                            <input type="text" class="form-control" id="DateYear" data-bind="value:BatchFromNumber" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label>Batch End No</label>
+                            <input type="text" class="form-control" id="DateYear" data-bind="value:BatchEndNumber" />
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="form-group" style="overflow: hidden;">
+                                <button style="float: right" type="submit" class="btn btn-primary center-block" data-bind="click:DeliverBill">Deliver Bill to Category</button>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <hr />
+              
+
+                <div class="table-responsive">
+                    <table data-bind="if: DelivererdBillsList().length >= 1" id="EbillsDatatable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>AccountNo</th>
+                                <th>AccountName</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--ko foreach:DelivererdBillsList() -->
+                            <tr>
+                                <td><span data-bind="text:$index() +1"></span></td>
+                                <td><span data-bind="text: AccountNo"></span></td>
+                                <td><span data-bind="text: AccountName"></span></td>
+                                <td><span data-bind="text: Email"></span></td>
+                                <td><span data-bind="text: Phone"></span></td>
+                                <td><span data-bind="text: Status"></span></td>
+                            </tr>
+
+                            <!--/ko-->
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>S/N</th>
+                                <th>AccountNo</th>
+                                <th>AccountName</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+               
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+
+<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+<script src="~/Scripts/datepicker.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script> 
+<script src="~/Scripts/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/jszip.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/pdfmake.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/vfs_fonts.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.print.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="~/Scripts/Ebills.js"></script>
+
+<script>
+
+    ko.bindingHandlers.Date = {
+        update: function (element, valueAccessor) {
+            var value = valueAccessor();
+            var date = moment(value());
+            var strDate = date.format("LL");
+            $(element).text(strDate);
+        }
+    };
+
+
+</script>
+
+
+<script type="text/javascript">
+
+    function AddFileTo(d) {
+        console.log(d.TicketId);
+
+        alert("Yes");
+        }
+     
+    $(document).ready(function () {
+
+         
+
+        $.ajax({
+            url: '/Ebills/EbillsDelivery',
+            type: 'GET',
+            dataType: 'JSON',
+            
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                AllCustomerPaymentViewModel = new EbillsViewModel(data);
+                ko.applyBindings(AllCustomerPaymentViewModel);
+                //apply the Datatable here
+                PaginateTable("EbillsDatatable");
+            },
+            error: function (result) {
+                alert("Failed" + result.responseText);
+            }
+        });
+    });
+
+
+    function PaginateTable(TableName) {
+        var table_id = '#' + TableName
+        var data_table_object = {
+            dom: 'Bfrtip',
+            order: [[0, "asc"]],
+            lengthMenu: [
+                [5, 15, 30, -1],
+                ['5 rows', '15 rows', '30 rows', 'Show all']
+            ],
+            buttons: [
+                'pageLength', 'pdf', {
+                    text: 'Excel',
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }, 'colvis'
+            ]
+        };
+        if ($.fn.dataTable.isDataTable(table_id)) {
+            //add the destroy key to the data_table_object
+            data_table_object.destroy = true;
+
+            //recreate Table
+            $(table_id).DataTable(data_table_object);
+        }
+        else {
+            $(table_id).DataTable(data_table_object);
+        }
+
+        $(".pagination").addClass('pagination-outline-success');
+    }
+
+</script>

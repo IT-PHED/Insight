@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="theme-green">
+
+
+<!-- Mirrored from demo.frontted.com/flow/120220181311/green-index-second.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 18 Jun 2018 21:56:05 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Flow</title>
+
+
+    <link type="text/css" href="assets/css/themes/green/vendor-morris.css" rel="stylesheet">
+    <link type="text/css" href="assets/css/themes/green/vendor-bootstrap-datepicker.css" rel="stylesheet">
+
+    <!-- Prevent the demo from appearing in search engines -->
+    <meta name="robots" content="noindex">
+
+    <!-- Simplebar -->
+    <link type="text/css" href="assets/vendor/simplebar.css" rel="stylesheet">
+
+    <!-- App CSS -->
+    <link type="text/css" href="assets/css/themes/green/app.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary-dark d-print-none">
+        <div class="container">
+            <a class="navbar-brand" href="green-index.html">
+                <!-- SVG Logo -->
+
+                <svg width="24px" height="24px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMaxYMin meet">
+        <defs></defs>
+        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <path d="M3,-3.15936513e-15 L20,-2.74650094e-15 L20,-2.66453526e-15 C21.6568542,-2.96889791e-15 23,1.34314575 23,3 L23,20 L23,20 C23,21.6568542 21.6568542,23 20,23 L6,23 L3,23 L3,23 C1.34314575,23 1.09108455e-15,21.6568542 8.8817842e-16,20 L0,3 L0,3 C-2.02906125e-16,1.34314575 1.34314575,-3.24835102e-15 3,-3.55271368e-15 Z" id="logoBackground"></path>
+          <rect id="Rectangle-6" fill="#FFFFFF" x="1.0952381" y="12.0960631" width="9.96553315" height="9.76943696"></rect>
+          <rect id="Rectangle-6-Copy" fill="#FFFFFF" x="11.9533428" y="1.05597629" width="9.96553315" height="9.76943696"></rect>
+        </g>
+      </svg>
+                <!-- //End SVG Logo -->
+
+                <span class="navbar-brand-text">flow</span>
+                <small class="text-light">v.1</small>
+            </a>
+            <!-- DEMO COLORS -->
+            <div class="d-none d-md-block d-lg-block">
+
+                <a href="index-second.html" style="background: #6774DF;" class="demo-color  ">
+        <i class="material-icons align-middle align-self-center md-18">check</i>
+      </a>
+                <a href="blue-index-second.html" style="background: #4A90E2;" class="demo-color  ">
+        <i class="material-icons align-middle align-self-center md-18">check</i>
+      </a>
+                <a href="green-index-second.html" style="background: #7DC668;" class="demo-color active ">
+        <i class="material-icons align-middle align-self-center md-18">check</i>
+      </a>
+
+            </div>
+            <!-- END DEMO  COLORS -->
+            <button class="navbar-toggler navbar-toggler-right d-md-none d-lg-none" type="button" data-toggle="sidebar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav align-items-center flex-auto">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Dashboard</a>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item dropdown-item-action">Dashboard 1</a>
+                            <a href="index-second.html" class="dropdown-item dropdown-item-action  active ">Dashboard 2</a>
+                            <a href="index-third.html" class="dropdown-item dropdown-item-action">Dashboard 3</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Apps</a>
+                        <div class="dropdown-menu">
+                            <a href="apps-email.html" class="dropdown-item dropdown-item-action">Email</a>
+                            <a href="apps-chat.html" class="dropdown-item dropdown-item-action">Chat</a>
+                            <a href="apps-clients.html" class="dropdown-item dropdown-item-action">Clients</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Layouts</a>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item dropdown-item-action">Default Layout (fluid)</a>
+                            <a href="index-drawer-light.html" class="dropdown-item dropdown-item-action">Sidebar - Light Color</a>
+                            <a href="index-navbar-primary.html" class="dropdown-item dropdown-item-action">Navbar - Primary</a>
+                            <a href="index-drawer-right.html" class="dropdown-item dropdown-item-action">Layout Sidebar Right</a>
+                            <a href="index-fixed.html" class="dropdown-item dropdown-item-action ">Fixed Layout</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">UI</a>
+                        <div class="dropdown-menu">
+                            <a href="ui-buttons.html" class="dropdown-item">Buttons</a>
+                            <a href="ui-colors.html" class="dropdown-item">Colors</a>
+                            <a href="ui-grid.html" class="dropdown-item">Grid</a>
+                            <a href="ui-typography.html" class="dropdown-item">Typography</a>
+                            <a href="ui-drag-drop.html" class="dropdown-item">Drag &amp; Drop</a>
+                            <a href="ui-tables.html" class="dropdown-item">Tables</a>
+                            <a href="ui-notifications.html" class="dropdown-item">Notifications</a>
+                            <a href="ui-loaders.html" class="dropdown-item">Loaders</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Pages</a>
+                        <div class="dropdown-menu">
+                            <a href="tickets.html" class="dropdown-item">Tickets</a>
+                            <a href="blog-post.html" class="dropdown-item">Blog Post</a>
+                            <a href="profile.html" class="dropdown-item">Profile</a>
+                            <a href="account.html" class="dropdown-item">Account</a>
+                            <a href="lessons.html" class="dropdown-item">Lessons</a>
+                            <a href="lessons_second.html" class="dropdown-item">Lessons 2</a>
+                            <a href="learning.html" class="dropdown-item">Learning</a>
+                            <a href="activity-timeline.html" class="dropdown-item">Activity Timeline</a>
+                            <a href="error.html" class="dropdown-item">Error Page</a>
+                            <a href="cart.html" class="dropdown-item">Shopping cart</a>
+                            <a href="checkout.html" class="dropdown-item">Checkout</a>
+                            <a href="invoice.html" class="dropdown-item">Invoice</a>
+                            <a href="pricing.html" class="dropdown-item">Pricing</a>
+                            <a href="signup.html" class="dropdown-item">Sign Up</a>
+                            <a href="login.html" class="dropdown-item">Login</a>
+                            <a href="forgot-password.html" class="dropdown-item">Forgot Password</a>
+                        </div>
+                    </li>
+                    <li class="nav-item nav-link flex-auto">
+                        <div class="form-group m-0">
+                            <div class="input-group input-group--inline">
+                                <div class="input-group-addon">
+                                    <i class="material-icons">search</i>
+                                </div>
+                                <input type="text" class="form-control" name="search">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown notifications align-self-center">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <i class="material-icons align-middle">notifications_active</i>
+          </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-header d-flex align-items-center">
+                                <span>Notifications</span>
+                                <a href="#" class="ml-auto">
+                <i class="material-icons align-middle md-18">close</i>
+              </a>
+                            </div>
+                            <div class="dropdown-item flex-column align-items-start">
+                                <div class="w-100"><a href="#">themefy</a> received a new quote</div>
+                                <div class="w-100 text-muted">4 secs ago</div>
+                            </div>
+                            <div class="dropdown-item flex-column align-items-start">
+                                <div class="w-100"><a href="#">karen</a> received a new quote</div>
+                                <div class="w-100 text-muted">25 mins ago</div>
+                            </div>
+                            <div class="dropdown-item flex-column align-items-start">
+                                <div class="w-100"><a href="#">jim</a> received a new quote</div>
+                                <div class="w-100 text-muted">7 hrs ago</div>
+                            </div>
+                            <div class="dropdown-item flex-column text-right">
+                                <a href="#">View All <i class="material-icons md-18 align-middle">arrow_forward</i></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown ml-2">
+                        <a href="#" class="nav-link dropdown-toggle dropdown-clear-caret" data-toggle="dropdown" aria-expanded="false">
+            <span class="d-none d-lg-inline-block">My Dashboard</span> <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle ml-1" width="35" alt="">
+          </a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="account.html" class="dropdown-item dropdown-item-action"><i class="material-icons md-18 align-middle mr-1">lock</i> <span class="align-middle">Account</span></a>
+                            <a href="profile.html" class="dropdown-item dropdown-item-action"><i class="material-icons md-18 align-middle mr-1">account_circle</i> <span class="align-middle">Profile</span></a>
+                            <a href="#" class="dropdown-item dropdown-item-action"><i class="material-icons md-18 align-middle mr-1">settings</i> <span class="align-middle">Settings</span></a>
+                            <a href="login.html" class="dropdown-item dropdown-item-action"><i class="material-icons md-18 align-middle mr-1">exit_to_app</i> <span class="align-middle">Logout</span></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mdk-drawer-layout js-mdk-drawer-layout" data-fullbleed data-push data-has-scrolling-region>
+        <div class="mdk-drawer-layout__content mdk-header-layout__content--scrollable">
+
+            <div class="container">
+
+
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card card-earnings">
+                            <div class="card-header bg-faded">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-2">
+                                        <h4 class="card-title">Earnings</h4>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <form class="form-inline float-right">
+                                            <div class="form-group mr-3">
+                                                <label class="control-label mr-1">From:</label>
+                                                <input type="text" class="datepicker form-control" value="10/24/2017">
+                                            </div>
+                                            <div class="form-group mb-0">
+                                                <label class="control-label mr-1">To: </label>
+                                                <input type="text" class="datepicker form-control" value="10/25/2017">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-group">
+                                <div class="card card-body bg-light mb-0">
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <p class="card-text text-muted mb-1">Earned today</p>
+                                            <h1 class="mb-0 font-weight-normal">&dollar;6,120</h1>
+                                        </div>
+                                        <div class="badge badge-success--filled">+52%</div>
+                                    </div>
+                                </div>
+                                <div class="card card-body bg-light mb-0">
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <p class="card-text text-muted mb-1">Earned this week</p>
+                                            <h1 class="mb-0 font-weight-normal">&dollar;14,276</h1>
+                                        </div>
+                                        <div class="badge badge-primary--filled">+16%</div>
+                                    </div>
+                                </div>
+                                <div class="card card-body bg-light mb-0">
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <p class="card-text text-muted mb-1">Earned this month</p>
+                                            <h1 class="mb-0 font-weight-normal">&dollar;39,882</h1>
+                                        </div>
+                                        <div class="badge badge-warning--filled">+5%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-2 bg-primary">
+                                <div id="morris-area-chart" style="height: 250px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Recent Earnings</h4>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="media recent-activity-item">
+                                    <img src="assets/images/avatars/lucas-sankey-378674.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                    <div class="media-body">
+                                        <span class="">Has earned</span>
+                                        <strong>$1,742.00</strong>
+                                        <div><small class="text-muted">5 minutes ago</small></div>
+                                    </div>
+                                </div>
+
+                                <div class="media recent-activity-item">
+                                    <img src="assets/images/avatars/foto-sushi-128246.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                    <div class="media-body">
+                                        <span class="">Has earned</span>
+                                        <strong>$4,120.55</strong>
+                                        <div><small class="text-muted">14 minutes ago</small></div>
+                                    </div>
+                                </div>
+
+                                <div class="media recent-activity-item">
+                                    <img src="assets/images/avatars/kyle-broad-29486.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                    <div class="media-body">
+                                        <span class="">Uploaded a new</span>
+                                        <strong>video</strong>
+                                        <div><small class="text-muted">32 minutes ago</small></div>
+                                    </div>
+                                </div>
+
+                                <div class="media recent-activity-item">
+                                    <img src="assets/images/avatars/james-garcia-76433.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                    <div class="media-body">
+                                        <span class="">Has earned</span>
+                                        <strong>$2,721.23</strong>
+                                        <div><small class="text-muted">3 hours ago</small></div>
+                                    </div>
+                                </div>
+
+                                <div class="media recent-activity-item">
+                                    <img src="assets/images/avatars/nathan-fertig-67862.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                    <div class="media-body">
+                                        <span class="">Uploaded a new</span>
+                                        <strong>video</strong>
+                                        <div><small class="text-muted">4 hours ago</small></div>
+                                    </div>
+                                </div>
+
+                                <div class="media recent-activity-item">
+                                    <img src="assets/images/avatars/annie-spratt-74027.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                    <div class="media-body">
+                                        <span class="">Has earned</span>
+                                        <strong>$12,012</strong>
+                                        <div><small class="text-muted">4 hours ago</small></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="morris-donut-chart" style="height: 180px;"></div>
+                                <ul class="list-group border-0 px-4">
+                                    <li class="list-group-item border-0">
+                                        <div class="media">
+                                            <i class="material-icons md-14 align-middle text-link-color mr-2">lens</i>
+                                            <div class="media-body">
+                                                Courses
+                                            </div>
+                                            <span>68%</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0">
+                                        <div class="media">
+                                            <i class="material-icons md-14 align-middle text-primary mr-2">lens</i>
+                                            <div class="media-body">
+                                                General
+                                            </div>
+                                            <span>14%</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0">
+                                        <div class="media">
+                                            <i class="material-icons md-14 align-middle text-success mr-2">lens</i>
+                                            <div class="media-body">
+                                                Software
+                                            </div>
+                                            <span>10%</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0">
+                                        <div class="media">
+                                            <i class="material-icons md-14 align-middle text-warning mr-2">lens</i>
+                                            <div class="media-body">
+                                                Subscriptions
+                                            </div>
+                                            <span>4%</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body bg-light text-center">
+                                <h4 class="mb-0">
+                                    <i class="material-icons align-middle text-muted md-36">monetization_on</i> Top Grossing
+                                </h4>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item list-group-item-action">
+                                    <div class="media align-items-center">
+                                        <a href="#"><img src="assets/images/avatars/lucas-sankey-378674.jpg" alt="" class="rounded-circle mr-2" width="30"></a>
+                                        <div class="media-body">
+                                            <a href="#">Steven Short</a>
+                                        </div>
+                                        <strong class="ml-auto">&dollar; 3,892.99</strong>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <img src="assets/images/avatars/foto-sushi-128246.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                        <div class="media-body">
+                                            <a href="#">Mark Ups</a>
+                                        </div>
+                                        <strong class="ml-auto">&dollar; 2,125.00</strong>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <img src="assets/images/avatars/kyle-broad-29486.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                        <div class="media-body">
+                                            <a href="#">Tara Knows</a>
+                                        </div>
+                                        <strong class="ml-auto">&dollar; 4,212.05</strong>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <img src="assets/images/avatars/james-garcia-76433.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                        <div class="media-body">
+                                            <a href="#">Karen Smith</a>
+                                        </div>
+                                        <strong class="ml-auto">&dollar; 5,754.27</strong>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <img src="assets/images/avatars/nathan-fertig-67862.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                        <div class="media-body">
+                                            <a href="#">John Smith</a>
+                                        </div>
+                                        <strong class="ml-auto">&dollar; 1,742.00</strong>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <img src="assets/images/avatars/annie-spratt-74027.jpg" alt="" class="rounded-circle mr-2" width="30">
+                                        <div class="media-body">
+                                            <a href="#">Brian Doe</a>
+                                        </div>
+                                        <strong class="ml-auto">&dollar; 5,312.00</strong>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title mb-0">
+                                    Recurring Income
+                                </h4>
+                            </div>
+
+                            <table class="table table-striped m-0">
+                                <thead>
+                                    <tr>
+                                        <th>Next payout</th>
+                                        <th class="text-center">Times</th>
+                                        <th class="text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>01/10/2017</td>
+                                        <td class="text-center">4</td>
+                                        <td class="text-right"><strong>&dollar;1,200.00</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>01/10/2017</td>
+                                        <td class="text-center">4</td>
+                                        <td class="text-right"><strong>&dollar;1,200.00</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>01/10/2017</td>
+                                        <td class="text-center">4</td>
+                                        <td class="text-right"><strong>&dollar;1,200.00</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>11/10/2017</td>
+                                        <td class="text-center">12</td>
+                                        <td class="text-right"><strong>&dollar;8,125.82</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>09/11/2017</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-right"><strong>&dollar;4,310.00</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>09/11/2017</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-right"><strong>&dollar;4,310.00</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- drawer -->
+    <div class="mdk-drawer js-mdk-drawer" id="default-drawer">
+        <div class="mdk-drawer__content">
+            <div class="mdk-drawer__inner">
+
+                <nav class="drawer  drawer--light">
+                    <div class="drawer-spacer drawer-spacer-border">
+                        <div class="media align-items-center">
+                            <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="40" alt="">
+                            <div class="media-body" style="line-height: 1.2">
+                                <a href="green-profile.html"><strong>Andrew Robles</strong></a>
+                                <div>Site Manager</div>
+                            </div>
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle dropdown-clear-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="material-icons">more_vert</i>
+        </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="green-profile.html" class="dropdown-item dropdown-item-action ">View Profile</a>
+                                    <a href="green-account.html" class="dropdown-item dropdown-item-action ">Edit Account</a>
+                                    <a href="#" class="dropdown-item dropdown-item-action">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- DROPDOWN -->
+                    <div class="drawer-spacer">
+                        <div class="dropdown">
+                            <button class="btn btn-block dropdown-toggle text-left text-white" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span>Page Layouts</span>
+      </button>
+                            <div class="dropdown-menu w-100">
+                                <a href="green-index.html" class="dropdown-item dropdown-item-action ">Default Layout (fluid)</a>
+                                <a href="green-index-drawer-light.html" class="dropdown-item dropdown-item-action  active ">Sidebar - Light Color</a>
+                                <a href="green-index-navbar-primary.html" class="dropdown-item dropdown-item-action ">Navbar - Primary</a>
+                                <a href="green-index-drawer-right.html" class="dropdown-item dropdown-item-action ">Layout Sidebar Right</a>
+                                <a href="green-index-fixed.html" class="dropdown-item dropdown-item-action ">Fixed Layout</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- HEADING -->
+                    <div class="drawer-heading">
+                        Menu
+                    </div>
+                    <!-- MENU -->
+                    <ul class="drawer-menu" id="mainMenu" data-children=".drawer-submenu">
+                        <li class="drawer-menu-item drawer-submenu">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#dashboardMenu" aria-controls="dashboardMenu" aria-expanded="true">
+        <i class="material-icons">home</i>
+        <span class="drawer-menu-text"> Dashboard</span>
+      </a>
+                            <ul class="collapse show" id="dashboardMenu">
+                                <li class="drawer-menu-item "><a href="green-index.html">Dashboard 1</a></li>
+                                <li class="drawer-menu-item active"><a href="green-index-second.html">Dashboard 2</a></li>
+                                <li class="drawer-menu-item "><a href="green-index-third.html">Dashboard 3</a></li>
+                            </ul>
+                        </li>
+                        <li class="drawer-menu-item drawer-submenu">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#appsMenu" data-target="#appsMenu" aria-controls="appsMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">view_quilt</i>
+        <span class="drawer-menu-text"> Apps</span>
+      </a>
+                            <ul class="collapse " id="appsMenu">
+                                <li class="drawer-menu-item "><a href="green-apps-email.html">Email</a></li>
+                                <li class="drawer-menu-item "><a href="green-apps-chat.html">Chat</a></li>
+                                <li class="drawer-menu-item "><a href="green-apps-clients.html">Clients</a></li>
+                            </ul>
+                        </li>
+                        <li class="drawer-menu-item drawer-submenu">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#uiMenu" aria-controls="uiMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">library_books</i>
+        <span class="drawer-menu-text">UI Components</span>
+      </a>
+                            <ul class="collapse " id="uiMenu">
+                                <li class="drawer-menu-item "><a href="green-ui-buttons.html">Buttons</a></li>
+                                <li class="drawer-menu-item "><a href="green-ui-colors.html">Colors</a></li>
+                                <li class="drawer-menu-item "><a href="green-ui-grid.html">Grid</a></li>
+                                <li class="drawer-menu-item "><a href="green-ui-navs.html">Navs</a></li>
+                                <li class="drawer-menu-item "><a href="green-ui-icons.html">Icons</a></li>
+                                <li class="drawer-menu-item "><a href="green-ui-typography.html">Typography</a></li>
+                                <li class="drawer-menu-item "><a href="green-ui-drag-drop.html">Drag &amp; Drop</a></li>
+                                <li class="drawer-menu-item "><a href="green-ui-tables.html">Tables</a></li>
+                                <li class="drawer-menu-item "><a href="green-ui-notifications.html">Notifications</a></li>
+                                <li class="drawer-menu-item "><a href="green-ui-loaders.html">Loaders</a></li>
+                            </ul>
+                        </li>
+                        <li class="drawer-menu-item drawer-submenu">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#formsMenu" aria-controls="formsMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">text_format</i>
+        <span class="drawer-menu-text">Forms</span>
+      </a>
+                            <ul class="collapse " id="formsMenu">
+                                <li class="drawer-menu-item "><a href="green-form-controls.html">Form controls</a></li>
+                                <li class="drawer-menu-item "><a href="green-checkboxes-radios.html">Checkboxes and Radios</a></li>
+                                <li class="drawer-menu-item "><a href="green-switches-toggles.html">Switches and Toggles</a></li>
+                                <li class="drawer-menu-item "><a href="green-form-layout.html">Layout Variations</a></li>
+                                <li class="drawer-menu-item "><a href="green-validation.html">Validation</a></li>
+                                <li class="drawer-menu-item "><a href="green-custom-forms.html">Custom Forms</a></li>
+                                <li class="drawer-menu-item "><a href="green-text-editor.html">Text Editor</a></li>
+                                <li class="drawer-menu-item "><a href="green-datepicker.html">Datepicker</a></li>
+                            </ul>
+                        </li>
+                        <li class="drawer-menu-item ">
+                            <a href="green-events-calendar.html">
+        <i class="material-icons">event_note</i>
+        <span class="drawer-menu-text">Events Calendar</span>
+      </a>
+                        </li>
+                        <li class="drawer-menu-item ">
+                            <a href="green-maps.html">
+        <i class="material-icons">language</i>
+        <span class="drawer-menu-text">Maps</span>
+      </a>
+                        </li>
+                        <li class="drawer-menu-item ">
+                            <a href="green-charts.html">
+        <i class="material-icons">insert_chart</i>
+        <span class="drawer-menu-text">Charts</span>
+      </a>
+                        </li>
+                        <li class="drawer-menu-item drawer-submenu">
+                            <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#pageMenu" aria-controls="pageMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">layers</i>
+        <span class="drawer-menu-text">Pages / Examples</span>
+      </a>
+                            <ul class="collapse " id="pageMenu">
+                                <li class="drawer-menu-item "><a href="green-tickets.html">Tickets</a></li>
+                                <li class="drawer-menu-item "><a href="green-blog-post.html">Blog Post</a></li>
+                                <li class="drawer-menu-item "><a href="green-profile.html">Profile</a></li>
+                                <li class="drawer-menu-item "><a href="green-account.html">Account</a></li>
+                                <li class="drawer-menu-item "><a href="green-emails-listing.html">Emails Listing</a></li>
+                                <li class="drawer-menu-item "><a href="green-lessons.html">Lessons</a></li>
+                                <li class="drawer-menu-item "><a href="green-lessons_second.html">Lessons 2</a></li>
+                                <li class="drawer-menu-item "><a href="green-learning.html">Learning</a></li>
+                                <li class="drawer-menu-item "><a href="green-activity-timeline.html">Activity Timeline</a></li>
+                                <li class="drawer-menu-item "><a href="green-error.html">Error Page</a></li>
+                                <li class="drawer-menu-item "><a href="green-cart.html">Shopping cart</a></li>
+                                <li class="drawer-menu-item "><a href="green-invoice.html">Invoice</a></li>
+                                <li class="drawer-menu-item "><a href="green-pricing-2.html">Pricing (New)</a></li>
+                                <li class="drawer-menu-item "><a href="green-pricing.html">Pricing</a></li>
+                                <li class="drawer-menu-item"><a href="green-signup.html">Sign Up</a></li>
+                                <li class="drawer-menu-item"><a href="green-login.html">Login</a></li>
+                                <li class="drawer-menu-item"><a href="green-forgot-password.html">Forgot Password</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- HEADING -->
+                    <div class="drawer-heading">
+                        Activity
+                    </div>
+                    <!-- ACTIVITY -->
+                    <div class="list-group list-group-flush drawer-activity">
+                        <div class="list-group-item flex-column align-items-start active">
+                            <div class="media">
+                                <div class="list-dot d-flex align-self-center"></div>
+                                <div class="media-body">
+                                    <a href="#"> <i class="material-icons align-middle">person</i> brian</a> left a comment on a ticket <a href="#">#1224</a> in milestone <a href="#">Initial Release</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item flex-column align-items-start">
+                            <div class="media">
+                                <div class="list-dot d-flex align-self-center"></div>
+                                <div class="media-body">
+                                    <a href="#"> <i class="material-icons align-middle">person</i> steven</a> left a comment on a ticket <a href="#">#1225</a> in milestone <a href="#">Initial Release</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item flex-column align-items-start">
+                            <div class="media">
+                                <div class="list-dot d-flex align-self-center"></div>
+                                <div class="media-body">
+                                    <a href="#"> <i class="material-icons align-middle">person</i> karen</a> left a comment on a ticket <a href="#">#283</a> in milestone <a href="#">Alpha Release</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item flex-column align-items-start">
+                            <div class="media">
+                                <div class="list-dot d-flex align-self-center"></div>
+                                <div class="media-body">
+                                    <a href="#"> <i class="material-icons align-middle">person</i> themefy</a> left a comment on a ticket <a href="#">#285</a> in milestone <a href="#">Alpha Release</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="assets/vendor/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="assets/vendor/popper.js"></script>
+    <script src="assets/vendor/bootstrap.min.js"></script>
+    <script src="assets/vendor/Chart.min.js"></script>
+    <script src="assets/vendor/moment.min.js"></script>
+    <script src="assets/vendor/dateformat.js"></script>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        window.theme = "green";
+    </script>
+    <script src="assets/js/color_variables.js"></script>
+
+
+    <script src="assets/vendor/Chart.min.js"></script>
+    <script src="assets/vendor/morris.min.js"></script>
+    <script src="assets/vendor/raphael.min.js"></script>
+    <script src="assets/vendor/bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/datepicker.js"></script>
+
+    <script>
+        new Morris.Area({
+            element: 'morris-area-chart',
+            data: [{
+                    year: '2017-01',
+                    a: 6352.27
+                },
+                {
+                    year: '2017-02',
+                    a: 4309.98
+                },
+                {
+                    year: '2017-03',
+                    a: 1465.98
+                },
+                {
+                    year: '2017-04',
+                    a: 1298.25
+                },
+                {
+                    year: '2017-05',
+                    a: 3209
+                },
+                {
+                    year: '2017-06',
+                    a: 2083
+                },
+                {
+                    year: '2017-07',
+                    a: 1285.23
+                },
+                {
+                    year: '2017-08',
+                    a: 1289
+                },
+                {
+                    year: '2017-09',
+                    a: 4430
+                },
+                {
+                    year: '2017-10',
+                    a: 8921.19
+                }
+            ],
+            xkey: 'year',
+            ykeys: ['a'],
+            labels: ['Earnings'],
+            lineColors: ['#fff'],
+            fillOpacity: '0.2',
+            gridEnabled: true,
+            gridTextColor: '#ffffff',
+            resize: true
+        });
+
+        new Morris.Donut({
+            element: 'morris-donut-chart',
+            data: [{
+                    label: 'General',
+                    value: 20
+                },
+                {
+                    label: 'Software',
+                    value: 10
+                },
+                {
+                    label: 'Subscriptions',
+                    value: 5
+                },
+                {
+                    label: 'Products',
+                    value: 5
+                },
+                {
+                    label: 'Courses',
+                    value: 64
+                }
+            ],
+            resize: true,
+            colors: [colors.color_primary, colors.color_success, colors.color_warning, colors.color_danger, colors.color_blue]
+        });
+    </script>
+
+
+
+
+    <script src="assets/vendor/dom-factory.js"></script>
+    <!-- DOM Factory -->
+    <script src="assets/vendor/material-design-kit.js"></script>
+    <!-- MDK -->
+
+
+
+    <script>
+        (function() {
+            'use strict';
+
+            // Self Initialize DOM Factory Components
+            domFactory.handler.autoInit()
+
+            // Connect button(s) to drawer(s)
+            var sidebarToggle = Array.prototype.slice.call(document.querySelectorAll('[data-toggle="sidebar"]'))
+
+            sidebarToggle.forEach(function(toggle) {
+                toggle.addEventListener('click', function(e) {
+                    var selector = e.currentTarget.getAttribute('data-target') || '#default-drawer'
+                    var drawer = document.querySelector(selector)
+                    if (drawer) {
+                        drawer.mdkDrawer.toggle()
+                    }
+                })
+            })
+
+        })();
+    </script>
+</body>
+
+
+<!-- Mirrored from demo.frontted.com/flow/120220181311/green-index-second.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 18 Jun 2018 21:56:06 GMT -->
+</html>

@@ -1,0 +1,2390 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="theme-green">
+
+
+<!-- Mirrored from demo.frontted.com/flow/120220181311/green-index-drawer-light.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 18 Jun 2018 21:56:02 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Flow</title>
+
+
+    <link type="text/css" href="assets/css/themes/green/vendor-fullcalendar.css" rel="stylesheet">
+    <link type="text/css" href="assets/css/themes/green/vendor-weathericons.css" rel="stylesheet">
+    <link type="text/css" href="assets/css/themes/green/vendor-bootstrap-datepicker.css" rel="stylesheet">
+
+    <!-- Prevent the demo from appearing in search engines -->
+    <meta name="robots" content="noindex">
+
+    <!-- Simplebar -->
+    <link type="text/css" href="assets/vendor/simplebar.css" rel="stylesheet">
+
+    <!-- App CSS -->
+    <link type="text/css" href="assets/css/themes/green/app.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="d-flex flex-column position-relative h-100">
+
+        <nav class="navbar navbar-expand-md navbar-dark bg-primary-dark d-print-none">
+            <a class="navbar-brand" href="green-index.html">
+                <!-- SVG Logo -->
+                <svg width="24px" height="24px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMaxYMin meet">
+      <defs></defs>
+      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M3,-3.15936513e-15 L20,-2.74650094e-15 L20,-2.66453526e-15 C21.6568542,-2.96889791e-15 23,1.34314575 23,3 L23,20 L23,20 C23,21.6568542 21.6568542,23 20,23 L6,23 L3,23 L3,23 C1.34314575,23 1.09108455e-15,21.6568542 8.8817842e-16,20 L0,3 L0,3 C-2.02906125e-16,1.34314575 1.34314575,-3.24835102e-15 3,-3.55271368e-15 Z" id="logoBackground"></path>
+        <rect id="Rectangle-6" fill="#FFFFFF" x="1.0952381" y="12.0960631" width="9.96553315" height="9.76943696"></rect>
+        <rect id="Rectangle-6-Copy" fill="#FFFFFF" x="11.9533428" y="1.05597629" width="9.96553315" height="9.76943696"></rect>
+      </g>
+    </svg>
+                <!-- //End SVG Logo -->
+
+                <span class="navbar-brand-text">flow</span>
+                <small class="text-muted">v.1</small>
+            </a>
+            <div class="d-none d-md-block d-lg-block">
+                <!-- DEMO COLORS -->
+                <a href="index-drawer-light.html" style="background: #6774DF;" class="demo-color  ">
+    <i class="material-icons align-middle align-self-center md-18">check</i>
+  </a>
+                <a href="blue-index-drawer-light.html" style="background: #4A90E2;" class="demo-color  ">
+    <i class="material-icons align-middle align-self-center md-18">check</i>
+  </a>
+                <a href="green-index-drawer-light.html" style="background: #7DC668;" class="demo-color active ">
+    <i class="material-icons align-middle align-self-center md-18">check</i>
+  </a>
+            </div>
+            <!-- END DEMO  COLORS -->
+            <button class="navbar-toggler navbar-toggler-right d-md-none d-lg-none" type="button" data-toggle="sidebar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ml-auto ">
+                    <li class="nav-item  align-self-center">
+                        <div class="nav-link">
+                            <div class="navbar--stats" role="group" aria-label="Basic example">
+                                <div class="navbar--stats--icon">
+                                    <i class="material-icons align-middle">local_atm</i>
+                                </div>
+                                <div class="navbar--stats--text">
+                                    <a href="#">$13,288</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item  align-self-center">
+                        <div class="nav-link">
+                            <div class="navbar--stats">
+                                <div class="navbar--stats--icon">
+                                    <i class="material-icons align-middle">email</i>
+                                </div>
+                                <div class="navbar--stats--text align-self-center">
+                                    <a href="#">124</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown notifications align-self-center" id="navbarNotifications">
+                        <a href="#" class="nav-link dropdown-toggle nav-link-active" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons align-middle">notifications_active</i>
+        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsDropdown" id="notificationsDropdown">
+                            <ul class="nav nav-tabs-notifications d-flex px-0" id="notifications-ul" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="true">Notifications</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="alerts-tab" data-toggle="tab" href="#alerts" role="tab" aria-controls="alerts" aria-selected="false">Alerts</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Messages</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="notifications-tabs">
+                                <div class="tab-pane fade show active" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="w-100"><a href="#">john</a> received a new quote</div>
+                                            <div class="w-100 text-muted">4 secs ago</div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="w-100"><a href="#">karen</a> received a new quote</div>
+                                            <div class="w-100 text-muted">25 mins ago</div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="w-100"><a href="#">jim</a> received a new quote</div>
+                                            <div class="w-100 text-muted">7 hrs ago</div>
+                                        </li>
+                                        <li class="list-group-item text-right">
+                                            <a href="#">
+                    <span class="align-middle">View All</span>
+                    <i class="material-icons md-18 align-middle">arrow_forward</i>
+                  </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <i class="material-icons align-middle mr-2 text-warning">
+                      info_outline
+                    </i>
+                                                <div class="media-body">
+                                                    <div class="w-100"><a href="profile.html">john</a> received a new <a href="#">quote</a></div>
+                                                    <div class="w-100 text-muted">4 secs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <i class="material-icons align-middle mr-2 text-success">
+                      check_circle
+                    </i>
+                                                <div class="media-body">
+                                                    <div class="w-100"><a href="profile.html">karen</a> completed a <a href="#">task</a></div>
+                                                    <div class="w-100 text-muted">25 mins ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <i class="material-icons align-middle mr-2 text-danger">
+                      warning
+                    </i>
+                                                <div class="media-body">
+                                                    <div class="w-100"><a href="profile.html">jim</a> removed a <a href="#">task</a></div>
+                                                    <div class="w-100 text-muted">7 hrs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item text-right">
+                                            <a href="#">
+                    <span class="align-middle">View All</span>
+                    <i class="material-icons md-18 align-middle">arrow_forward</i>
+                  </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <a href="profile.html">
+                      <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                    </a>
+                                                <div class="media-body">
+                                                    <div class="w-100">I started that project we talked...</div>
+                                                    <div class="w-100 text-muted">4 secs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <a href="profile.html">
+                      <img src="assets/images/avatars/alex-sheldon-271322.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                    </a>
+                                                <div class="media-body">
+                                                    <div class="w-100">Can we arrange a meeting?...</div>
+                                                    <div class="w-100 text-muted">25 mins ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <a href="profile.html">
+                      <img src="assets/images/avatars/foto-sushi-128246.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                    </a>
+                                                <div class="media-body">
+                                                    <div class="w-100">We need to fix some bugs...</div>
+                                                    <div class="w-100 text-muted">7 hrs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item text-right">
+                                            <a href="#">
+                    <span class="align-middle">View All</span>
+                    <i class="material-icons md-18 align-middle">arrow_forward</i>
+                  </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown emails align-self-center">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons align-middle">email</i>
+        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="emailsDropdown" id="emailsDropdown">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <a href="profile.html">
+                  <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                </a>
+                                        <div class="media-body">
+                                            <div class="w-100">New project</div>
+                                            <div class="w-100 text-muted">I started that project we talked...</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <a href="profile.html">
+                  <img src="assets/images/avatars/alex-sheldon-271322.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                </a>
+                                        <div class="media-body">
+                                            <div class="w-100">ASAP meeting</div>
+                                            <div class="w-100 text-muted">Can we arrange a meeting?...</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <a href="profile.html">
+                  <img src="assets/images/avatars/foto-sushi-128246.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                </a>
+                                        <div class="media-body">
+                                            <div class="w-100">Need help</div>
+                                            <div class="w-100 text-muted">We need to fix some bugs...</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item text-right">
+                                    <a href="#">
+                <span class="align-middle">View All</span>
+                <i class="material-icons md-18 align-middle">arrow_forward</i>
+              </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle dropdown-clear-caret" data-toggle="dropdown" aria-expanded="false">
+          Dashboard <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle ml-1" width="35" alt="">
+        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-account">
+                            <div class="account-info">
+                                <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="45" alt="">
+                                <div class="lh-12">
+                                    <a href="profile.html"><strong>Andrew Robles</strong></a>
+                                    <div class="text-light">Site Manager</div>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled account-menu">
+                                <li><a href="account.html" class="dropdown-item "><i class="material-icons md-18 align-middle mr-1">lock</i> <span class="align-middle">Account</span></a></li>
+                                <li><a href="profile.html" class="dropdown-item "><i class="material-icons md-18 align-middle mr-1">account_circle</i> <span class="align-middle">Profile</span></a></li>
+                                <li><a href="#" class="dropdown-item"><i class="material-icons md-18 align-middle mr-1">settings</i> <span class="align-middle">Settings</span></a></li>
+                                <li>
+                                    <a href="#" class="dropdown-item">
+                <i class="material-icons md-18 align-middle mr-1">build</i>
+                <span class="align-middle">Support</span>
+              </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item">
+                <i class="material-icons md-18 align-middle mr-1">question_answer</i>
+                <span class="align-middle">FAQ</span>
+              </a>
+                                </li>
+                                <li><a href="login.html" class="dropdown-item"><i class="material-icons md-18 align-middle mr-1">exit_to_app</i> <span class="align-middle">Logout</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="mdk-drawer-layout js-mdk-drawer-layout" data-fullbleed data-push data-has-scrolling-region>
+            <div class="mdk-drawer-layout__content mdk-header-layout__content--scrollable">
+                <!-- CONTENT BODY -->
+
+                <div class="container-fluid">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="card p-2">
+                        <div class="d-md-flex align-items-center justify-content-start">
+                            <span class="badge badge-warning mr-md-2">BOILERPLATES AVAILABLE</span>
+                            <span>
+      Did you know Flow will include ready-to-go <a href="#">Rails 5</a> &amp; <a href="#">Laravel 5.4</a> boilerplates.
+    </span>
+                            <span class="ml-auto">
+      <a href="#"><i class="material-icons align-middle">arrow_forward</i></a>
+    </span>
+                        </div>
+                    </div>
+                    <div class="card-deck">
+                        <div class="card p-2 pl-3 pr-3">
+                            <div class="media align-items-center">
+                                <div class="doughnut-chart-wrapper mr-1">
+                                    <div class="doughnut-chart-text">
+                                        <div>
+                                            <h3 class="text-danger">12%</h3>
+                                            <small>TODAY</small>
+                                        </div>
+                                    </div>
+                                    <canvas class="doughnut-chart" data-percent="12" width="100" height="100"></canvas>
+                                </div>
+                                <div class="media-body">
+                                    <h3 class="mb-0">$1,020</h3>
+                                    <span>Total Sales</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-2 pl-3 pr-3">
+                            <div class="media align-items-center">
+                                <div class="doughnut-chart-wrapper mr-1">
+                                    <div class="doughnut-chart-text">
+                                        <div>
+                                            <h3 class="text-success">68%</h3>
+                                            <small>MONTH</small>
+                                        </div>
+                                    </div>
+                                    <canvas class="doughnut-chart" data-percent="68" width="100" height="100"></canvas>
+                                </div>
+                                <div class="media-body">
+                                    <h3 class="mb-0">$6,670</h3>
+                                    <span>Sales for June</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-2 pl-3 pr-3">
+
+                            <div class="media justify-items-center align-items-center h-md-100">
+                                <i class="material-icons md-48 text-link-color">account_circle</i>
+                                <div class="media-body pl-2">
+                                    <h3 class="mb-0 text">87%</h3>
+                                    <span>Sign-Up Percentage</span>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="card p-2 pl-3 pr-3">
+                            <div class="media justify-items-center align-items-center h-md-100">
+                                <i class="material-icons text-success md-48">check_circle</i>
+                                <div class="media-body pl-2">
+                                    <h4 class="m-0">Network Stats</h4>
+                                    <span>All systems working!</span>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card card-sales">
+                                <div class="card-header bg-faded">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-2">
+                                            <h4 class="card-title">Sales</h4>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <form class="form-inline float-right">
+                                                <div class="form-group mr-3">
+                                                    <label class="control-label mr-1">From:</label>
+                                                    <input type="text" class="datepicker form-control" value="10/24/2017">
+                                                </div>
+                                                <div class="form-group mb-0">
+                                                    <label class="control-label mr-1">To: </label>
+                                                    <input type="text" class="datepicker form-control" value="10/25/2017">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="clearfix"></div>
+                                    <div style="height: 250px; width: 100%;">
+                                        <canvas id="dashboard-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">
+                                        History
+                                    </h4>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="d-flex justify-content-between pb-1">
+                                        <span>January</span>
+                                        <div>
+                                            <strong>$10,000</strong> <span>/ $20,000</span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 52%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between pb-1">
+                                        <span>February</span>
+                                        <div>
+                                            <strong>$8,250</strong> <span>/ $5,230</span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between pb-1">
+                                        <span>March</span>
+                                        <div>
+                                            <strong>$1,150</strong> <span>/ $8,120</span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 22%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between pb-1">
+                                        <span>April</span>
+                                        <div>
+                                            <strong>$4,625</strong> <span>/ $11,450</span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between pb-1">
+                                        <span>May</span>
+                                        <div>
+                                            <strong>$5,875</strong> <span>/ $12,600</span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 45%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <h4 class="card-title">Latest Orders</h4>
+                            <button class="btn btn-faded btn-sm dropdown-toggle dropdown-no-caret" type="button" id="ordersFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <i class="material-icons align-bottom text-muted md-18">filter_list</i>
+      <span>Filter</span>
+    </button>
+                            <div class="dropdown-menu" aria-labelledby="ordersFilter">
+                                <h6 class="dropdown-header">Sort By</h6>
+                                <a class="dropdown-item" href="#">#</a>
+                                <a class="dropdown-item" href="#">Date</a>
+                                <a class="dropdown-item" href="#">Status</a>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th style="width:60px">#</th>
+                                        <th style="width:150px" class="text-uppercase">Date</th>
+                                        <th style="width:300px" class="text-uppercase">Description</th>
+                                        <th class="text-uppercase">Client</th>
+                                        <th class="text-right text-uppercase" style="width:80px">Status</th>
+                                        <th class="text-center text-uppercase" style="width:80px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="align-middle"><a href="#" class="font-weight-normal">4191</a></td>
+                                        <td class="text-muted align-middle">May 24th, 2017</td>
+                                        <td class="align-middle">2 Pack of Juicy UI Components</td>
+                                        <td class="align-middle">
+                                            <a href="#">
+              <i class="material-icons align-bottom">business</i> <span>Ice Rocks</span>
+            </a>
+                                        </td>
+                                        <td class="text-right align-middle">
+                                            <div class="badge badge-success">PAID</div>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <div class="d-flex">
+                                                <button class="btn btn-white btn-sm mr-1">
+                <i class="material-icons md-14 align-middle">edit</i>
+              </button>
+                                                <button class="btn btn-danger btn-sm">
+                <i class="material-icons md-14 align-middle">delete</i>
+              </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle"><a href="#">4190</a></td>
+                                        <td class="text-muted align-middle">May 23th, 2017</td>
+                                        <td class="align-middle">Monthly Subscription</td>
+                                        <td class="align-middle">
+                                            <a href="#">
+              <i class="material-icons align-bottom">business</i> <span>Demo LLC</span>
+            </a>
+                                        </td>
+                                        <td class="text-right align-middle">
+                                            <span class="badge badge-success">PAID</span>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <div class="d-flex">
+                                                <button class="btn btn-white btn-sm mr-1">
+                <i class="material-icons md-14 align-middle">edit</i>
+              </button>
+                                                <button class="btn btn-danger btn-sm">
+                <i class="material-icons md-14 align-middle">delete</i>
+              </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle"><a href="#">4189</a></td>
+                                        <td class="text-muted align-middle">May 22th, 2017</td>
+                                        <td class="align-middle">Flow Theme v.1</td>
+                                        <td class="align-middle">
+                                            <a href="#">
+              <i class="material-icons align-bottom">business</i> <span>Creative Themes</span>
+            </a>
+                                        </td>
+                                        <td class="text-right align-middle">
+                                            <span class="badge badge-success">PAID</span>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <div class="d-flex">
+                                                <button class="btn btn-white btn-sm mr-1">
+                <i class="material-icons md-14 align-middle">edit</i>
+              </button>
+                                                <button class="btn btn-danger btn-sm">
+                <i class="material-icons md-14 align-middle">delete</i>
+              </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle"><a href="#">4189</a></td>
+                                        <td class="text-muted align-middle">May 22th, 2017</td>
+                                        <td class="align-middle">Flow Theme v.1</td>
+                                        <td class="align-middle">
+                                            <a href="#">
+              <i class="material-icons align-bottom">business</i> <span>Creative Themes</span>
+            </a>
+                                        </td>
+                                        <td class="text-right align-middle">
+                                            <span class="badge badge-success">PAID</span>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <div class="d-flex">
+                                                <button class="btn btn-white btn-sm mr-1">
+                <i class="material-icons md-14 align-middle">edit</i>
+              </button>
+                                                <button class="btn btn-danger btn-sm">
+                <i class="material-icons md-14 align-middle">delete</i>
+              </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <h6 class="d-flex align-items-center justify-content-between card-title">
+                                        <span>Tickets</span>
+                                        <span>
+            <a href="#" class="btn btn-faded btn-sm" data-toggle="modal" data-target="#newTicketModal">
+              <i class="material-icons md-18 align-middle">add</i>
+              <span class="align-middle">NEW</span>
+                                        </a>
+                                        </span>
+                                    </h6>
+                                </div>
+
+                                <div class="card-group">
+                                    <div class="card p-2 text-center">
+                                        <div class="media align-items-center">
+                                            <div class="mr-1">
+                                                <i class="material-icons md-36 text-success">check</i>
+                                            </div>
+                                            <div class="media-body">
+                                                <h3 class="mb-0"><strong>861</strong></h3>
+                                                <span>RESOLVED</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card p-2 text-center">
+                                        <div class="media align-items-center">
+                                            <div class="mr-3">
+                                                <i class="material-icons md-36 text-warning">flag</i>
+                                            </div>
+                                            <div class="media-body">
+                                                <h3 class="mb-0"><strong>12</strong></h3>
+                                                <span>ACTIVE</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card p-2 text-center">
+                                        <div class="media align-items-center">
+                                            <div class="mr-3">
+                                                <i class="material-icons md-36 text-danger">close</i>
+                                            </div>
+                                            <div class="media-body">
+                                                <h3 class="mb-0"><strong>5</strong></h3>
+                                                <span>CLOSED</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="text-uppercase" style="width:110px">Date</th>
+                                                <th class="text-uppercase">Description</th>
+                                                <th class="text-uppercase text-center" style="width:100px">Ticket No.</th>
+                                                <th class="text-uppercase text-center" style="width:60px">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <span class="text-muted">5 mins ago</span>
+                                                </td>
+                                                <td>
+                                                    <div class="lh-12">
+                                                        <a href="#">Bug fixes for initial release</a> was updated by <a href="#">
+                      <i class="material-icons md-18 align-middle md-top-1">account_circle</i>Themefy</a>
+                                                        <div class="text-muted">Milestone: <a href="#" class="text-color">Initial Release</a></div>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="#">
+                    #1224
+                  </a>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="badge badge-success">resolved</div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <span class="text-muted">48 mins ago</span>
+                                                </td>
+                                                <td>
+                                                    <div class="lh-12">
+                                                        <a href="#">Style cleanup and code refactor</a> was updated by <a href="#">
+                      <i class="material-icons md-18 align-middle md-top-1">account_circle</i>Karen</a>
+                                                        <div class="text-muted">Milestone: <a href="#" class="text-color">Alpha Release</a></div>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="#">
+                    #283
+                  </a>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="badge badge-success">resolved</div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <span class="text-muted">9 hrs ago</span>
+                                                </td>
+                                                <td>
+                                                    <div class="lh-12">
+                                                        <a href="#">Updated asset pipeline configuration</a> was updated by <a href="#">
+                      <i class="material-icons md-18 align-middle md-top-1">account_circle</i>Steven</a>
+                                                        <div class="text-muted">Milestone: <a href="#" class="text-color">Initial Release</a></div>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="#">
+                    #1225
+                  </a>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="badge badge-success">resolved</div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <span class="text-muted">13 hrs ago</span>
+                                                </td>
+                                                <td>
+                                                    <div class="lh-12">
+                                                        <a href="#">Fixed visual bugs on lists</a> was updated by <a href="#">
+                      <i class="material-icons md-18 align-middle md-top-1">account_circle</i>John</a>
+                                                        <div class="text-muted">Milestone: <a href="#" class="text-color">Bug Fixes</a></div>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="#">
+                    #129
+                  </a>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="badge badge-warning">active</div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <span class="text-muted">1 day ago</span>
+                                                </td>
+                                                <td>
+                                                    <div class="lh-12">
+                                                        <a href="#">Added global styling on tables</a> was updated by <a href="#">
+                      <i class="material-icons md-18 align-middle md-top-1">account_circle</i>John</a>
+                                                        <div class="text-muted">Milestone: <a href="#" class="text-color">Global Styling</a></div>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="#">
+                    #304
+                  </a>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="badge badge-danger">closed</div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <span class="text-muted">2 days ago</span>
+                                                </td>
+                                                <td>
+                                                    <div class="lh-12">
+                                                        <a href="#">Added progress bars on dashboard</a> was updated by <a href="#">
+                      <i class="material-icons md-18 align-middle md-top-1">account_circle</i>Karen</a>
+                                                        <div class="text-muted">Milestone: <a href="#" class="text-color">Global Styling</a></div>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="#">
+                    #223
+                  </a>
+                                                </td>
+                                                <td class="align-middle text-right">
+                                                    <div class="badge badge-warning">active</div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Contacts</h4>
+                                </div>
+                                <div>
+                                    <div class="input-group input-group--inline w-100 input-flush">
+                                        <div class="input-group-addon">
+                                            <i class="material-icons">search</i>
+                                        </div>
+                                        <input type="text" class="form-control search" name="search" placeholder="Filter by name">
+                                    </div>
+                                </div>
+                                <ul class="list-group list-group-flush">
+
+                                    <li class="list-group-item">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="40" alt="">
+                                            <div class="media-body d-flex w-100 align-items-center justify-content-between">
+                                                <div>
+                                                    <a href="#">Andrew Robles</a>
+                                                    <div>
+                                                        <a href="#" class="text-color">Themefy</a>
+                                                    </div>
+                                                </div>
+                                                <div class="contact-actions">
+                                                    <a href="#" class="text-muted"><i class="material-icons align-middle md-18">email</i></a>
+                                                    <a href="#" class="text-muted"><i class="material-icons align-middle md-18">phone</i></a>
+                                                    <a href="#" class="text-warning"><i class="material-icons align-middle md-18">star</i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/james-garcia-76433.jpg" class="img-fluid rounded-circle mr-2" width="40" alt="">
+                                            <div class="media-body d-flex w-100 align-items-center justify-content-between">
+                                                <div>
+                                                    <a href="#">Karen Smith</a>
+                                                    <div>
+                                                        <a href="#" class="text-color">LLC Rocks</a>
+                                                    </div>
+                                                </div>
+                                                <div class="contact-actions">
+                                                    <a href="#" class="text-muted"><i class="material-icons align-middle md-18">email</i></a>
+                                                    <a href="#" class="text-muted"><i class="material-icons align-middle md-18">phone</i></a>
+                                                    <a href="#" class="text-warning"><i class="material-icons align-middle md-18">star</i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="40" alt="">
+                                            <div class="media-body d-flex w-100 align-items-center justify-content-between">
+                                                <div>
+                                                    <a href="#">Steven Short</a>
+                                                    <div>
+                                                        <a href="#" class="text-color">Industries Inc.</a>
+                                                    </div>
+                                                </div>
+                                                <div class="contact-actions">
+                                                    <a href="#" class="text-muted"><i class="material-icons align-middle md-18">email</i></a>
+                                                    <a href="#" class="text-muted"><i class="material-icons align-middle md-18">phone</i></a>
+                                                    <a href="#" class="text-warning"><i class="material-icons align-middle md-18">star</i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/kyle-broad-29486.jpg" class="img-fluid rounded-circle mr-2" width="40" alt="">
+                                            <div class="media-body d-flex w-100 align-items-center justify-content-between">
+                                                <div>
+                                                    <a href="#">Tara Knows</a>
+                                                    <div>
+                                                        <a href="#" class="text-color">Industries Inc.</a>
+                                                    </div>
+                                                </div>
+                                                <div class="contact-actions">
+                                                    <a href="#" class="text-muted"><i class="material-icons align-middle md-18">email</i></a>
+                                                    <a href="#" class="text-muted"><i class="material-icons align-middle md-18">phone</i></a>
+                                                    <a href="#" class="text-warning"><i class="material-icons align-middle md-18">star</i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Statistics</h4>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex align-items-center justify-content-end">
+                                        <div class="mr-auto">Total Visitors</div>
+                                        <div>
+                                            <span class="badge badge-text-color mr-1">1.3k</span>
+                                        </div>
+                                        <div class="doughnut-chart-wrapper" style="width:100px;">
+                                            <canvas class="stats-chart"></canvas>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center justify-content-end">
+                                        <div class="mr-auto">Total Page Views</div>
+                                        <div>
+                                            <span class="badge badge-text-color mr-1">240,000</span>
+                                        </div>
+                                        <div class="doughnut-chart-wrapper" style="width:100px;">
+                                            <canvas class="stats-chart"></canvas>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center justify-content-end">
+                                        <div class="mr-auto">Total Revenue</div>
+                                        <div>
+                                            <span class="badge badge-success mr-1">$1.5k</span>
+                                        </div>
+                                        <div class="doughnut-chart-wrapper" style="width:100px;">
+                                            <canvas class="stats-chart"></canvas>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h4 class="card-title">
+                                            Users Traffic
+                                        </h4>
+                                        <div class="badge badge-warning align-self-middle">+48,6%</div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div style="height: 210px; width: 100%;">
+                                        <canvas id="members-chart"></canvas>
+                                    </div>
+                                </div>
+                                <div class="card-group">
+                                    <div class="card card-body text-center">
+                                        <h3 class="mb-0">419</h3>
+                                        <div>REGISTRATIONS</div>
+                                    </div>
+                                    <div class="card card-body text-center">
+                                        <h3 class="mb-0">$19,091</h3>
+                                        <div>SALES</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <h4 class="card-title">Recent Activity</h4>
+                                        <span class="text-muted">Updated 10 mins ago</span>
+                                    </div>
+                                    <a href="#" class="text-muted"><i class="material-icons align-middle md-18 " data-toggle="tooltip" data-placement="bottom" title="Refresh">sync</i></a>
+                                </div>
+
+                                <ul class="list-group list-group-flush">
+
+                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-1">
+                                                <div>
+                                                    <a href="profile.html">Andrew Robles</a>
+                                                    <span>changed the due date of task </span>
+                                                    <a href="#">#2156</a>
+                                                </div>
+                                                <small class="text-muted">2 mins ago</small>
+                                            </div>
+                                        </div>
+                                        <i class="material-icons text-warning">update</i>
+                                    </li>
+
+                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/james-garcia-76433.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-1">
+                                                <div>
+                                                    <a href="profile.html">Karen Smith</a>
+                                                    <span>completed task </span>
+                                                    <a href="#">#2158</a>
+                                                </div>
+                                                <small class="text-muted">35 mins ago</small>
+                                            </div>
+                                        </div>
+                                        <i class="material-icons text-success">check_circle</i>
+                                    </li>
+
+                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-1">
+                                                <div>
+                                                    <a href="profile.html">Steven Short</a>
+                                                    <span>completed task </span>
+                                                    <a href="#">#3320</a>
+                                                </div>
+                                                <small class="text-muted">5 hrs ago</small>
+                                            </div>
+                                        </div>
+                                        <i class="material-icons text-success">check_circle</i>
+                                    </li>
+
+                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/kyle-broad-29486.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-1">
+                                                <div>
+                                                    <a href="profile.html">Tara Knows</a>
+                                                    <span>removed task </span>
+                                                    <a href="#">#1252</a>
+                                                </div>
+                                                <small class="text-muted">2 days ago</small>
+                                            </div>
+                                        </div>
+                                        <i class="material-icons text-danger">remove_circle</i>
+                                    </li>
+
+                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/alex-sheldon-271322.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-1">
+                                                <div>
+                                                    <a href="profile.html">John Smith</a>
+                                                    <span>removed task </span>
+                                                    <a href="#">#1255</a>
+                                                </div>
+                                                <small class="text-muted">3 days ago</small>
+                                            </div>
+                                        </div>
+                                        <i class="material-icons text-danger">remove_circle</i>
+                                    </li>
+
+                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-1">
+                                                <div>
+                                                    <a href="profile.html">Andrew Robles</a>
+                                                    <span>changed the due date of task </span>
+                                                    <a href="#">#2156</a>
+                                                </div>
+                                                <small class="text-muted">2 mins ago</small>
+                                            </div>
+                                        </div>
+                                        <i class="material-icons text-warning">update</i>
+                                    </li>
+
+                                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <img src="assets/images/avatars/james-garcia-76433.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-1">
+                                                <div>
+                                                    <a href="profile.html">Karen Smith</a>
+                                                    <span>completed task </span>
+                                                    <a href="#">#2158</a>
+                                                </div>
+                                                <small class="text-muted">35 mins ago</small>
+                                            </div>
+                                        </div>
+                                        <i class="material-icons text-success">check_circle</i>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="card">
+                                <div class="card-header row">
+                                    <div class="col-md-4 text-md-left align-self-center">
+                                        <h4 class="card-title mr-auto">
+                                            Collaborators
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-8 d-flex justify-content-md-end">
+                                        <button class="btn btn-faded btn-sm mr-1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="material-icons align-bottom md-18">filter_list</i>
+          <span>FILTER</span>
+        </button>
+                                        <div class="dropdown-menu">
+                                            <h6 class="dropdown-header">Sort By</h6>
+                                            <a class="dropdown-item" href="#">ID</a>
+                                            <a class="dropdown-item" href="#">Start Date</a>
+                                            <a class="dropdown-item" href="#">Status</a>
+                                        </div>
+                                        <a href="#" class="btn btn-white btn-sm d-none d-sm-block" data-toggle="modal" data-target="#newCollaboratorModal">
+          <i class="material-icons align-bottom md-18">group_add</i>
+          Add Collaborator
+        </a>
+                                        <a href="#" class="btn btn-white btn-sm d-block d-sm-none" data-toggle="modal" data-target="#newCollaboratorModal">
+          <i class="material-icons align-bottom md-18">group_add</i>
+          Add
+        </a>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table collaborators-tasks">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th style="width:60px" class="text-uppercase">Id</th>
+                                                <th style="width:300px" class="text-uppercase">Task Name</th>
+                                                <th class="text-uppercase">Start Date</th>
+                                                <th class="text-center text-uppercase" style="width:80px">Status</th>
+                                                <th class="text-center text-uppercase"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td><a href="#">#3084</a></td>
+                                                <td>
+                                                    <a href="#" class="text-color">Front-End Refactoring </a><br/> by <a href="#">Andrew Robles</a>
+                                                </td>
+                                                <td class="text-muted" style="width:180px">
+                                                    Jul 24, 2017
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="badge badge-danger text-uppercase">canceled</div>
+                                                </td>
+                                                <td class="text-right">
+
+                                                    <a href="#" class="btn btn-white btn-sm">
+                    <i class="material-icons md-14 align-middle">chevron_right</i>
+                  </a>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><a href="#">#2062</a></td>
+                                                <td>
+                                                    <a href="#" class="text-color">Back End Refactoring </a><br/> by <a href="#">John Smith</a>
+                                                </td>
+                                                <td class="text-muted" style="width:180px">
+                                                    Jul 20, 2017
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="badge badge-primary text-uppercase">pending</div>
+                                                </td>
+                                                <td class="text-right">
+
+                                                    <a href="#" class="btn btn-white btn-sm">
+                    <i class="material-icons md-14 align-middle">chevron_right</i>
+                  </a>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><a href="#">#1024</a></td>
+                                                <td>
+                                                    <a href="#" class="text-color">Cards Styling </a><br/> by <a href="#">Steven Short</a>
+                                                </td>
+                                                <td class="text-muted" style="width:180px">
+                                                    Jul 18, 2017
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="badge badge-success text-uppercase">resolved</div>
+                                                </td>
+                                                <td class="text-right">
+
+                                                    <a href="#" class="btn btn-white btn-sm">
+                    <i class="material-icons md-14 align-middle">chevron_right</i>
+                  </a>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><a href="#">#889</a></td>
+                                                <td>
+                                                    <a href="#" class="text-color">Payment System Configurations </a><br/> by <a href="#">Tara Knows</a>
+                                                </td>
+                                                <td class="text-muted" style="width:180px">
+                                                    Jul 03, 2017
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="badge badge-warning text-uppercase">on going</div>
+                                                </td>
+                                                <td class="text-right">
+
+                                                    <a href="#" class="btn btn-white btn-sm">
+                    <i class="material-icons md-14 align-middle">chevron_right</i>
+                  </a>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><a href="#">#220</a></td>
+                                                <td>
+                                                    <a href="#" class="text-color">Style Cleanup </a><br/> by <a href="#">Karen Smith</a>
+                                                </td>
+                                                <td class="text-muted" style="width:180px">
+                                                    Jul 02, 2017
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="badge badge-success text-uppercase">resolved</div>
+                                                </td>
+                                                <td class="text-right">
+
+                                                    <a href="#" class="btn btn-white btn-sm">
+                    <i class="material-icons md-14 align-middle">chevron_right</i>
+                  </a>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><a href="#">#3084</a></td>
+                                                <td>
+                                                    <a href="#" class="text-color">Front-End Refactoring </a><br/> by <a href="#">Andrew Robles</a>
+                                                </td>
+                                                <td class="text-muted" style="width:180px">
+                                                    Jul 24, 2017
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="badge badge-danger text-uppercase">canceled</div>
+                                                </td>
+                                                <td class="text-right">
+
+                                                    <a href="#" class="btn btn-white btn-sm">
+                    <i class="material-icons md-14 align-middle">chevron_right</i>
+                  </a>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><a href="#">#2062</a></td>
+                                                <td>
+                                                    <a href="#" class="text-color">Back End Refactoring </a><br/> by <a href="#">John Smith</a>
+                                                </td>
+                                                <td class="text-muted" style="width:180px">
+                                                    Jul 20, 2017
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="badge badge-primary text-uppercase">pending</div>
+                                                </td>
+                                                <td class="text-right">
+
+                                                    <a href="#" class="btn btn-white btn-sm">
+                    <i class="material-icons md-14 align-middle">chevron_right</i>
+                  </a>
+
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">
+                                        Event Calendar
+                                    </h4>
+                                </div>
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card card-tasks">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-4 text-md-left align-self-center">
+                                            <h4 class="card-title mr-auto">
+                                                Tasks
+                                            </h4>
+                                        </div>
+                                        <div class="col-md-8 d-flex justify-content-md-end">
+                                            <button class="btn btn-faded btn-sm mr-1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="material-icons align-bottom md-18">filter_list</i>
+            <span>FILTER</span>
+          </button>
+                                            <div class="dropdown-menu">
+                                                <h6 class="dropdown-header">Sort By</h6>
+                                                <a class="dropdown-item" href="#">Complete</a>
+                                                <a class="dropdown-item" href="#">Incomplete</a>
+                                                <a class="dropdown-item" href="#">Due Date</a>
+                                            </div>
+                                            <a href="#" class="btn btn-white btn-sm" data-toggle="modal" data-target="#newTaskModal">
+            <i class="material-icons align-bottom md-18">add</i>
+            Add Task
+          </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-group list-group-flush">
+
+                                    <li class="list-group-item list-group-item-action">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-6">
+                                                <i class="material-icons md-18 text-muted align-middle mr-1">check_circle</i>
+                                                <span>Add content on lessons</span>
+                                            </div>
+                                            <div class="col-lg-6 text-md-right">
+                                                <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-1" width="30" alt="">
+                                                <span class="mr-1">20 Jul</span>
+                                                <span class="badge badge-info">Request</span>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-6">
+                                                <i class="material-icons md-18 text-muted align-middle mr-1">check_circle</i>
+                                                <span>Fix dropdowns in navbars</span>
+                                            </div>
+                                            <div class="col-lg-6 text-md-right">
+                                                <img src="assets/images/avatars/kyle-broad-29486.jpg" class="img-fluid rounded-circle mr-1" width="30" alt="">
+                                                <span class="mr-1">8 Oct</span>
+                                                <span class="badge badge-danger">Bug</span>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-6">
+                                                <i class="material-icons md-18 text-muted align-middle mr-1">check_circle</i>
+                                                <span>Add new sidebar to the right</span>
+                                            </div>
+                                            <div class="col-lg-6 text-md-right">
+                                                <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-1" width="30" alt="">
+                                                <span class="mr-1">11 Oct</span>
+                                                <span class="badge badge-info">Request</span>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-6">
+                                                <i class="material-icons md-18 text-muted align-middle mr-1">check_circle</i>
+                                                <span>Create Dashboard for administrative tasks</span>
+                                            </div>
+                                            <div class="col-lg-6 text-md-right">
+                                                <img src="assets/images/avatars/james-garcia-76433.jpg" class="img-fluid rounded-circle mr-1" width="30" alt="">
+                                                <span class="mr-1">20 Oct</span>
+                                                <span class="badge badge-primary">feature</span>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-center justify-content-end">
+                                    <h4 class="card-title mr-auto">
+                                        Visitors
+                                    </h4>
+                                    <div class="dropdown">
+                                        <a class="btn btn-faded dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Today
+        </a>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item active" href="#">Today</a>
+                                            <a class="dropdown-item" href="#">Last Week</a>
+                                            <a class="dropdown-item" href="#">Last Month</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="media align-items-center">
+                                        <div class="doughnut-chart-wrapper mr-1" style="width:150px">
+                                            <canvas id="visitors-chart" width="150" height="150"></canvas>
+                                        </div>
+                                        <div class="media-body align-items-center">
+                                            <ul class="list-unstyled">
+                                                <li class="d-flex align-items-center">
+                                                    <i class="material-icons text-primary md-18 mr-1">lens</i>
+                                                    <span>USA</span>
+                                                </li>
+                                                <li class="d-flex align-items-center">
+                                                    <i class="material-icons text-warning md-18 mr-1">lens</i>
+                                                    <span>France</span>
+                                                </li>
+                                                <li class="d-flex align-items-center">
+                                                    <i class="material-icons text-danger md-18 mr-1">lens</i>
+                                                    <span>Germany</span>
+                                                </li>
+                                                <li class="d-flex align-items-center">
+                                                    <i class="material-icons text-success md-18 mr-1">lens</i>
+                                                    <span>Romania</span>
+                                                </li>
+                                                <li class="d-flex align-items-center">
+                                                    <i class="material-icons text-blue md-18 mr-1">lens</i>
+                                                    <span>Others</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Direct Email</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <div class="input-group input-group--inline">
+                                            <span class="input-group-addon"><i class="material-icons">person</i></span>
+                                            <input type="text" id="email_to" placeholder="To" class="form-control">
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group input-group--inline">
+                                            <span class="input-group-addon"><i class="material-icons">description</i></span>
+                                            <input type="text" id="subject" placeholder="Subject" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea id="message" cols="30" rows="7" placeholder="Message" class="form-control"></textarea>
+                                    </div>
+                                    <button class="btn btn-faded float-right">
+        <i class="material-icons md-18 align-middle">send</i>
+        <span class="align-middle">Send</span>
+      </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-center justify-content-between">
+                                    <div class="card-title">
+                                        Active Users
+                                    </div>
+                                    <a href="#" class="text-muted" data-toggle="tooltip" data-placement="bottom" title="Refresh">
+        <i class="material-icons align-middle md-18">sync</i>
+      </a>
+                                </div>
+                                <ul class="list-group list-group-flush">
+
+                                    <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <i class="material-icons md-14 align-middle mr-2 text-success">lens</i>
+                                            <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">Andrew Robles</a><br/>
+                                                <small class="text-muted">active now</small>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-white btn-sm dropdown-toggle dropdown-no-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons align-middle md-18">chevron_right</i>
+            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                <h6 class="dropdown-header">Assignments</h6>
+                                                <a class="dropdown-item" href="#">Completed</a>
+                                                <a class="dropdown-item" href="#">Incompleted</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <i class="material-icons md-14 align-middle mr-2 text-success">lens</i>
+                                            <img src="assets/images/avatars/kyle-broad-29486.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">Tara Knows</a><br/>
+                                                <small class="text-muted">active now</small>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-white btn-sm dropdown-toggle dropdown-no-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons align-middle md-18">chevron_right</i>
+            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                <h6 class="dropdown-header">Assignments</h6>
+                                                <a class="dropdown-item" href="#">Completed</a>
+                                                <a class="dropdown-item" href="#">Incompleted</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <i class="material-icons md-14 align-middle mr-2 text-success">lens</i>
+                                            <img src="assets/images/avatars/foto-sushi-128246.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">Mark Ups</a><br/>
+                                                <small class="text-muted">active now</small>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-white btn-sm dropdown-toggle dropdown-no-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons align-middle md-18">chevron_right</i>
+            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                <h6 class="dropdown-header">Assignments</h6>
+                                                <a class="dropdown-item" href="#">Completed</a>
+                                                <a class="dropdown-item" href="#">Incompleted</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <i class="material-icons md-14 align-middle mr-2 text-muted">lens</i>
+                                            <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">Steven Short</a><br/>
+                                                <small class="text-muted">active 8m ago</small>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-white btn-sm dropdown-toggle dropdown-no-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons align-middle md-18">chevron_right</i>
+            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                <h6 class="dropdown-header">Assignments</h6>
+                                                <a class="dropdown-item" href="#">Completed</a>
+                                                <a class="dropdown-item" href="#">Incompleted</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <i class="material-icons md-14 align-middle mr-2 text-muted">lens</i>
+                                            <img src="assets/images/avatars/james-garcia-76433.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">Karen Smith</a><br/>
+                                                <small class="text-muted">active 46m ago</small>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-white btn-sm dropdown-toggle dropdown-no-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons align-middle md-18">chevron_right</i>
+            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                <h6 class="dropdown-header">Assignments</h6>
+                                                <a class="dropdown-item" href="#">Completed</a>
+                                                <a class="dropdown-item" href="#">Incompleted</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                                        <div class="media align-items-center">
+                                            <i class="material-icons md-14 align-middle mr-2 text-muted">lens</i>
+                                            <img src="assets/images/avatars/nathan-fertig-67862.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">John Smith</a><br/>
+                                                <small class="text-muted">active 4h ago</small>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-white btn-sm dropdown-toggle dropdown-no-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons align-middle md-18">chevron_right</i>
+            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                <h6 class="dropdown-header">Assignments</h6>
+                                                <a class="dropdown-item" href="#">Completed</a>
+                                                <a class="dropdown-item" href="#">Incompleted</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card card-social card-facebook">
+                                <div class="card-body">
+                                    <a href="#">
+      <svg viewBox="0 0 16 16" width="30%" style="fill: currentColor;" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M15.117 0H.883C.395 0 0 .395 0 .883v14.234c0 .488.395.883.883.883h7.663V9.804H6.46V7.39h2.086V5.607c0-2.066 1.262-3.19 3.106-3.19.883 0 1.642.064 1.863.094v2.16h-1.28c-1 0-1.195.48-1.195 1.18v1.54h2.39l-.31 2.42h-2.08V16h4.077c.488 0 .883-.395.883-.883V.883C16 .395 15.605 0 15.117 0" /></svg>
+      <span class="mt-1 d-block">
+        45k
+      </span>
+    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-social card-twitter">
+                                <div class="card-body">
+                                    <a href="#">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" width="30%" style="fill: currentColor;" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z"/></svg>
+      <span class="mt-1 d-block">
+        10k
+      </span>
+    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-social card-instagram">
+                                <div class="card-body">
+                                    <a href="#">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" width="30%" style="fill: currentColor;" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C5.827 0 5.555.01 4.702.048 3.85.088 3.27.222 2.76.42c-.526.204-.973.478-1.417.923-.445.444-.72.89-.923 1.417-.198.51-.333 1.09-.372 1.942C.008 5.555 0 5.827 0 8s.01 2.445.048 3.298c.04.852.174 1.433.372 1.942.204.526.478.973.923 1.417.444.445.89.72 1.417.923.51.198 1.09.333 1.942.372.853.04 1.125.048 3.298.048s2.445-.01 3.298-.048c.852-.04 1.433-.174 1.942-.372.526-.204.973-.478 1.417-.923.445-.444.72-.89.923-1.417.198-.51.333-1.09.372-1.942.04-.853.048-1.125.048-3.298s-.01-2.445-.048-3.298c-.04-.852-.174-1.433-.372-1.942-.204-.526-.478-.973-.923-1.417-.444-.445-.89-.72-1.417-.923-.51-.198-1.09-.333-1.942-.372C10.445.008 10.173 0 8 0zm0 1.44c2.136 0 2.39.01 3.233.048.78.036 1.203.166 1.485.276.374.145.64.318.92.598.28.28.453.546.598.92.11.282.24.705.276 1.485.038.844.047 1.097.047 3.233s-.01 2.39-.05 3.233c-.04.78-.17 1.203-.28 1.485-.15.374-.32.64-.6.92-.28.28-.55.453-.92.598-.28.11-.71.24-1.49.276-.85.038-1.1.047-3.24.047s-2.39-.01-3.24-.05c-.78-.04-1.21-.17-1.49-.28-.38-.15-.64-.32-.92-.6-.28-.28-.46-.55-.6-.92-.11-.28-.24-.71-.28-1.49-.03-.84-.04-1.1-.04-3.23s.01-2.39.04-3.24c.04-.78.17-1.21.28-1.49.14-.38.32-.64.6-.92.28-.28.54-.46.92-.6.28-.11.7-.24 1.48-.28.85-.03 1.1-.04 3.24-.04zm0 2.452c-2.27 0-4.108 1.84-4.108 4.108 0 2.27 1.84 4.108 4.108 4.108 2.27 0 4.108-1.84 4.108-4.108 0-2.27-1.84-4.108-4.108-4.108zm0 6.775c-1.473 0-2.667-1.194-2.667-2.667 0-1.473 1.194-2.667 2.667-2.667 1.473 0 2.667 1.194 2.667 2.667 0 1.473-1.194 2.667-2.667 2.667zm5.23-6.937c0 .53-.43.96-.96.96s-.96-.43-.96-.96.43-.96.96-.96.96.43.96.96z"/></svg>
+      <span class="mt-1 d-block">
+        19,5k
+      </span>
+    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-social card-dribbble">
+                                <div class="card-body">
+                                    <a href="#">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" width="30%" style="fill:currentColor;" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 16c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm6.747-6.905c-.234-.074-2.115-.635-4.257-.292.894 2.456 1.258 4.456 1.328 4.872 1.533-1.037 2.624-2.68 2.93-4.58zM10.67 14.3c-.102-.6-.5-2.688-1.46-5.18l-.044.014C5.312 10.477 3.93 13.15 3.806 13.4c1.158.905 2.614 1.444 4.194 1.444.947 0 1.85-.194 2.67-.543zm-7.747-1.72c.155-.266 2.03-3.37 5.555-4.51.09-.03.18-.056.27-.08-.173-.39-.36-.778-.555-1.16-3.413 1.02-6.723.977-7.023.97l-.003.208c0 1.755.665 3.358 1.756 4.57zM1.31 6.61c.307.005 3.122.017 6.318-.832-1.132-2.012-2.353-3.705-2.533-3.952-1.912.902-3.34 2.664-3.784 4.785zM6.4 1.368c.188.253 1.43 1.943 2.548 4 2.43-.91 3.46-2.293 3.582-2.468C11.323 1.827 9.736 1.176 8 1.176c-.55 0-1.087.066-1.6.19zm6.89 2.322c-.145.194-1.29 1.662-3.816 2.694.16.325.31.656.453.99.05.117.1.235.147.352 2.274-.286 4.533.172 4.758.22-.015-1.613-.59-3.094-1.543-4.257z"/></svg>
+      <span class="mt-1 d-block">
+        21,3k
+      </span>
+    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="card card-blog-posts">
+                                <div class="card-header d-flex align-items-center justify-content-between">
+                                    <h4 class="card-title">Latest Blog Posts</h4>
+                                    <div class="dropdown show">
+                                        <a class="dropdown-toggle dropdown-no-caret text-muted" href="#" id="blogPosts" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="material-icons align-middle md-18">settings</i>
+        </a>
+
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="blogPosts">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-lg-6">
+                                            <div class="media align-items-center">
+                                                <img class="blog-thumbnail d-none d-sm-block mr-2" width="150" src="assets/images/fabian-irsara-92113.jpg" alt="Blog post image">
+                                                <div class="media-body">
+                                                    <a href="#">
+                                                        <p class="mb-0">
+                                                            Mobile UI
+                                                        </p>
+                                                    </a>
+                                                    <p class="text-muted mb-1">
+                                                        <span>Steven Doe</span>
+                                                        <span class="mx-1">|</span>
+                                                        <span>3 hrs ago</span>
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit...
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6">
+                                            <div class="media align-items-center">
+                                                <img class="blog-thumbnail d-none d-sm-block mr-2" width="150" src="assets/images/luke-chesser-2347.jpg" alt="Blog post image">
+                                                <div class="media-body">
+                                                    <a href="#">
+                                                        <p class="mb-0">
+                                                            DevOps Basics
+                                                        </p>
+                                                    </a>
+                                                    <p class="text-muted mb-1">
+                                                        <span>Kevin Short</span>
+                                                        <span class="mx-1">|</span>
+                                                        <span>15 hrs ago</span>
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit...
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-lg-6">
+                                            <div class="media align-items-center">
+                                                <img class="blog-thumbnail d-none d-sm-block mr-2" width="150" src="assets/images/thought-catalog-214785.jpg" alt="Blog post image">
+                                                <div class="media-body">
+                                                    <a href="#">
+                                                        <p class="mb-0">
+                                                            New VueJS Launch
+                                                        </p>
+                                                    </a>
+                                                    <p class="text-muted mb-1">
+                                                        <span>Andrew Robles</span>
+                                                        <span class="mx-1">|</span>
+                                                        <span>22 hrs ago</span>
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit...
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6">
+                                            <div class="media align-items-center">
+                                                <img class="blog-thumbnail d-none d-sm-block mr-2" width="150" src="assets/images/linkedin-sales-navigator-402873.jpg" alt="Blog post image">
+                                                <div class="media-body">
+                                                    <a href="#">
+                                                        <p class="mb-0">
+                                                            E-Commerce Analytics
+                                                        </p>
+                                                    </a>
+                                                    <p class="text-muted mb-1">
+                                                        <span>Tara Smith</span>
+                                                        <span class="mx-1">|</span>
+                                                        <span>1 day ago</span>
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit...
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Weather</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h4 class="mb-0">Today</h4>
+                                    <p class="text-muted">Wednesday, October 18, 2017</p>
+                                    <h4 class="text-primary m-0">Florida, USA</h4>
+                                    <!-- WEATHER ICON RAINY-2.svg -->
+                                    <!-- (c) ammap.com | SVG weather icons -->
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewbox="0 0 64 64">
+            <defs>
+                <filter id="blur" width="200%" height="200%">
+                    <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+                    <feOffset dx="0" dy="4" result="offsetblur"/>
+                    <feComponentTransfer>
+                        <feFuncA type="linear" slope="0.05"/>
+                    </feComponentTransfer>
+                    <feMerge>
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+            <g filter="url(#blur)" id="rainy-2">
+                <g transform="translate(20,10)">
+                    <g transform="translate(0,16)">
+                        <g class="am-weather-sun">
+                            <g>
+                                <line fill="none" stroke="orange" stroke-linecap="round" stroke-width="2" transform="translate(0,9)" x1="0" x2="0" y1="0" y2="3"/>
+                            </g>
+                            <g transform="rotate(45)">
+                                <line fill="none" stroke="orange" stroke-linecap="round" stroke-width="2" transform="translate(0,9)" x1="0" x2="0" y1="0" y2="3"/>
+                            </g>
+                            <g transform="rotate(90)">
+                                <line fill="none" stroke="orange" stroke-linecap="round" stroke-width="2" transform="translate(0,9)" x1="0" x2="0" y1="0" y2="3"/>
+                            </g>
+                            <g transform="rotate(135)">
+                                <line fill="none" stroke="orange" stroke-linecap="round" stroke-width="2" transform="translate(0,9)" x1="0" x2="0" y1="0" y2="3"/>
+                            </g>
+                            <g transform="rotate(180)">
+                                <line fill="none" stroke="orange" stroke-linecap="round" stroke-width="2" transform="translate(0,9)" x1="0" x2="0" y1="0" y2="3"/>
+                            </g>
+                            <g transform="rotate(225)">
+                                <line fill="none" stroke="orange" stroke-linecap="round" stroke-width="2" transform="translate(0,9)" x1="0" x2="0" y1="0" y2="3"/>
+                            </g>
+                            <g transform="rotate(270)">
+                                <line fill="none" stroke="orange" stroke-linecap="round" stroke-width="2" transform="translate(0,9)" x1="0" x2="0" y1="0" y2="3"/>
+                            </g>
+                            <g transform="rotate(315)">
+                                <line fill="none" stroke="orange" stroke-linecap="round" stroke-width="2" transform="translate(0,9)" x1="0" x2="0" y1="0" y2="3"/>
+                            </g>
+                        </g>
+                        <circle cx="0" cy="0" fill="orange" r="5" stroke="orange" stroke-width="2"/>
+                    </g>
+                    <g>
+                        <path d="M47.7,35.4c0-4.6-3.7-8.2-8.2-8.2c-1,0-1.9,0.2-2.8,0.5c-0.3-3.4-3.1-6.2-6.6-6.2c-3.7,0-6.7,3-6.7,6.7c0,0.8,0.2,1.6,0.4,2.3    c-0.3-0.1-0.7-0.1-1-0.1c-3.7,0-6.7,3-6.7,6.7c0,3.6,2.9,6.6,6.5,6.7l17.2,0C44.2,43.3,47.7,39.8,47.7,35.4z" fill="#000" stroke="white" stroke-linejoin="round" stroke-width="1.2" transform="translate(-20,-11)" class="am-weather-cloud"/>
+                    </g>
+                </g>
+                <g transform="translate(37,45), rotate(10)">
+                    <line class="am-weather-rain-1" fill="none" stroke="#000" stroke-dasharray="4,7" stroke-linecap="round" stroke-width="2" transform="translate(-6,1)" x1="0" x2="0" y1="0" y2="8" />
+                </g>
+            </g>
+        </svg>
+                                    <!-- // WEATHER ICON -->
+                                    <div class="lead">
+                                        21° C
+                                    </div>
+                                    <span>Partly Cloudy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-deck">
+                        <div class="card">
+                            <img src="assets/images/thought-catalog-214785.jpg" class="card-img" alt="">
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <div class="author-img">
+                                        <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle" alt="">
+                                    </div>
+                                    <div class="author-info">
+                                        <p class="h3 mb-0">Andrew Robles</p>
+                                        <p class="mb-0">Senior Front-End Developer</p>
+                                    </div>
+                                </div>
+                                <p class="lead">UI Design &amp; Code.</p>
+                                <p class="card-text">I want to talk about two things that are quite important to me. These are love and one my personal inadequacies. The thing is that I’m quite fond of love...</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between">
+                                <a href="#" class="social social-facebook">
+              <svg viewBox="0 0 16 16" width="20%" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M15.117 0H.883C.395 0 0 .395 0 .883v14.234c0 .488.395.883.883.883h7.663V9.804H6.46V7.39h2.086V5.607c0-2.066 1.262-3.19 3.106-3.19.883 0 1.642.064 1.863.094v2.16h-1.28c-1 0-1.195.48-1.195 1.18v1.54h2.39l-.31 2.42h-2.08V16h4.077c.488 0 .883-.395.883-.883V.883C16 .395 15.605 0 15.117 0"/></svg>
+            </a>
+                                <a href="#" class="social social-twitter">
+              <svg viewBox="0 0 16 16" width="20%" xmlns="http://www.w3.org/2000/svg"  clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z"/></svg>
+            </a>
+                                <a href="#" class="social social-instagram">
+              <svg viewBox="0 0 16 16" width="20%" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C5.827 0 5.555.01 4.702.048 3.85.088 3.27.222 2.76.42c-.526.204-.973.478-1.417.923-.445.444-.72.89-.923 1.417-.198.51-.333 1.09-.372 1.942C.008 5.555 0 5.827 0 8s.01 2.445.048 3.298c.04.852.174 1.433.372 1.942.204.526.478.973.923 1.417.444.445.89.72 1.417.923.51.198 1.09.333 1.942.372.853.04 1.125.048 3.298.048s2.445-.01 3.298-.048c.852-.04 1.433-.174 1.942-.372.526-.204.973-.478 1.417-.923.445-.444.72-.89.923-1.417.198-.51.333-1.09.372-1.942.04-.853.048-1.125.048-3.298s-.01-2.445-.048-3.298c-.04-.852-.174-1.433-.372-1.942-.204-.526-.478-.973-.923-1.417-.444-.445-.89-.72-1.417-.923-.51-.198-1.09-.333-1.942-.372C10.445.008 10.173 0 8 0zm0 1.44c2.136 0 2.39.01 3.233.048.78.036 1.203.166 1.485.276.374.145.64.318.92.598.28.28.453.546.598.92.11.282.24.705.276 1.485.038.844.047 1.097.047 3.233s-.01 2.39-.05 3.233c-.04.78-.17 1.203-.28 1.485-.15.374-.32.64-.6.92-.28.28-.55.453-.92.598-.28.11-.71.24-1.49.276-.85.038-1.1.047-3.24.047s-2.39-.01-3.24-.05c-.78-.04-1.21-.17-1.49-.28-.38-.15-.64-.32-.92-.6-.28-.28-.46-.55-.6-.92-.11-.28-.24-.71-.28-1.49-.03-.84-.04-1.1-.04-3.23s.01-2.39.04-3.24c.04-.78.17-1.21.28-1.49.14-.38.32-.64.6-.92.28-.28.54-.46.92-.6.28-.11.7-.24 1.48-.28.85-.03 1.1-.04 3.24-.04zm0 2.452c-2.27 0-4.108 1.84-4.108 4.108 0 2.27 1.84 4.108 4.108 4.108 2.27 0 4.108-1.84 4.108-4.108 0-2.27-1.84-4.108-4.108-4.108zm0 6.775c-1.473 0-2.667-1.194-2.667-2.667 0-1.473 1.194-2.667 2.667-2.667 1.473 0 2.667 1.194 2.667 2.667 0 1.473-1.194 2.667-2.667 2.667zm5.23-6.937c0 .53-.43.96-.96.96s-.96-.43-.96-.96.43-.96.96-.96.96.43.96.96z"/></svg>
+            </a>
+                                <a href="#" class="social social-dribbble">
+              <svg viewBox="0 0 16 16" width="20%" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 16c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm6.747-6.905c-.234-.074-2.115-.635-4.257-.292.894 2.456 1.258 4.456 1.328 4.872 1.533-1.037 2.624-2.68 2.93-4.58zM10.67 14.3c-.102-.6-.5-2.688-1.46-5.18l-.044.014C5.312 10.477 3.93 13.15 3.806 13.4c1.158.905 2.614 1.444 4.194 1.444.947 0 1.85-.194 2.67-.543zm-7.747-1.72c.155-.266 2.03-3.37 5.555-4.51.09-.03.18-.056.27-.08-.173-.39-.36-.778-.555-1.16-3.413 1.02-6.723.977-7.023.97l-.003.208c0 1.755.665 3.358 1.756 4.57zM1.31 6.61c.307.005 3.122.017 6.318-.832-1.132-2.012-2.353-3.705-2.533-3.952-1.912.902-3.34 2.664-3.784 4.785zM6.4 1.368c.188.253 1.43 1.943 2.548 4 2.43-.91 3.46-2.293 3.582-2.468C11.323 1.827 9.736 1.176 8 1.176c-.55 0-1.087.066-1.6.19zm6.89 2.322c-.145.194-1.29 1.662-3.816 2.694.16.325.31.656.453.99.05.117.1.235.147.352 2.274-.286 4.533.172 4.758.22-.015-1.613-.59-3.094-1.543-4.257z"/></svg>
+            </a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Chat</h4>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="text-center text-muted mb-3">Fri, 20 Oct</div>
+                                <div class="media align-items-center mb-3">
+                                    <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                    <div class="media-body">
+                                        <div class="chat-message chat-message__in">
+                                            Hey Adrian! How are you doing?
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center mb-3">
+                                    <div class="media-body">
+                                        <div class="text-right">
+                                            <div class="chat-message chat-message__out">
+                                                Hi there! I'm fine...just getting some work done. How about you?
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center mb-3">
+                                    <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                    <div class="media-body">
+                                        <div class="chat-message chat-message__in">
+                                            Awesome! Just got back from my 2 weeks vacation and I had such a great time.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center mb-1">
+                                    <div class="media-body">
+                                        <div class="text-right">
+                                            <div class="chat-message chat-message__out">
+                                                That's great, I'm glad. I have a suprise for you when you'll get back to the office.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center mb-1">
+                                    <div class="media-body">
+                                        <div class="text-right">
+                                            <div class="chat-message chat-message__out">
+                                                It's about a new project that I started.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center mb-3">
+                                    <div class="media-body">
+                                        <div class="text-right">
+                                            <div class="chat-message chat-message__out">
+                                                Hope you'll like it.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center mb-1">
+                                    <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                    <div class="media-body">
+                                        <div class="chat-message chat-message__in">
+                                            That's great news!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center mb-3">
+                                    <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                                    <div class="media-body">
+                                        <div class="chat-message chat-message__in">
+                                            See you soon
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group input-group--inline mt-auto">
+                                    <div class="input-group-addon">
+                                        <i class="material-icons">comment</i>
+                                    </div>
+                                    <input type="text" class="form-control" name="chat-message" placeholder="Type a message...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card card-body card-profile align-items-center justify-content-center">
+                                <img src="assets/images/avatars/nina-strehl-140734.jpg" class="img-fluid rounded-circle mr-2 mb-1" width="100" alt="">
+                                <p class="h3 mb-0">John Strehl</p>
+                                <p>Senior Front-End Developer</p>
+                                <div class="row align-items-center text-center mb-3">
+                                    <div class="col-lg-6 text-md-right">
+                                        <span class="badge badge-warning mr-2">JavaScript</span>
+                                        <span class="badge badge-primary mr-2">Bootstrap</span>
+                                    </div>
+                                    <div class="col-lg-6 text-md-left">
+                                        <span class="badge badge-danger mr-2">PhotoShop</span>
+                                        <span class="badge badge-info mr-2">HTML</span>
+                                    </div>
+                                </div>
+                                <a href="profile.html" class="btn btn-faded align-middle">
+
+          <i class="material-icons md-18 align-middle">account_box</i>
+          <span class="align-middle">View Profile</span>
+
+      </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-center justify-content-between">
+                                    <h4 class="card-title">To Do List</h4>
+                                    <a href="#" class="dropdown-toggle dropdown-no-caret" id="toDoList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="material-icons md-18 align-middle text-muted">settings</i>
+        </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="toDoList">
+                                        <h6 class="dropdown-header">Selected Tasks</h6>
+                                        <a class="dropdown-item" href="#">Mark as complete</a>
+                                        <a class="dropdown-item" href="#">Mark as incomplete</a>
+                                        <a class="dropdown-item" href="#">Remove</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Add task in list..." aria-label="Add task in list...">
+                                        <span class="input-group-btn">
+            <button class="btn btn-link-color" type="button"><i class="material-icons md-18 align-middle">add</i></button>
+          </span>
+                                    </div>
+                                </div>
+                                <ul class="list-group list-group-flush">
+
+                                    <li class="list-group-item list-group-item-action">
+                                        <label class="custom-control custom-checkbox align-items-center m-0">
+              <input type="checkbox" class="custom-control-input">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Discuss future development strategy</span>
+            </label>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action">
+                                        <label class="custom-control custom-checkbox align-items-center m-0">
+              <input type="checkbox" class="custom-control-input">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Sort employees revenues</span>
+            </label>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action">
+                                        <label class="custom-control custom-checkbox align-items-center m-0">
+              <input type="checkbox" class="custom-control-input">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Review latest app</span>
+            </label>
+                                    </li>
+
+                                    <li class="list-group-item list-group-item-action">
+                                        <label class="custom-control custom-checkbox align-items-center m-0">
+              <input type="checkbox" class="custom-control-input">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Assign tasks</span>
+            </label>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Rankings</h4>
+                                </div>
+                                <ul class="list-group list-group-flush">
+
+                                    <li class="list-group-item">
+                                        <div class="media align-items-center">
+                                            <span class="lead mr-1">1.</span>
+                                            <img src="assets/images/avatars/nina-strehl-140734.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">John Mix</a><br/>
+                                                <small class="text-muted">54 done</small>
+                                            </div>
+                                            <div class="lead">
+                                                <strong class="align-middle">98%</strong> <i class="material-icons md-18 align-middle text-success">arrow_upward</i>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="media align-items-center">
+                                            <span class="lead mr-1">2.</span>
+                                            <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">Steven Short</a><br/>
+                                                <small class="text-muted">11 done</small>
+                                            </div>
+                                            <div class="lead">
+                                                <strong class="align-middle">33%</strong> <i class="material-icons md-18 align-middle text-danger">arrow_downward</i>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="media align-items-center">
+                                            <span class="lead mr-1">3.</span>
+                                            <img src="assets/images/avatars/foto-sushi-128246.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">Mark Ups</a><br/>
+                                                <small class="text-muted">1 done</small>
+                                            </div>
+                                            <div class="lead">
+                                                <strong class="align-middle">8%</strong> <i class="material-icons md-18 align-middle text-danger">arrow_downward</i>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="media align-items-center">
+                                            <span class="lead mr-1">4.</span>
+                                            <img src="assets/images/avatars/kyle-broad-29486.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">Tara Knows</a><br/>
+                                                <small class="text-muted">35 done</small>
+                                            </div>
+                                            <div class="lead">
+                                                <strong class="align-middle">86%</strong> <i class="material-icons md-18 align-middle text-success">arrow_upward</i>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="media align-items-center">
+                                            <span class="lead mr-1">5.</span>
+                                            <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="30" alt="">
+                                            <div class="media-body lh-12">
+                                                <a href="#">Lucas Kane</a><br/>
+                                                <small class="text-muted">25 done</small>
+                                            </div>
+                                            <div class="lead">
+                                                <strong class="align-middle">86%</strong> <i class="material-icons md-18 align-middle text-success">arrow_upward</i>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- drawer -->
+            <div class="mdk-drawer js-mdk-drawer" id="default-drawer">
+                <div class="mdk-drawer__content">
+                    <div class="mdk-drawer__inner" data-simplebar data-simplebar-force-enabled="true">
+
+                        <nav class="drawer  drawer--light">
+                            <div class="drawer-spacer drawer-spacer-border">
+                                <div class="media align-items-center">
+                                    <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="40" alt="">
+                                    <div class="media-body" style="line-height: 1.2">
+                                        <a href="green-profile.html"><strong>Andrew Robles</strong></a>
+                                        <div>Site Manager</div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle dropdown-clear-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="material-icons">more_vert</i>
+        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="green-profile.html" class="dropdown-item dropdown-item-action ">View Profile</a>
+                                            <a href="green-account.html" class="dropdown-item dropdown-item-action ">Edit Account</a>
+                                            <a href="#" class="dropdown-item dropdown-item-action">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- DROPDOWN -->
+                            <div class="drawer-spacer">
+                                <div class="dropdown">
+                                    <button class="btn btn-block dropdown-toggle text-left text-white" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span>Page Layouts</span>
+      </button>
+                                    <div class="dropdown-menu w-100">
+                                        <a href="green-index.html" class="dropdown-item dropdown-item-action ">Default Layout (fluid)</a>
+                                        <a href="green-index-drawer-light.html" class="dropdown-item dropdown-item-action  active ">Sidebar - Light Color</a>
+                                        <a href="green-index-navbar-primary.html" class="dropdown-item dropdown-item-action ">Navbar - Primary</a>
+                                        <a href="green-index-drawer-right.html" class="dropdown-item dropdown-item-action ">Layout Sidebar Right</a>
+                                        <a href="green-index-fixed.html" class="dropdown-item dropdown-item-action ">Fixed Layout</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- HEADING -->
+                            <div class="drawer-heading">
+                                Menu
+                            </div>
+                            <!-- MENU -->
+                            <ul class="drawer-menu" id="mainMenu" data-children=".drawer-submenu">
+                                <li class="drawer-menu-item drawer-submenu">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#dashboardMenu" aria-controls="dashboardMenu" aria-expanded="true">
+        <i class="material-icons">home</i>
+        <span class="drawer-menu-text"> Dashboard</span>
+      </a>
+                                    <ul class="collapse show" id="dashboardMenu">
+                                        <li class="drawer-menu-item "><a href="green-index.html">Dashboard 1</a></li>
+                                        <li class="drawer-menu-item "><a href="green-index-second.html">Dashboard 2</a></li>
+                                        <li class="drawer-menu-item "><a href="green-index-third.html">Dashboard 3</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drawer-menu-item drawer-submenu">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#appsMenu" data-target="#appsMenu" aria-controls="appsMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">view_quilt</i>
+        <span class="drawer-menu-text"> Apps</span>
+      </a>
+                                    <ul class="collapse " id="appsMenu">
+                                        <li class="drawer-menu-item "><a href="green-apps-email.html">Email</a></li>
+                                        <li class="drawer-menu-item "><a href="green-apps-chat.html">Chat</a></li>
+                                        <li class="drawer-menu-item "><a href="green-apps-clients.html">Clients</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drawer-menu-item drawer-submenu">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#uiMenu" aria-controls="uiMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">library_books</i>
+        <span class="drawer-menu-text">UI Components</span>
+      </a>
+                                    <ul class="collapse " id="uiMenu">
+                                        <li class="drawer-menu-item "><a href="green-ui-buttons.html">Buttons</a></li>
+                                        <li class="drawer-menu-item "><a href="green-ui-colors.html">Colors</a></li>
+                                        <li class="drawer-menu-item "><a href="green-ui-grid.html">Grid</a></li>
+                                        <li class="drawer-menu-item "><a href="green-ui-navs.html">Navs</a></li>
+                                        <li class="drawer-menu-item "><a href="green-ui-icons.html">Icons</a></li>
+                                        <li class="drawer-menu-item "><a href="green-ui-typography.html">Typography</a></li>
+                                        <li class="drawer-menu-item "><a href="green-ui-drag-drop.html">Drag &amp; Drop</a></li>
+                                        <li class="drawer-menu-item "><a href="green-ui-tables.html">Tables</a></li>
+                                        <li class="drawer-menu-item "><a href="green-ui-notifications.html">Notifications</a></li>
+                                        <li class="drawer-menu-item "><a href="green-ui-loaders.html">Loaders</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drawer-menu-item drawer-submenu">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#formsMenu" aria-controls="formsMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">text_format</i>
+        <span class="drawer-menu-text">Forms</span>
+      </a>
+                                    <ul class="collapse " id="formsMenu">
+                                        <li class="drawer-menu-item "><a href="green-form-controls.html">Form controls</a></li>
+                                        <li class="drawer-menu-item "><a href="green-checkboxes-radios.html">Checkboxes and Radios</a></li>
+                                        <li class="drawer-menu-item "><a href="green-switches-toggles.html">Switches and Toggles</a></li>
+                                        <li class="drawer-menu-item "><a href="green-form-layout.html">Layout Variations</a></li>
+                                        <li class="drawer-menu-item "><a href="green-validation.html">Validation</a></li>
+                                        <li class="drawer-menu-item "><a href="green-custom-forms.html">Custom Forms</a></li>
+                                        <li class="drawer-menu-item "><a href="green-text-editor.html">Text Editor</a></li>
+                                        <li class="drawer-menu-item "><a href="green-datepicker.html">Datepicker</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drawer-menu-item ">
+                                    <a href="green-events-calendar.html">
+        <i class="material-icons">event_note</i>
+        <span class="drawer-menu-text">Events Calendar</span>
+      </a>
+                                </li>
+                                <li class="drawer-menu-item ">
+                                    <a href="green-maps.html">
+        <i class="material-icons">language</i>
+        <span class="drawer-menu-text">Maps</span>
+      </a>
+                                </li>
+                                <li class="drawer-menu-item ">
+                                    <a href="green-charts.html">
+        <i class="material-icons">insert_chart</i>
+        <span class="drawer-menu-text">Charts</span>
+      </a>
+                                </li>
+                                <li class="drawer-menu-item drawer-submenu">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#pageMenu" aria-controls="pageMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">layers</i>
+        <span class="drawer-menu-text">Pages / Examples</span>
+      </a>
+                                    <ul class="collapse " id="pageMenu">
+                                        <li class="drawer-menu-item "><a href="green-tickets.html">Tickets</a></li>
+                                        <li class="drawer-menu-item "><a href="green-blog-post.html">Blog Post</a></li>
+                                        <li class="drawer-menu-item "><a href="green-profile.html">Profile</a></li>
+                                        <li class="drawer-menu-item "><a href="green-account.html">Account</a></li>
+                                        <li class="drawer-menu-item "><a href="green-emails-listing.html">Emails Listing</a></li>
+                                        <li class="drawer-menu-item "><a href="green-lessons.html">Lessons</a></li>
+                                        <li class="drawer-menu-item "><a href="green-lessons_second.html">Lessons 2</a></li>
+                                        <li class="drawer-menu-item "><a href="green-learning.html">Learning</a></li>
+                                        <li class="drawer-menu-item "><a href="green-activity-timeline.html">Activity Timeline</a></li>
+                                        <li class="drawer-menu-item "><a href="green-error.html">Error Page</a></li>
+                                        <li class="drawer-menu-item "><a href="green-cart.html">Shopping cart</a></li>
+                                        <li class="drawer-menu-item "><a href="green-invoice.html">Invoice</a></li>
+                                        <li class="drawer-menu-item "><a href="green-pricing-2.html">Pricing (New)</a></li>
+                                        <li class="drawer-menu-item "><a href="green-pricing.html">Pricing</a></li>
+                                        <li class="drawer-menu-item"><a href="green-signup.html">Sign Up</a></li>
+                                        <li class="drawer-menu-item"><a href="green-login.html">Login</a></li>
+                                        <li class="drawer-menu-item"><a href="green-forgot-password.html">Forgot Password</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <!-- HEADING -->
+                            <div class="drawer-heading">
+                                Activity
+                            </div>
+                            <!-- ACTIVITY -->
+                            <div class="list-group list-group-flush drawer-activity">
+                                <div class="list-group-item flex-column align-items-start active">
+                                    <div class="media">
+                                        <div class="list-dot d-flex align-self-center"></div>
+                                        <div class="media-body">
+                                            <a href="#"> <i class="material-icons align-middle">person</i> brian</a> left a comment on a ticket <a href="#">#1224</a> in milestone <a href="#">Initial Release</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <div class="media">
+                                        <div class="list-dot d-flex align-self-center"></div>
+                                        <div class="media-body">
+                                            <a href="#"> <i class="material-icons align-middle">person</i> steven</a> left a comment on a ticket <a href="#">#1225</a> in milestone <a href="#">Initial Release</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <div class="media">
+                                        <div class="list-dot d-flex align-self-center"></div>
+                                        <div class="media-body">
+                                            <a href="#"> <i class="material-icons align-middle">person</i> karen</a> left a comment on a ticket <a href="#">#283</a> in milestone <a href="#">Alpha Release</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <div class="media">
+                                        <div class="list-dot d-flex align-self-center"></div>
+                                        <div class="media-body">
+                                            <a href="#"> <i class="material-icons align-middle">person</i> themefy</a> left a comment on a ticket <a href="#">#285</a> in milestone <a href="#">Alpha Release</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- // END drawer-layout -->
+    </div>
+
+    <!-- jQuery -->
+    <script src="assets/vendor/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="assets/vendor/popper.js"></script>
+    <script src="assets/vendor/bootstrap.min.js"></script>
+
+    <!-- Simplebar -->
+    <!-- Used for adding a custom scrollbar to the drawer -->
+    <script src="assets/vendor/simplebar.js"></script>
+
+
+    <script src="assets/vendor/Chart.min.js"></script>
+    <script src="assets/vendor/moment.min.js"></script>
+    <script src="assets/vendor/dateformat.js"></script>
+    <script src="assets/vendor/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        window.theme = "green";
+    </script>
+    <script src="assets/js/color_variables.js"></script>
+    <script src="assets/js/app.js"></script>
+
+
+    <script src="assets/vendor/dom-factory.js"></script>
+    <!-- DOM Factory -->
+    <script src="assets/vendor/material-design-kit.js"></script>
+    <!-- MDK -->
+
+
+
+    <script>
+        (function() {
+            'use strict';
+
+            // Self Initialize DOM Factory Components
+            domFactory.handler.autoInit()
+
+            // Connect button(s) to drawer(s)
+            var sidebarToggle = Array.prototype.slice.call(document.querySelectorAll('[data-toggle="sidebar"]'))
+
+            sidebarToggle.forEach(function(toggle) {
+                toggle.addEventListener('click', function(e) {
+                    var selector = e.currentTarget.getAttribute('data-target') || '#default-drawer'
+                    var drawer = document.querySelector(selector)
+                    if (drawer) {
+                        drawer.mdkDrawer.toggle()
+                    }
+                })
+            })
+
+            //////////////////////////////////////////
+            // BREAK OUT OF ENVATO LIVE DEMO IFRAME //
+            //////////////////////////////////////////
+
+            window.top.location.hostname !== window.location.hostname && (window.top.location = window.location)
+
+        })();
+    </script>
+
+
+    <script src="assets/js/charts_index.js"></script>
+    <script src="assets/vendor/fullcalendar.min.js"></script>
+    <script src="assets/js/calendars.js"></script>
+    <script src="assets/vendor/bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/datepicker.js"></script>
+
+
+</body>
+
+
+<!-- Mirrored from demo.frontted.com/flow/120220181311/green-index-drawer-light.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 18 Jun 2018 21:56:02 GMT -->
+</html>
