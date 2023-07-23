@@ -1,0 +1,376 @@
+﻿@{
+    ViewBag.Title = "Roles ";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+
+<link type="text/css" href="assets/css/themes/default/app.css" rel="stylesheet">
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title - PHED BioData Correction</title>
+    <!-- Global stylesheets -->
+    <link rel="stylesheet" href="https://insight.phed.com.ng/Content/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="https://insight.phed.com.ng/Content/css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="https://insight.phed.com.ng/Content/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://insight.phed.com.ng/Content/css/font.css" type="text/css" />
+    <link rel="stylesheet" href="https://insight.phed.com.ng/Content/js/calendar/bootstrap_calendar.css" type="text/css" />
+    <link rel="stylesheet" href="https://insight.phed.com.ng/Content/css/app.css" type="text/css" />
+    <!-- /theme JS files -->
+    @*<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>*@
+    <link href="//cdn.jsdelivr.net/npm/jquery.fancytree@2.27/dist/skin-win8/ui.fancytree.min.css" rel="stylesheet">
+   
+    @*<script type="text/javascript" src="~/assets/js/plugins/trees/fancytree_childcounter.js"></script>
+    <script type="text/javascript" src="~/assets/js/core/app.js"></script>
+    <script type="text/javascript" src="~/assets/js/pages/extra_trees.js"></script>*@
+
+    <link href="https://insight.phed.com.ng/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+    <script src="https://insight.phed.com.ng/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+    <link type="text/css" href="https://insight.phed.com.ng/assets/css/themes/default/app.css" rel="stylesheet">
+</head>
+
+<body>
+    <div>
+        <input type="hidden" id="StaffSelectedMenu" />
+        <input type="hidden" id="Status" />
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Assign Roles</h4>
+            </div>
+            <div class="card-body">
+                <div class="panel registration-form">
+                    <div class="panel-body">
+                        <div id="tree" class="tree-checkbox-hierarchical fancytree-container well border-left-danger border-left-lg">
+                            <ul id="treeData" class="expanded"></ul>
+                            <div class="panel-body">
+
+                                <div class="col-md-8 justify-content-center">
+
+                                    <label>Search Staff</label>
+                                    @*<select name="staff" id="staff" class="form-control" style="width: 100%" data-bind="options: usersList,optionsText: 'StaffName',optionValue: 'Id', value: selectedStaff, enable: !isProcessing(), valueUpdate:'change',event:{'change':selectUserRole},optionsCaption: 'Select Staff'"></select>*@
+
+                                    <div class="input-group">
+                                        <input type="text" id="SearchItem" class="form-control searchly2" onkeyup="SearchAccountNo()" data-bind="  value: selectedStaff, enable: !isProcessing(), valueUpdate:'change',optionsCaption: 'Select Staff'" placeholder="Search by StaffID or Staff Email  ">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-primary"   type="button">View Role</button>
+                                        </div>
+                                    </div>
+
+                                  <br />
+
+                                    <div class="row ">
+                                        <div class="col-md-12">
+                                            <div class="row ">
+                                                <div class="col-md-4">
+                                                    <label>StaffId</label>
+                                                    <input id="StaffId1" class="form-control" />
+                                                </div>
+                                             
+                                                <div class="col-md-4">
+                                                    <label>Staff Name</label>
+                                                    <input id="FirstName" class="form-control" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Staff Surname</label>
+                                                    <input id="Surname" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="row ">
+                                                <div class="col-md-4">
+                                                    <label>Staff Email</label>
+                                                    <input id="Email" class="form-control" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Staff Username</label>
+                                                    <input id="Username" class="form-control" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Id</label>
+                                                    <input id="Id" disabled="disabled" class="form-control" />
+                                                </div> 
+                                            </div>
+
+                                            <br />
+
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" data-bind="checked:AllowBillVerificationChange" id="customCheck13">
+                                                <label class="custom-control-label" for="customCheck13">Allow Users Change their Bill Verification Details</label>
+                                            </div>
+
+                                            <br />
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" data-bind="checked:CheckedValue, event:{'change':ShowIMEI}" id="customCheck1">
+                                                <label class="custom-control-label" for="customCheck1">Link Users IMEI to their Login</label>
+                                            </div>
+
+
+
+                                            
+
+                                            <br />
+
+                                            <div class="row"   id="IMEI">
+                                                
+                                                <div class="col-md-6">
+                                                    <label>IMEI 1</label>
+                                                    <input id="IMEI1"  class="form-control" />
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label>IMEI 2</label>
+                                                    <input id="IMEI2"   class="form-control" />
+                                                </div>
+                                            </div>
+                                          
+                                         
+
+
+
+
+
+                                          
+                                            <br />
+                                            <div class="form-group" style="overflow: hidden;">
+                                                <button style="float: right" type="submit" class="btn btn-primary center-block" data-bind="click:ReassignRolesToStaff2">Submit Data</button>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                    </div>
+                                </div>
+                            
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   @* <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>*@
+    <link href="https://insight.phed.com.ng/Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+<script src="https://insight.phed.com.ng/Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script src="https://insight.phed.com.ng/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+    <link href="//cdn.jsdelivr.net/npm/jquery.fancytree@2.27/dist/skin-win8/ui.fancytree.min.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/jquery.fancytree@2.27/dist/jquery.fancytree-all-deps.min.js"></script>
+    <script src="https://insight.phed.com.ng/Scripts/moment.js"></script>
+    <script src="https://insight.phed.com.ng/Scripts/knockout-3.4.0.debug.js"></script>
+    <script src="https://insight.phed.com.ng/Scripts/knockout-3.4.0.js"></script>
+    <script src="https://insight.phed.com.ng/Scripts/knockout-postbox.min.js"></script>
+    <script src="https://insight.phed.com.ng/Scripts/KnockOutMapping.js"></script> 
+    <script src="https://insight.phed.com.ng/Scripts/StaffRole.js"></script>
+     
+    <script> 
+        $(document).ready(function () {
+            var dataForTreeView = {};
+            var staffRoleViewModel;
+            showloader();
+            $.ajax({
+                url: '/StaffRole/AllMenuList2',
+                type: 'GET',
+                dataType: 'JSON',
+                data: {
+                    Category: null
+                },
+                success: function (result) {
+                    var data = JSON.parse(result);
+                    var AllStaffRoles;
+                    console.log("Data From Server " + JSON.stringify(data));
+
+                    var data = JSON.parse(result);
+
+                    console.log("Data From Server " + JSON.stringify(data));
+
+                    AllStaffRoles = new RoleAssignmentVM(data);
+
+                    ko.applyBindings(AllStaffRoles);
+                    hideloader();
+                    LoadStaffMenu(); 
+                },
+                error: function (result) {
+                    //left for brevity
+                    hideloader();
+                    console.log("Failed" + result.responseText);
+                }
+            });
+
+        });
+    </script>
+   
+    <script>
+
+        //  u.StaffId, u.StaffName, u.Email, u.UserName
+        function SearchAccountNo() {
+            $(".searchly2").autocomplete({
+                minLength: 2,
+                source: function (request, response)
+                {
+                    $.ajax({
+                        url: "@Url.Action("SearchStaff")",
+                        data: { searchText: request.term },
+                        dataType: "JSON",
+                        type: "GET",
+                        success: function (data) {
+                            response($.map(data, function (obj) {
+                                return {
+                                    label: obj.StaffId + ' - ' + obj.StaffName + ' - ' + obj.Email,
+                                    StaffName: obj.StaffName,
+                                    StaffId: obj.StaffId,
+                                    UserName: obj.UserName,
+                                    FirstName: obj.FirstName,
+                                    LastName: obj.LastName,
+                                    Email: obj.Email,
+                                    Id: obj.Id,
+                                    IMEI1: obj.IMEI1,
+                                    IMEI2: obj.IMEI2, IMEILogin: obj.IMEILogin
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+
+                    $("#Status").val("EDIT");
+                    $("#StaffId1").val(ui.item.StaffId);
+
+                    $("#FirstName").val(ui.item.FirstName);
+                    $("#Surname").val(ui.item.LastName);
+                    $("#Username").val(ui.item.UserName);
+                    $("#Email").val(ui.item.Email);
+                    $("#Id").val(ui.item.Id);
+                    $("#StaffName").val(ui.item.StaffName);
+                    $("#IMEI1").val(ui.item.IMEI1);
+                    $("#IMEI2").val(ui.item.IMEI2);
+
+                    console.log(ui.item.IMEILogin);
+
+                    if (ui.item.IMEILogin) {
+                        $("#IMEI").slideDown();
+
+                    } else {
+
+                        $("#IMEI").slideUp();
+                    }
+
+                    $("#SearchItem").val(ui.item.label);
+
+                    return false;
+                }
+            }).data("autocomplete")._renderItem = function (ul, item) {
+                // Inside of _renderItem you can use any property that exists on each item that we built
+                // with $.map above */
+
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + item.StaffName + "</a>")
+                    .append("<a>" + item.StaffId + "</a>")
+                    .appendTo(ul);
+            }
+        }
+
+        function LoadStaffMenu() {
+
+            $(".tree-checkbox-hierarchical").fancytree({
+                checkbox: true,
+                selectMode: 3,
+                activate: function (event, data) {
+                    // A node was activated: display its title:
+                    var node = data.node;
+                    console.log("Node Title" + node.title); console.log("Node Key" + node.key); console.log("Node Id" + node.id);
+                },
+                beforeSelect: function (event, data) {
+                    // A node is about to be selected: prevent this, for folder-nodes:
+                    if (data.node.isFolder()) {
+                        // alert(data.node.text());
+                    }
+                },
+                //select: function (event, data) {
+                //     // A node is about to be selected: prevent this, for folder-nodes:
+                //     if (data.node.isFolder()) {
+
+                //     } else {
+                //         alert("Child");
+          
+                //     }
+                //},
+                click: function (event, data) {
+                    var node = data.node,
+                        tt = $.ui.fancytree.getEventTargetType(event.originalEvent);
+                    if (tt === "checkbox") {
+                        // alert(data.node.key);
+                    }
+                    //var nodes = $("#tree-checkbox-hierarchical").fancytree("getActiveNode");
+                    //console.log(nodes.data.id);
+                },
+                select: function (event, data)
+                {
+                    // Get a list of all selected nodes, and convert to a key array:
+                    var selKeys = $.map(data.tree.getSelectedNodes(), function (node) {
+                        //return node.id;
+                        return node.key;
+                    });
+
+                    var parentNode = data.node.getParent().key;
+                        
+                    var StaffMenu = selKeys.join(", ");
+
+                    StaffMenu = StaffMenu + ", " + parentNode;
+
+                    console.log(StaffMenu);
+
+                    $("#StaffSelectedMenu").val(StaffMenu);
+                    //checkbox: function (event, data) {
+                    //    // Hide checkboxes for folders
+                    //    return data.node.isFolder() ? false : true;
+                    //},
+                },
+                //checkbox: function (event, data) {
+                //    // Hide checkboxes for folders
+                //    return data.node.isFolder() ? false : true;
+                //},
+                tooltip: function (event, data) {
+                    // Create dynamic tooltips
+                    //  alert( data.node.title + " (" + data.node.key + ")");
+                },
+            });
+        }
+
+
+        function hideloader() {
+
+            swal.close();
+        }
+        function showloader() {
+            swal({
+                title: "Loading...",
+                text: "Please wait",
+                imageUrl: 'http://phedpayments.nepamsonline.com/images/loader4.gif',
+
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+
+
+        };
+    </script>
+
+</body>
+</html>

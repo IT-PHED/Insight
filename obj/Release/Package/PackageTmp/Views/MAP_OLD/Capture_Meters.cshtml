@@ -1,0 +1,269 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            Capture Meters
+        </h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" data-bind="value: TransactionId" placeholder="TransId or AccountNo" aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-danger" data-bind="click:ResetMAPForm" type="button" id="button-addon2">Reset</button>
+
+                                <button class="btn btn-outline-secondary" data-bind="click:ViewCustomerInstallMeter" type="button" id="button-addon2">View</button>
+          
+                             </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12" id="show-BRC" data-bind="visible: IsCustomerDetails">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.MAPCustomerName" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.CustomerPhoneNumber" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Zone</label>
+                                <input type="text" class="form-control" data-bind="value: CustomerDetails.IBC" disabled />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Feeder</label>
+                                <input type="text" class="form-control" data-bind="value: CustomerDetails.BSC" disabled />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Amount Arears</label>
+                                <input type="text" class="form-control" data-bind="value: CustomerDetails.BRC_Arrears" disabled />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Date Registered</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.TransactionProcessDate" />
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label>Application Status</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.MAPApplicationStatus" />
+                            </div> 
+                            <div class="col-md-6 form-group">
+                                <label>Meter Phase</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.MeterPhase" />
+                            </div>
+                             
+                            <div class="col-md-6 form-group">
+                                <label>Amount Paid</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.Amount" />
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label>Date Paid</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.DatePaid" />
+                            </div>
+                             
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Meter Amount</label>
+                            </div>
+                            <input type="text" data-bind="value: CustomerDetails.MAPAmount" class="custom-select" id="inputGroupSelect01" /> 
+                        </div>
+                         
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">*MAP Vendor</label>
+                            </div>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: VendorList, selectedOptions: SelectedMAPVendor, optionsText: 'ProviderName',optionValue: 'ProvideId', value: SelectedMAPVendor,  valueUpdate:'change',optionsCaption: 'Select MAP Vendor' "></select>
+
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">*MAP Contractor</label>
+                            </div>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: ContractorList1, selectedOptions: SelectedMAPContractor, optionsText: 'ContractorName',optionValue: 'ContractorId', value: SelectedMAPContractor,  valueUpdate:'change',optionsCaption: 'Select MAP Contractor' "></select>
+
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">*Meter Installer</label>
+                            </div>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: InstallersList1, selectedOptions: SelectedVendor, optionsText: 'Name',optionValue: 'InstallerId', value: SelectedMAPInstaller,  valueUpdate:'change',optionsCaption: 'Select MAP Installer' "></select>
+
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">*Seal No 1</label>
+                            </div>
+                            <input type="text" data-bind="value: CustomerDetails.MeterSeal1" class="custom-select" id=" inputgroupselect01" />
+
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">*Seal No 2</label>
+                            </div>
+                            <input type="text" data-bind="value: CustomerDetails.MeterSeal2" class="custom-select" id=" inputgroupselect01" />
+
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">*CIN</label>
+                            </div>
+                            <input type="text" data-bind="value: CustomerDetails.CIN" class="custom-select" id=" inputgroupselect01" />
+
+                        </div>
+                       
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">*Meter No</label>
+                            </div>
+                            <input type="text" data-bind="value: CustomerDetails.InstalledMeterNo" class="custom-select" id=" inputgroupselect01" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea data-bind="value: CustomerDetails.MeterInstalaltionComment" class="form-control" cols="5" placeholder="Write Note"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary center-block" data-bind="click:CaptureMeters">Capture Meter</button>
+                        </div>
+
+                         
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+
+
+
+
+<script src="~/js/bootstrap.js"></script>
+
+@*<script src="~/js/app.js"></script>*@
+<script src="~/js/PagingTable/jquery-1.10.2.min.js"></script>
+
+<script src="~/js/PagingTable/jquery.dataTables.js"></script>
+<script src="~/js/PagingTable/dataTables.bootstrap.js"></script>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="~/js/sweetalert2-master/dist/sweetalert.js"></script>
+<script src="~/js/sweetalert2-master/dist/sweetalert.min.js"></script>
+<script type="text/javascript" src="assets/js/pages/components_loaders.js"></script>
+
+  <!-- jQuery -->
+<script src="~/assets/vendor/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="~/assets/vendor/popper.js"></script>
+<script src="~/assets/vendor/bootstrap.min.js"></script>
+<!-- Simplebar -->
+<!-- Used for adding a custom scrollbar to the drawer -->
+<script src="~/assets/vendor/simplebar.js"></script>
+
+<script src="~/assets/vendor/Chart.min.js"></script>
+<script src="~/assets/vendor/moment.min.js"></script>
+<script src="~/assets/vendor/dateformat.js"></script>
+<script src="~/assets/vendor/bootstrap-datepicker.min.js"></script>
+<script>
+    window.theme = "default";
+</script>
+<script src="~/assets/js/color_variables.js"></script>
+<script src="~/assets/js/app.js"></script>
+
+<script src="~/assets/vendor/dom-factory.js"></script>
+<!-- DOM Factory -->
+<script src="~/assets/vendor/material-design-kit.js"></script>
+<!-- MDK -->
+
+<script>
+    (function() {
+        'use strict';
+
+        // Self Initialize DOM Factory Components
+        domFactory.handler.autoInit()
+
+        // Connect button(s) to drawer(s)
+        var sidebarToggle = Array.prototype.slice.call(document.querySelectorAll('[data-toggle="sidebar"]'))
+
+        sidebarToggle.forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                var selector = e.currentTarget.getAttribute('data-target') || '#default-drawer'
+                var drawer = document.querySelector(selector)
+                if (drawer) {
+                    drawer.mdkDrawer.toggle()
+                }
+            })
+        })
+
+        //////////////////////////////////////////
+        // BREAK OUT OF ENVATO LIVE DEMO IFRAME //
+        //////////////////////////////////////////
+
+        window.top.location.hostname !== window.location.hostname && (window.top.location = window.location)
+
+    })();
+</script>
+
+<script src="~/assets/vendor/Chart.min.js"></script>
+<script src="~/assets/vendor/morris.min.js"></script>
+<script src="~/assets/vendor/raphael.min.js"></script>
+ 
+
+
+<script src="~/Scripts/PHEDServe/CustomerPaymentInfo.js"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function ()
+    {
+        var BRCCustomer;
+        $.ajax({
+            url: '/MAP/CreateCustomerPaymentInfo',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                BRCCustomer = new MapPaymentViewModel(data);
+                ko.applyBindings(BRCCustomer);
+                //apply the Datatable here
+                //$("#TableGrid").dataTable();
+
+            },
+            error: function (result) {
+                alert("Failed" + result.responseText);
+            }
+        });
+    });
+</script>

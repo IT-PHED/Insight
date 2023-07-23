@@ -1,0 +1,22 @@
+<configuration>
+  <appSettings>
+     <!--Provide Default Data Provider for your Connection; You cna choose: Oracle or SqlServer or OleDb or Odbc or MySql--> 
+    <add key="DefaultDataProvider" value="SqlServer"/>
+
+    <!--Provide Default Connection String Name which is added on your ConnectionStrings Section--> 
+    <add key="DefaultConnection" value="MsSQL" />
+  </appSettings>
+  
+    
+ 
+  <connectionStrings>
+    <add name="MsSQL" connectionString="User ID=sa; Password=start777; Persist Security Info=true;Data Source=hasibul-pc;Initial Catalog=test_db" providerName="System.Data.SqlClient" />
+    <add name="MySqlCon" connectionString ="Server=localhost;Port=3306;Database=test;Uid=hasibul;Pwd=2363S3;" providerName="MySql.Data.MySqlClient"/>
+    <add name="AccessCon" connectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=test.mdb;Jet OLEDB:Database Password=1123;" providerName="System.Data.OleDb" />
+  </connectionStrings>
+
+
+
+
+
+</configuration>

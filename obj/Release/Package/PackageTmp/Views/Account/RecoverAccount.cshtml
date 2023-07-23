@@ -1,0 +1,141 @@
+﻿@model PHEDServe.Models.LoginViewModel
+ 
+
+@{
+    ViewBag.Title = "Log in";
+    Layout = null;
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Login</title>
+    <!--favicon-->
+    <link rel="icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap core CSS-->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- animate CSS-->
+    <link href="~/assets/css/animate.css" rel="stylesheet" type="text/css" />
+    <!-- Icons CSS-->
+    <link href="~/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <!-- Custom Style-->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/css/app-style.css" rel="stylesheet" />
+    <link href="~/assets/css/vendor-morris.css" rel="stylesheet" />
+
+</head>
+<body>
+    <!-- start loader -->
+    @*<div id="pageloader-overlay" class="visible incoming"><div class="loader-wrapper-outer"><div class="loader-wrapper-inner"><div class="loader"></div></div></div></div>*@
+    <!-- end loader -->
+    <!-- Start wrapper-->
+    <div id="wrapper">
+        <div class="loader-wrapper"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+        @using (Html.BeginForm("ChangeUserPassword", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card card-authentication1 mx-auto my-5">
+                <div class="card-body">
+                    <div class="card-content p-2">
+                        <div class="text-center">
+                            <img style="height:150px; width:250px" src="~/assets/images/PHEDLogo.jpg" alt="logo icon">
+
+                             
+                        </div>
+                        <div class="card-title text-uppercase text-center py-3">Recover Password</div>
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputUsername" class="sr-only">Username</label>
+
+
+                                
+
+                                <div class="position-relative has-icon-right">
+                                    <label>Email Address</label>
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Input your Username or Staff Email" })
+                                    <div class="form-control-position" style="margin-top:19px">
+                                        <i class="icon-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword" class="sr-only">Password</label>
+                                <div class="position-relative has-icon-right">
+                                    <label>New Password</label>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Input your Password" })
+                                    <div class="form-control-position" style="margin-top:19px">
+                                        <i class="icon-lock"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputPassword" class="sr-only">Password</label>
+                                <div class="position-relative has-icon-right">
+                                    <label>Confirm New Password</label>
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm your Password" })
+                                    <div class="form-control-position" style="margin-top:19px">
+                                        <i class="icon-lock"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                    <div class="icheck-material-primary">
+                                        <input type="checkbox" style="border-color: forestgreen !important" id="user-checkbox" checked="" />
+                                        <label for="user-checkbox" style="color: forestgreen !important">Remember me</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6 text-right">
+                                    <p class="text-dark mb-0">To Login <a href="#" style="color:forestgreen; text-decoration:none"> @Html.ActionLink("Click here", "Login") </a></p>
+                                </div>
+                            </div>
+
+                            @Html.ValidationSummary(true)
+                            @*<button type="button" class="btn btn-primary btn-block">Sign In</button>*@
+                            <button type="submit" style="background-color: forestgreen !important; color:white" class="btn  btn-block">Reset Password <i class="icon-circle-right2 position-right"></i></button>
+
+
+                            @*<div class="form-row mt-4">
+                                    <div class="form-group mb-0 col-6">
+                                        <button type="button" class="btn bg-facebook text-white btn-block"><i class="fa fa-facebook-square"></i> Facebook</button>
+                                    </div>
+                                    <div class="form-group mb-0 col-6 text-right">
+                                        <button type="button" class="btn bg-twitter text-white btn-block"><i class="fa fa-twitter-square"></i> Twitter</button>
+                                    </div>
+                                </div>*@
+
+                        </form>
+                    </div>
+                </div>
+                <div class="card-footer text-center py-3">
+                    @*<p class="text-dark mb-0">Do not have an account? <a href="#" style="color:forestgreen; text-decoration:none"> @Html.ActionLink("Sign Up here", "Register") </a></p>*@
+                    @*<p class="text-dark mb-0">Do not have an account? <a href="#" style="color:forestgreen; text-decoration:none"> Sign up Here </a></p>*@
+                    <p class="text-dark mb-0">&copy; Copyright @DateTime.Now.Year PHED </p>
+                </div>
+            </div>
+        }
+        <!--Start Back To Top Button-->
+        <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+        <!--End Back To Top Button-->
+        <!--start color switcher-->
+        <!--end color cwitcher-->
+
+    </div><!--wrapper-->
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+
+    <!-- sidebar-menu js -->
+    <script src="~/assets/js/sidebar-menu.js"></script>
+
+    <!-- Custom scripts -->
+    <script src="~/assets/js/app-script.js"></script>
+
+</body>

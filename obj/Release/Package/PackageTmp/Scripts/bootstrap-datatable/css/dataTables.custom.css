@@ -1,0 +1,7 @@
+﻿.dataTables_filter {
+    display: inline-block;
+    float: right;
+}
+.dataTables_wrapper {
+    margin-top: 15px;
+}

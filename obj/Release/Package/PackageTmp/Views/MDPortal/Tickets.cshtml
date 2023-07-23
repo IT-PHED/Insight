@@ -1,0 +1,400 @@
+﻿
+@{
+    ViewBag.Title = "Tickets";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPageAMR.cshtml";
+}
+
+ <div class="container-fluid">
+    <div class="page-section">
+        <div class="float-right">
+
+            <button style="float: right" type="submit" class="btn btn-primary center-block" data-bind="click:ShowTicketModal">Create New Ticket <i class="material-icons md-18 align-bottom">add</i></button>
+            @*<a   class="btn btn-primary" data-bind="Click:ShowTicketModal"    >New Ticket <i class="material-icons md-18 align-bottom">add</i></a>*@
+        </div>
+        <h2>Tickets</h2>
+    </div>
+
+      
+
+    <div class="card-deck">
+        <div class="card p-2">
+            <div class="media align-items-center">
+                <div class="mr-2 p-2">
+                    <i class="material-icons md-48 text-success">check_circle</i>
+                </div>
+                <div class="media-body">
+                    <h3 class="mb-0"><strong><span data-bind="text:CompletedTickets"></span></strong></h3>
+                    <span class="text-muted">COMPLETED TICKETS</span>
+                </div>
+            </div>
+        </div>
+        <div class="card p-2">
+            <div class="media align-items-center">
+                <div class="mr-2 p-2">
+                    <i class="material-icons md-48 text-warning">flag</i>
+                </div>
+                <div class="media-body">
+                    <h3 class="mb-0"><strong><span data-bind="text:ActiveTickets"></span></strong></h3>
+                    <span class="text-muted">ACTIVE TICKETS</span>
+                </div>
+            </div>
+        </div>
+        <div class="card p-2">
+            <div class="media align-items-center">
+                <div class="mr-2 p-2">
+                    <i class="material-icons md-48 text-danger">close</i>
+                </div>
+                <div class="media-body">
+                    <h3 class="mb-0"><strong><span data-bind="text:ClosedTickets"></span></strong></h3>
+                    <span class="text-muted">CLOSED TICKETS</span>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table mb-0 table-flush">
+                <thead class="thead-default">
+                    <tr>
+                        <th class="text-uppercase" style="width:110px">Date</th>
+                       
+                        <th class="text-uppercase">Category Name</th>
+                        <th class="text-uppercase">Description</th>
+                        <th class="text-uppercase text-center" style="width:100px">Ticket No.</th>
+                        <th class="text-uppercase text-center" style="width:60px">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <!--ko foreach: TicketList()-->
+                    <tr>
+                        <td>
+                            <span class="text-muted" data-bind="text:TicketDate"> </span>
+                        </td>
+
+                        <td>
+                            <span class="text-muted" data-bind="text:CategoryName"> </span>
+                        </td>
+
+                        <td>
+                            <div class="media">
+                                <div class="media-body"> 
+
+                                    <div>
+                                        <span data-bind ="text:TicketDescription"> </span>
+                                    </div> 
+
+                                </div>
+                            </div>
+                        </td>
+
+
+                        <td class="align-middle text-center">
+                            <a href="#">
+                                <span data-bind="text:TicketID"> </span>
+                            </a>
+                        </td>
+                        <td class="align-middle text-right">
+                            <div class="badge badge-success"><span data-bind="text:Status"> </span></div>
+                        </td>
+                    </tr>
+                   <!--/ko-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+ 
+<div class="modal fade" id="ShotTicketModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="largeModalLabel">Create New Complaint /  Ticket </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input type="hidden" id="TicketIDHidden" value="" />
+            <div class="modal-body"> 
+                <div class="row">
+
+                    <div class="input-group mb-4 col-md-6">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Complaint Category</label>
+                        </div>
+                        <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: ComplaintCategoryList, selectedOptions: SelectedCategory, optionsText: 'ComplaintCategoryName',optionValue: 'ComplaintCategoryID', value: SelectedCategory,  valueUpdate:'change',optionsCaption: 'Select Category',event:{change: filterSubCategoryFromCategory} "></select>
+                    </div>
+
+                    <div class="input-group mb-4 col-md-6">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Complaint SubCategory</label>
+                        </div>
+                        <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: ComplaintSubCategoryList1, selectedOptions: SelectedSubCategory, optionsText: 'ComplaintSubCategoryName',optionValue: 'ComplaintSubCategoryID', value: SelectedSubCategory,  valueUpdate:'change',optionsCaption: 'Select SubCategory'"></select>
+                    </div>
+                     
+                </div> 
+                <div class="row"> 
+                    <div class="input-group mb-4 col-md-6">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Complaint Account</label>
+                        </div>
+
+                        <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: LinkedAccountList, selectedOptions: SelectedLinkedAccount1, optionsText: 'AccountName',optionValue: 'MeterNo', value: SelectedLinkedAccount1,  valueUpdate:'change',optionsCaption: 'Select Linked Account'"></select>
+                         
+                     </div> 
+
+                    <div class="input-group mb-4 col-md-6">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Status</label>
+                        </div>
+                        <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-bind="value:TicketStatus" data-actions-box="true">
+
+                            <option>ACTIVE</option>
+                            <option>RESOLVED</option>
+                            <option>CLOSED</option> 
+                        </select>
+
+                    </div> 
+
+                </div> 
+           
+                <div class="row">
+                    <div class="input-group mb-4 col-md-12">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text"  for="inputGroupSelect01">Complaint Title</label>
+                        </div>
+
+                        <input class="form-control" type="text" data-bind="value:ComplaintTitle" />
+
+                    </div>
+                </div> 
+                    <hr />
+                    <label>Complaints Description</label>
+                    <textarea cols="15" class="form-control" style="height:150px" data-bind="value:TicketDescription"></textarea>
+                </div>
+             
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                <button type="button" data-bind="click:SubmitTicket" class="btn btn-primary">Submit Complaint</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- jQuery -->
+<script src="~/Vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="~/Vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+<script src="~/Scripts/moment.js"></script>
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+<script src="~/Scripts/knockout-3.4.2.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.2.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
+
+<!-- FastClick -->
+<script src="~/Vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="~/Vendors/nprogress/nprogress.js"></script>
+<!-- Chart.js -->
+<script src="~/Vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- gauge.js -->
+<script src="~/Vendors/gauge.js/dist/gauge.min.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="~/Vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="~/Vendors/iCheck/icheck.min.js"></script>
+<!-- Skycons -->
+<script src="~/Vendors/skycons/skycons.js"></script>
+<!-- Flot -->
+<script src="~/Vendors/Flot/jquery.flot.js"></script>
+<script src="~/Vendors/Flot/jquery.flot.pie.js"></script>
+<script src="~/Vendors/Flot/jquery.flot.time.js"></script>
+<script src="~/Vendors/Flot/jquery.flot.stack.js"></script>
+<script src="~/Vendors/Flot/jquery.flot.resize.js"></script>
+<!-- Flot plugins -->
+<script src="~/Vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+<script src="~/Vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+<script src="~/Vendors/flot.curvedlines/curvedLines.js"></script>
+<!-- DateJS -->
+<script src="~/Vendors/DateJS/build/date.js"></script>
+<!-- JQVMap -->
+<script src="~/Vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="~/Vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="~/Vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="~/Vendors/moment/min/moment.min.js"></script>
+<script src="~/Vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- Custom Theme Scripts -->
+@*<script src="../build/js/custom.min.js"></script>*@
+
+<script src="~/assets/vendor/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="~/assets/vendor/popper.js"></script>
+<script src="~/assets/vendor/bootstrap.min.js"></script>
+<!-- Simplebar -->
+<!-- Used for adding a custom scrollbar to the drawer -->
+<script src="~/assets/vendor/simplebar.js"></script>
+
+@*<script src="~/assets/vendor/Chart.min.js"></script>
+    <script src="~/assets/vendor/moment.min.js"></script>
+    <script src="~/assets/vendor/dateformat.js"></script>
+    <script src="~/assets/vendor/bootstrap-datepicker.min.js"></script>*@
+
+<script>
+    window.theme = "blue";
+</script>
+
+<script src="~/assets/js/color_variables.js"></script>
+@*<script src="~/assets/js/app.js"></script>*@
+
+@*<script src="~/assets/vendor/dom-factory.js"></script>*@
+<!-- DOM Factory -->
+@*<script src="~/assets/vendor/material-design-kit.js"></script>*@
+<!-- MDK -->
+<script src="~/assets/vendor/Chart.min.js"></script>
+<script src="~/assets/vendor/morris.min.js"></script>
+<script src="~/assets/vendor/raphael.min.js"></script>
+
+
+
+
+
+
+<script>
+
+
+
+    //new Morris.Donut({
+    //    element: 'morris-donut-chart',
+    //    data: [{
+    //        label: 'General',
+    //        value: 20
+    //    },
+    //        {
+    //            label: 'Software',
+    //            value: 10
+    //        },
+    //        {
+    //            label: 'Subscriptions',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Products',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Courses',
+    //            value: 64
+    //        }
+    //    ],
+    //    resize: true,
+    //    colors: [colors.color_primary, colors.color_success, colors.color_warning, colors.color_danger, colors.color_blue]
+    //});
+
+    //new Morris.Donut({
+    //    element: 'morris-donut-chart1',
+    //    data: [{
+    //        label: 'General',
+    //        value: 20
+    //    },
+    //        {
+    //            label: 'Software',
+    //            value: 10
+    //        },
+    //        {
+    //            label: 'Subscriptions',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Products',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Courses',
+    //            value: 64
+    //        }
+    //    ],
+    //    resize: true,
+    //    colors: [colors.color_primary, colors.color_success, colors.color_warning, colors.color_danger, colors.color_blue]
+    //});
+
+    //new Morris.Donut({
+    //    element: 'morris-donut-chart2',
+    //    data: [{
+    //        label: 'General',
+    //        value: 20
+    //    },
+    //        {
+    //            label: 'Software',
+    //            value: 10
+    //        },
+    //        {
+    //            label: 'Subscriptions',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Products',
+    //            value: 5
+    //        },
+    //        {
+    //            label: 'Courses',
+    //            value: 64
+    //        }
+    //    ],
+    //    resize: true,
+    //    colors: [colors.color_primary, colors.color_success, colors.color_warning, colors.color_danger, colors.color_blue]
+    //});
+</script>
+<script src="~/Scripts/References/AMRReport.js"></script>
+<!-- Bootstrap -->
+<script src="~/assets/vendor/popper.js"></script>
+<script src="~/assets/vendor/bootstrap.min.js"></script>
+<!-- Simplebar -->
+<!-- Used for adding a custom scrollbar to the drawer -->
+<script src="~/assets/vendor/simplebar.js"></script>
+<script src="~/assets/vendor/Chart.min.js"></script>
+<script src="~/assets/vendor/morris.min.js"></script>
+<script src="~/assets/vendor/raphael.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var AllCustomerPaymentViewModel;
+        var AccountNo = $("#AccountNo").val();
+        var MeterNo = $("#MeterNo").val();
+        var LoginCompanyId = $("#StaffId").val();
+
+        $.ajax({
+            url: '/Dashboard/LoadMeterReadingValues',
+            type: 'GET',
+            dataType: 'JSON',
+            data: {
+                AccountNo: AccountNo,
+                MeterNo: MeterNo,
+                LoginCompanyId: LoginCompanyId,
+                LoadType: "TICKET"
+            },
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                AllCustomerPaymentViewModel = new AMRReport(data);
+                ko.applyBindings(AllCustomerPaymentViewModel);
+
+            },
+            error: function (result) {
+                alert("Failed" + result.responseText);
+            }
+        });
+    });
+
+
+</script>

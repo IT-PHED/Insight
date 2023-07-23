@@ -1,0 +1,356 @@
+﻿
+@{
+    ViewBag.Title = "Assign Staff Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>@ViewBag.Title - Assign Roles to Staff</title>
+    <style>
+        li {
+            margin-left: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="~/Content/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/font.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/js/calendar/bootstrap_calendar.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/app.css" type="text/css" />
+
+
+    <style>
+        .nav-tabs {
+            overflow-x: auto;
+            overflow-y: hidden;
+            display: -webkit-box;
+            display: -moz-box;
+        }
+
+            .nav-tabs > li {
+                float: none;
+            }
+    </style>
+
+    @*<link href="~/Content/Site.css" rel="stylesheet" />*@
+</head>
+<body>
+
+ 
+
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-8">
+           
+
+
+
+            <div class="tree-default well border-left-info border-left-lg">
+                <ul>
+                    <li class="folder expanded">
+                        Expanded folder with children
+                        <ul>
+                            <li class="expanded">
+                                Expanded sub-item
+                                <ul>
+                                    <li class="active focused">Active sub-item (active and focus on init)</li>
+                                    <li>Basic <i>menu item</i> with <strong class="text-semibold">HTML support</strong></li>
+                                </ul>
+                            </li>
+                            <li>
+                                Collapsed sub-item
+                                <ul>
+                                    <li>Sub-item 2.2.1</li>
+                                    <li>Sub-item 2.2.2</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="has-tooltip" title="Look, a tool tip!">Menu item with key and tooltip</li>
+                    <li class="folder">
+                        Collapsed folder
+                        <ul>
+                            <li>Sub-item 1.1</li>
+                            <li>Sub-item 1.2</li>
+                        </ul>
+                    </li>
+                    <li class="selected">This is a selected item</li>
+                    <li class="expanded">
+                        Document with some children (expanded on init)
+                        <ul>
+                            <li>Document sub-item</li>
+                            <li>
+                                Another document sub-item
+                                <ul>
+                                    <li>Sub-item 2.1.1</li>
+                                    <li>Sub-item 2.1.2</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <section class="panel panel-default">
+                <header class="panel-heading b-light " style="padding-bottom:0px; margin-bottom:0px">
+                    <div class="form-group">
+                        <strong>Staff Role Management</strong>
+                        </div>
+
+               
+                 
+
+                    <div class="form-group">
+                            <select name="staff" id="staff" class="form-control" style="width: 100%" data-bind="options: usersList,optionsText: 'StaffName',optionValue: 'Id', value: selectedStaff, enable: !isProcessing(), valueUpdate:'change',event:{'change':selectUserRole},optionsCaption: 'Select Staff'"></select>
+                        </div>
+                       
+                    
+                       
+
+</header>
+                <div class="panel-body">
+
+                   
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#Role" style="color:red">Modules</a></li>
+                       
+                    </ul>
+                    <div class="tab-content">
+                        <div id="Role" class="tab-pane fade in active">
+                            <div class="form-group" style="text-align:center; padding-top:10px" >
+                                <input type="submit" class="btn btn-primary" value="Assign Role" data-bind="click: assignAndUnAssignRole,enable: !isProcessing()" />
+                            </div>
+                            <div class="form-group tree-default">
+
+                                <ul id="accordion1" data-bind="template: { name: 'itemTmpl', foreach: $data.items }"></ul>
+
+                                <script id="itemTmpl" type="text/html">
+                                    <li class="panel">
+
+                                        <span data-bind="text: name" style="font-size:16px"></span>
+                                        <input type='checkbox' data-bind="checked: checked" />
+                                        <ul data-bind="template: { name: 'itemTmpl', foreach: $data.items }"></ul>
+                                    </li>
+                                </script>
+                            </div>
+                        </div>
+                        
+                    </div>
+                 
+                   
+
+                </div>
+            </section>
+         
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+    
+   
+
+
+    
+
+    <!-- Bootstrap -->
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Content/js/bootstrap.js"></script>
+    <script src="~/Content/js/app.js"></script>
+    <script src="~/Content/js/app.plugin.js"></script>
+
+<script src="~/Scripts/jquery 2.1.4.js"></script>
+<script src="~/Scripts/ui/jquery.ui.core.js"></script>
+<script src="~/Scripts/ui/jquery.ui.widget.js"></script>
+<script src="~/Scripts/ui/jquery.ui.mouse.js"></script>
+<script src="~/Scripts/ui/jquery.ui.draggable.js"></script>
+<script src="~/Scripts/ui/jquery.ui.resizable.js"></script>
+
+@*<script src="~/js/app.js"></script>
+<script src="~/js/app.plugin.js"></script>*@
+
+@Scripts.Render("~/bundles/modernizr")
+<script src="~/Scripts/toastr.js"></script>
+
+
+
+
+    <link href="~/assets/css/core.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/components.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/colors.css" rel="stylesheet" type="text/css">
+
+
+
+
+<!-- App -->
+
+    <script src="~/Content/js/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/Content/js/charts/easypiechart/jquery.easy-pie-chart.js"></script>
+    <script src="~/Content/js/charts/sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/Content/js/charts/flot/jquery.flot.min.js"></script>
+    <script src="~/Content/js/charts/flot/jquery.flot.tooltip.min.js"></script>
+
+    <script src="~/Content/js/charts/flot/jquery.flot.resize.js"></script>
+
+    <script src="~/Content/js/charts/flot/jquery.flot.grow.js"></script>
+
+    <script src="~/Content/js/charts/flot/demo.js"></script>
+
+    <script src="~/Content/js/calendar/bootstrap_calendar.js"></script>
+
+    <script src="~/Content/js/calendar/demo.js"></script>
+
+    <script src="~/Content/js/sortable/jquery.sortable.js"></script>
+    <script src="~/Content/js/bootstrap.js"></script>
+
+    <script type="text/javascript" src="~/assets/js/plugins/trees/fancytree_all.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/plugins/trees/fancytree_childcounter.js"></script>
+    <script type="text/javascript" src="~/assets/js/core/app.js"></script>
+    <script type="text/javascript" src="~/assets/js/pages/extra_trees.js"></script>
+
+<!-- Bootstrap -->
+    
+
+@*<script src="~/js/app.js"></script>*@
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/materialize.min.js"></script>
+
+<script src="~/Scripts/moment.js"></script>
+
+
+
+
+
+        <script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+        <script src="~/Scripts/knockout-3.4.0.js"></script>
+        <script src="~/Scripts/knockout-postbox.min.js"></script>
+        <script src="~/Scripts/KnockOutMapping.js"></script>
+
+        <script src="~/Scripts/StaffRole.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                var dataForTreeView = {};
+                var staffRoleViewModel;
+                $.ajax({
+                    url: '/StaffRole/loadstaffRoleViewModel',
+                    type: 'GET',
+                    dataType: 'JSON',
+                    success: function (result) {
+
+
+
+                        var data = JSON.parse(result);
+
+                        //  console.log("Data From Server " + JSON.stringify(data));
+
+
+                        var getAllMenuHeaders = ko.utils.arrayFilter(data.modulesList, function (modulelist) {
+                            return modulelist.ControllerName == null;
+                        });
+
+                        var MainnewItems = [];
+
+                        ko.utils.arrayForEach(getAllMenuHeaders, function (moduleItem) {
+                            var newItems = [];
+
+                            var getAllSubItems = ko.utils.arrayFilter(data.modulesList, function (modulesublist) {
+                                return modulesublist.ParentMenuItemId == moduleItem.MenuItemId;
+                            });
+
+                            ko.utils.arrayForEach(getAllSubItems, function (subItem) {
+                                newItems.push({ "name": subItem.MenuText, "MenuItemId": subItem.MenuItemId, "checked": false })
+                            });
+
+                            MainnewItems.push({ "name": moduleItem.MenuText, "items": newItems })
+                            //item.checked(checked);
+                        });
+
+                       // console.log("Main menu  " + JSON.stringify(MainnewItems));
+
+                        //dataForTreeView = {
+                        //    items: MainnewItems,
+                        //    modulesActivityList: data.modulesActivityList,
+                        //    usersList: data.usersList,
+                        //    allStaffRoleList: data.allStaffRoleList,
+                        //    modulesList: data.modulesList,
+                        //    modulesHeadList: data.modulesHeadList,
+                        //    staffModulesActivityList: data.staffModulesActivityList
+                        //}
+
+                        dataForTreeView = {
+                            items: MainnewItems,
+                            
+                            usersList: data.usersList,
+                            allStaffRoleList: data.allStaffRoleList,
+                            modulesList: data.modulesList,
+                            modulesHeadList: data.modulesHeadList,
+                            staffModulesActivityList: data.staffModulesActivityList
+                        }
+                        console.log("Main menu extended " + JSON.stringify(MainnewItems));
+                        var model = new MyApp.TreeViewModel(dataForTreeView);
+                        ko.applyBindings(model);
+                       // model.usersList(data.usersList);
+                       // model.allStaffRoleList(data.allStaffRoleList);
+                       // model.modulesList(data.modulesList);
+                        //model.modulesHeadList(data.modulesHeadList);
+                       // model.modulesActivityList(new moduleListVW(data.modulesActivityList));
+                        //model.staffModulesActivityList(data.staffModulesActivityList);
+                       
+
+                        //[{ "name": "CREATE",
+                        //    "items": [{
+                        //        "name": "5 Day",
+                        //        "items": []
+                        //    }, {
+                        //        "name": "4 Day",
+                        //        "items": []
+                        //    }, {
+                        //        "name": "1/2 Day",
+                        //        "items": []
+                        //    }]}]
+
+
+                        //staffRoleViewModel = new LandTitleViewModel(data);
+
+                        // console.log("Data From Server Land Title" + JSON.stringify(landTitleCheckViewModel));
+                        //landTitleCheckViewModel.isProcessing(false);
+                        //ko.applyBindings(landTitleCheckViewModel);
+
+                        //$("#ContinentPage").DataTable({ responsive: true });
+                    },
+                    error: function (result) {
+                        //left for brevity
+
+                        alert("Failed" + result.responseText);
+                    }
+                });
+
+            });
+        </script>
+
+
+    </body>
+    </html>
+
+
+
+
+
+
+

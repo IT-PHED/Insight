@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            Capture MAP Payments
+        </h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" data-bind="value: TransactionId" placeholder="TRANSACTION ID" aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" data-bind="click:veiwCustomer" type="button" id="button-addon2">View</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12" id="show-BRC" data-bind="visible: IsCustomerDetails">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.MAPCustomerName" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.CustomerPhoneNumber" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Zone</label>
+                                <input type="text" class="form-control" data-bind="value: CustomerDetails.IBC" disabled />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Feeder</label>
+                                <input type="text" class="form-control" data-bind="value: CustomerDetails.BSC" disabled />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Amount Arears</label>
+                                <input type="text" class="form-control" data-bind="value: CustomerDetails.BRC_Arrears" disabled />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Date Registered</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.TransactionProcessDate" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Application Status</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.MAPApplicationStatus" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Meter Phase</label>
+                                <input type="text" class="form-control" disabled data-bind="value: CustomerDetails.MeterPhase" />
+                            </div>
+         
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea data-bind="value: MAPPayment.ApprovalComment" class="form-control" cols="5" placeholder="Write Note"></textarea>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Map Amount Paid</label>
+                            </div>
+                            <input type="text" data-bind="value: MAPPayment.Amount" class="custom-select" id="inputGroupSelect01" />
+
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Date Paid</label>
+                            </div>
+                            <input type="text" data-bind="value: MAPPayment.DatePaid" class="datepicker custom-select" id=" inputgroupselect01" />
+
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Payment Mode</label>
+                            </div>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: PaymentModeList, selectedOptions: SelectedPaymentMode, optionsText: 'Name',optionValue: 'Name', value: SelectedPaymentMode,  valueUpdate:'change',optionsCaption: 'Select Payment Mode' "></select>
+
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Receiving Bank</label>
+                            </div>
+                            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: BankModeList, selectedOptions: SelectedBankMode, optionsText: 'Name',optionValue: 'Name', value: SelectedBankMode,  valueUpdate:'change',optionsCaption: 'Select Bank' "></select>
+
+                        </div>
+
+
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Receipt Number</label>
+                            </div>
+                            <input type="text" data-bind="value: MAPPayment.ReceiptNo" class="custom-select" id=" inputgroupselect01" />
+
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Upload Teller</label>
+                            </div>
+                            <input type="file" data-bind="value: MAPPayment.ReceiptNo" class="custom-select" id=" inputgroupselect01" />
+                            @*<input type="file" class="form-control" id="yourfileID" data-bind="file: {data: FileInput, name: FileName}" id="input-3" placeholder="Select the Evidence of Payment">*@
+                        </div>
+
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary center-block" data-bind="click:save">Submit</button>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+
+<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+<script src="~/Scripts/datepicker.js"></script>
+
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="~/Scripts/PHEDServe/CustomerPaymentInfo.js"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var BRCCustomer;
+        $.ajax({
+            url: '/MAP/CreateCustomerPaymentInfo',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                BRCCustomer = new MapPaymentViewModel(data);
+                ko.applyBindings(BRCCustomer);
+                //apply the Datatable here
+                //$("#TableGrid").dataTable();
+
+            },
+            error: function (result) {
+                alert("Failed" + result.responseText);
+            }
+        });
+    });
+
+
+</script>

@@ -1,0 +1,568 @@
+﻿
+@{
+    ViewBag.Title = "AddAccounts";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPageAMR.cshtml";
+}
+
+
+<input type="hidden" value="" id="StaffId1" />
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Add Accounts </h4>
+    </div>
+    <div class="card-body">
+        <form class="container" id="needs-validation" novalidate>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom01">Select Account No</label>
+                    <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: ParentAccountList, selectedOptions: SelectedAccountNo, optionsText: 'StaffName',optionValue: 'AccountNo', value: SelectedAccountNo,  valueUpdate:'change',optionsCaption: 'Select AccountNo',event:{change: ShowAccountFromSelectedParent} "></select>
+                 </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom01">Parent Account No</label>
+                    <input type="text" class="form-control" id="validationCustom01" disabled="disabled" data-bind="value:ParentAccountNo" placeholder="Input the AccountNo" value="Mark" required>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom04">Link AccountNo</label>
+                    <input type="text" class="form-control" data-bind="value:AccountNo" id="validationCustom04" placeholder="Account No" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid AccountNo.
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom04">Account Type</label>
+                    <select class=" form-control select2 w-100" data-bind="value:AccountType">
+                        <option value="">--Select Account Type--</option>
+                        <option value="PREPAID">PREPAID</option>
+                        <option value="POSTPAID">POSTPAID</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
+            </div>
+ 
+            <button class="btn btn-primary pull-right" data-bind="click:VerifyAccount" style="float:right" type="submit">Verify Account</button>
+            <hr />
+
+
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom05">Meter No</label>
+                    <input type="text" disabled="disabled" data-bind="value:ApplicationUser.MeterNo" class="form-control" id="validationCustom05" placeholder="Meter No" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid zip.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom05">Account Name</label>
+                    <input type="text" disabled="disabled" class="form-control" data-bind="value:ApplicationUser.FirstName" id="validationCustom05" placeholder="Account Name" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid zip.
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom04">IBC</label>
+                    <input type="text" disabled="disabled" class="form-control" data-bind="value:ApplicationUser.IBC" id="validationCustom04" placeholder="IBC" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom05">BSC</label>
+                    <input type="text" disabled="disabled" class="form-control" data-bind="value:ApplicationUser.BSC" id="validationCustom05" placeholder="BSC" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid zip.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label for="validationCustom05">Linked Account Description</label>
+                    <input type="text" class="form-control" data-bind="value:LinkedAccountDesc" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label for="validationCustom05">Address No</label>
+
+                    <textarea class="form-control" disabled="disabled" data-bind="value:ApplicationUser.Address"></textarea> 
+                    <div class="invalid-feedback">
+                     Please provide a valid zip.
+                    </div>
+                </div>
+           </div>
+
+        </form>
+         
+        <hr />
+         
+        <button class="btn btn-primary pull-right" data-bind="click:AddLinkedAccount" style="float:right" type="submit">Add Account</button>
+    
+    </div>
+
+ 
+     
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div id="clients" class="d-flex justify-content-between bg-white">
+    <div class="apps--sidebar p-3 d-none d-xl-block bg-white">
+        <button class="btn btn-white btn-sm d-block d-sm-none" data-toggle="apps--sidebar"><i class="material-icons md-18 align-middle">close</i> <span class="align-middle">Close</span></button>
+        <div class="form-group">
+            <strong class="text-primary">FILTER</strong>
+        </div>
+        <div class="input-group input-group--inline mb-3">
+            <div class="input-group-addon">
+                <i class="material-icons">search</i>
+            </div>
+            <input type="text" class="form-control search" name="search" placeholder="Search clients...">
+        </div>
+        <div class="form-group">
+            <select name="AccountpaidFrom" class="custom-select" id="inputGroupSelect01" data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" data-bind="options: ParentAccountList, selectedOptions: SelectedAccountNo, optionsText: 'StaffName',optionValue: 'AccountNo', value: SelectedAccountNo,  valueUpdate:'change',optionsCaption: 'Select Approval',event:{change: ShowAccountFromSelectedParent} "></select>
+
+        </div>
+        <div class="custom-control custom-radio mb-1">
+            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio1">New</label>
+        </div>
+        <div class="custom-control custom-radio mb-1">
+            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio2">Top 10</label>
+        </div>
+        <div class="custom-control custom-radio mb-1">
+            <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio3">Top 50</label>
+        </div>
+        <div class="custom-control custom-radio mb-3">
+            <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio4">Top 100</label>
+        </div>
+        <div class="text-muted mb-1">
+            Sort by
+        </div>
+        <div class="custom-control custom-radio mb-1">
+            <input type="radio" id="customRadio5" name="customRadio" class="custom-control-input" checked>
+            <label class="custom-control-label" for="customRadio5">Client name</label>
+        </div>
+        <div class="custom-control custom-radio mb-1">
+            <input type="radio" id="customRadio6" name="customRadio" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio6">Progress</label>
+        </div>
+        <div class="custom-control custom-radio">
+            <input type="radio" id="customRadio7" name="customRadio" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio7">Date Created</label>
+        </div>
+    </div>
+    <div class="d-flex flex-column w-100">
+        <button class="btn btn-primary d-lg-none mt-3 mx-3 text-left" type="button" id="toggleAppSidebar">
+            <i class="material-icons md-18 align-middle">chevron_left</i> <span class="align-middle">Clients</span>
+        </button>
+        <div class="container-wrapper">
+            <div class="d-flex align-items-center justify-content-between">
+                <h2 class="m-0">Lined Accounts</h2>
+                <button class="btn btn-faded btn-sm" data-toggle="modal" data-target="#newClientModal">
+                    <i class="material-icons align-middle md-18">group_add</i>
+                    <span class="align-middle">Add Client</span>
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table m-0">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-uppercase">Contact</th>
+                        <th class="text-uppercase text-center" style="width:100px">Role</th>
+                        <th class="text-uppercase" style="width:100px">Payment</th>
+                        <th class="text-center text-uppercase" style="width:100px">Progress</th>
+                        <th class="text-uppercase text-center" style="width:100px">Status</th>
+                        <th class="text-right text-uppercase" style="width:100px">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="align-middle lh-1">
+                            <a href="#">
+                                <i class="material-icons md-18 align-middle">account_circle</i>
+                                John Smith
+                            </a>
+                            <div> <i class="material-icons md-18 align-middle">business</i> Destiny LTD</div>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-muted text-uppercase">user</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <span>&dollar;2049</span>
+                            <i class="material-icons md-18 text-success align-middle">arrow_upward</i>
+                        </td>
+                        <td class="text-center align-middle">
+                            <strong class="text-success">54%</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-success--filled text-uppercase">active</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <i class="material-icons md-14 align-middle">mail</i>
+                            </button>
+                            <button class="btn btn-primary btn-sm " data-toggle="tooltip" data-placement="bottom" title="View">
+                                <i class="material-icons md-14 align-middle">chevron_right</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle lh-1">
+                            <a href="#">
+                                <i class="material-icons md-18 align-middle">account_circle</i>
+                                Steven Young
+                            </a>
+                            <div> <i class="material-icons md-18 align-middle">business</i> Group Franchize LTD</div>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-muted text-uppercase">moderator</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <span>&dollar;861</span>
+                            <i class="material-icons md-18 text-danger align-middle">arrow_downward</i>
+                        </td>
+                        <td class="text-center align-middle">
+                            <strong class="text-danger">22%</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-danger--filled text-uppercase">inactive</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <i class="material-icons md-14 align-middle">mail</i>
+                            </button>
+                            <button class="btn btn-primary btn-sm " data-toggle="tooltip" data-placement="bottom" title="View">
+                                <i class="material-icons md-14 align-middle">chevron_right</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle lh-1">
+                            <a href="#">
+                                <i class="material-icons md-18 align-middle">account_circle</i>
+                                Karen Doe
+                            </a>
+                            <div> <i class="material-icons md-18 align-middle">business</i> Meter LTD</div>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-muted text-uppercase">publisher</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <span>&dollar;120</span>
+                            <i class="material-icons md-18 text-danger align-middle">arrow_downward</i>
+                        </td>
+                        <td class="text-center align-middle">
+                            <strong class="text-danger">15%</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-danger--filled text-uppercase">inactive</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <i class="material-icons md-14 align-middle">mail</i>
+                            </button>
+                            <button class="btn btn-primary btn-sm " data-toggle="tooltip" data-placement="bottom" title="View">
+                                <i class="material-icons md-14 align-middle">chevron_right</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle lh-1">
+                            <a href="#">
+                                <i class="material-icons md-18 align-middle">account_circle</i>
+                                Andrew Robles
+                            </a>
+                            <span data-toggle="tooltip" data-placement="top" title="New Client">
+                                <i class="material-icons md-18 align-middle text-warning">star</i>
+                            </span>
+                            <div> <i class="material-icons md-18 align-middle">business</i> MosaicPro LTD</div>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-muted text-uppercase">admin</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <span>&dollar;8065</span>
+                            <i class="material-icons md-18 text-success align-middle">arrow_upward</i>
+                        </td>
+                        <td class="text-center align-middle">
+                            <strong class="text-success">94%</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-success--filled text-uppercase">active</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <i class="material-icons md-14 align-middle">mail</i>
+                            </button>
+                            <button class="btn btn-primary btn-sm " data-toggle="tooltip" data-placement="bottom" title="View">
+                                <i class="material-icons md-14 align-middle">chevron_right</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle lh-1">
+                            <a href="#">
+                                <i class="material-icons md-18 align-middle">account_circle</i>
+                                Mark Doe
+                            </a>
+                            <span data-toggle="tooltip" data-placement="top" title="New Client">
+                                <i class="material-icons md-18 align-middle text-warning">star</i>
+                            </span>
+                            <div> <i class="material-icons md-18 align-middle">business</i> Copy Paper LTD</div>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-muted text-uppercase">publisher</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <span>&dollar;4082</span>
+                            <i class="material-icons md-18 text-success align-middle">arrow_upward</i>
+                        </td>
+                        <td class="text-center align-middle">
+                            <strong class="text-success">78%</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-success--filled text-uppercase">active</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <i class="material-icons md-14 align-middle">mail</i>
+                            </button>
+                            <button class="btn btn-primary btn-sm " data-toggle="tooltip" data-placement="bottom" title="View">
+                                <i class="material-icons md-14 align-middle">chevron_right</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle lh-1">
+                            <a href="#">
+                                <i class="material-icons md-18 align-middle">account_circle</i>
+                                Jane Doe
+                            </a>
+                            <div> <i class="material-icons md-18 align-middle">business</i> Flow LTD</div>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-muted text-uppercase">admin</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <span>&dollar;2264</span>
+                            <i class="material-icons md-18 text-success align-middle">arrow_upward</i>
+                        </td>
+                        <td class="text-center align-middle">
+                            <strong class="text-success">67%</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-success--filled text-uppercase">active</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <i class="material-icons md-14 align-middle">mail</i>
+                            </button>
+                            <button class="btn btn-primary btn-sm " data-toggle="tooltip" data-placement="bottom" title="View">
+                                <i class="material-icons md-14 align-middle">chevron_right</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle lh-1">
+                            <a href="#">
+                                <i class="material-icons md-18 align-middle">account_circle</i>
+                                Karen Doe
+                            </a>
+                            <div> <i class="material-icons md-18 align-middle">business</i> Meter LTD</div>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-muted text-uppercase">publisher</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <span>&dollar;120</span>
+                            <i class="material-icons md-18 text-danger align-middle">arrow_downward</i>
+                        </td>
+                        <td class="text-center align-middle">
+                            <strong class="text-danger">15%</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-danger--filled text-uppercase">inactive</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <i class="material-icons md-14 align-middle">mail</i>
+                            </button>
+                            <button class="btn btn-primary btn-sm " data-toggle="tooltip" data-placement="bottom" title="View">
+                                <i class="material-icons md-14 align-middle">chevron_right</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle lh-1">
+                            <a href="#">
+                                <i class="material-icons md-18 align-middle">account_circle</i>
+                                Andrew Robles
+                            </a>
+                            <span data-toggle="tooltip" data-placement="top" title="New Client">
+                                <i class="material-icons md-18 align-middle text-warning">star</i>
+                            </span>
+                            <div> <i class="material-icons md-18 align-middle">business</i> MosaicPro LTD</div>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-muted text-uppercase">admin</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <span>&dollar;8065</span>
+                            <i class="material-icons md-18 text-success align-middle">arrow_upward</i>
+                        </td>
+                        <td class="text-center align-middle">
+                            <strong class="text-success">94%</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-success--filled text-uppercase">active</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <i class="material-icons md-14 align-middle">mail</i>
+                            </button>
+                            <button class="btn btn-primary btn-sm " data-toggle="tooltip" data-placement="bottom" title="View">
+                                <i class="material-icons md-14 align-middle">chevron_right</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle lh-1">
+                            <a href="#">
+                                <i class="material-icons md-18 align-middle">account_circle</i>
+                                Mark Doe
+                            </a>
+                            <span data-toggle="tooltip" data-placement="top" title="New Client">
+                                <i class="material-icons md-18 align-middle text-warning">star</i>
+                            </span>
+                            <div> <i class="material-icons md-18 align-middle">business</i> Copy Paper LTD</div>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-muted text-uppercase">publisher</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <span>&dollar;4082</span>
+                            <i class="material-icons md-18 text-success align-middle">arrow_upward</i>
+                        </td>
+                        <td class="text-center align-middle">
+                            <strong class="text-success">78%</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-success--filled text-uppercase">active</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <i class="material-icons md-14 align-middle">mail</i>
+                            </button>
+                            <button class="btn btn-primary btn-sm " data-toggle="tooltip" data-placement="bottom" title="View">
+                                <i class="material-icons md-14 align-middle">chevron_right</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle lh-1">
+                            <a href="#">
+                                <i class="material-icons md-18 align-middle">account_circle</i>
+                                Jane Doe
+                            </a>
+                            <div> <i class="material-icons md-18 align-middle">business</i> Flow LTD</div>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-muted text-uppercase">admin</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <span>&dollar;2264</span>
+                            <i class="material-icons md-18 text-success align-middle">arrow_upward</i>
+                        </td>
+                        <td class="text-center align-middle">
+                            <strong class="text-success">67%</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-success--filled text-uppercase">active</span>
+                        </td>
+                        <td class="align-middle text-right">
+                            <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <i class="material-icons md-14 align-middle">mail</i>
+                            </button>
+                            <button class="btn btn-primary btn-sm " data-toggle="tooltip" data-placement="bottom" title="View">
+                                <i class="material-icons md-14 align-middle">chevron_right</i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>*@
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+<script src="~/Scripts/datepicker.js"></script>
+
+@*Datatable Paths*@
+<script src="~/Scripts/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/jszip.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/pdfmake.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/vfs_fonts.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.print.min.js"></script>
+<script src="~/Scripts/bootstrap-datatable/js/buttons.colVis.min.js"></script> 
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="~/Scripts/References/AMRReport.js"></script>
+
+
+ 
+<script type="text/javascript">
+
+    
+
+    $(document).ready(function ()
+    {
+  
+
+        var CreatedBy = $("#StaffId").val();
+        var AllCustomerPaymentViewModel;
+        $.ajax({
+            url: '/MDPortal/LoadMDPortalContents',
+            type: 'GET',
+            data:  { 
+                CreatedBy: CreatedBy
+            },
+            dataType: 'JSON',
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                AllCustomerPaymentViewModel = new AMRReport(data);
+                ko.applyBindings(AllCustomerPaymentViewModel); 
+            },
+            error: function (result) {
+                alert("Failed" + result.responseText);
+            }
+        });
+    }); 
+</script>

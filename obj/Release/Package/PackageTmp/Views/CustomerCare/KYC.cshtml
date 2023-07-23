@@ -1,0 +1,428 @@
+﻿
+@{
+    ViewBag.Title = "KYC";
+    Layout = "~/Views/Shared/_PHEDServeLayoutPage.cshtml";
+}
+<link href="~/assets/css/AMRCustomCSS/custom.min.css" rel="stylesheet" />
+<link href="~/Scripts/sweetalert2-master/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2-master/dist/sweetalert.js"></script>
+@*<div class="card-deck">
+    <div class="card p-2 pl-3 pr-3">
+        <div class="media align-items-center">
+            <div class="doughnut-chart-wrapper mr-1">
+                <div class="doughnut-chart-text">
+                    <div>
+                        <h3 class="text-danger">12%</h3>
+                        <small>TOTAL</small>
+                    </div>
+                </div>
+                <canvas class="doughnut-chart" data-percent="12" width="100" height="100"></canvas>
+            </div>
+            <div class="media-body">
+                <h3 class="mb-0">PREPAID</h3>
+                <span>KYC Retention</span>
+            </div>
+        </div>
+    </div>
+    <div class="card p-2 pl-3 pr-3">
+        <div class="media align-items-center">
+            <div class="doughnut-chart-wrapper mr-1">
+                <div class="doughnut-chart-text">
+                    <div>
+                        <h3 class="text-success">68%</h3>
+                        <small>TOTAL</small>
+                    </div>
+                </div>
+                <canvas class="doughnut-chart" data-percent="68" width="100" height="100"></canvas>
+            </div>
+            <div class="media-body">
+                <h4 class="mb-0">POSTPAID</h4>
+                <span>KYC Retention</span>
+            </div>
+        </div>
+    </div>
+    <div class="card p-2 pl-3 pr-3">
+        <div class="media justify-items-center align-items-center h-md-100">
+            <i class="material-icons md-48 text-link-color">account_circle</i>
+            <div class="media-body pl-2">
+                <h3 class="mb-0 text">87%</h3>
+                <span>Sign-Up Percentage</span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="card p-2 pl-3 pr-3">
+        <div class="media justify-items-center align-items-center h-md-100">
+            <i class="material-icons text-success md-48">check_circle</i>
+            <div class="media-body pl-2">
+                <h4 class="m-0"><span id="TodayDate"></span></h4>
+                <span>Message sent today!</span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>*@
+<div class="row">
+
+
+    <input value="" id="MeterNo" type="hidden" />
+    <div class="col-md-12">
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Customer Information Update</h4>
+            </div>
+
+            <div class="row tile_count" style="margin-right:10px; margin-left:10px">
+               
+
+
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                    <span class="count_top"><i class="fa fa-clock-o"></i> Number of Customers</span>
+                    <div class="count blue" >1,598</div>
+                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i>in PHED Customer DB</span>
+                </div>
+
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="align-content:center">
+                    <span class="count_top"><i class="fa fa-clock-o"></i> Number of  Customers</span>
+                    <div class="count blue" data-bind="text:TotalNumberOfCompletedStaff">798</div>
+                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i>with Complete Profile</span>
+                </div>
+
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-user"></i> Number of Customers</span>
+                    <div class="count green" data-bind="text:NumberPaidThisMonth">433</div>
+                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> with Incomplete Profile </span>
+                </div>
+
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-user"></i>Number of Customers</span>
+                    <div class="count green" data-bind="text:StaffPrepaid">768</div>
+                    <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i> </i>on PREPAID Meters</span>
+                </div>
+
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-user"></i> Number of Customers </span>
+                    <div class="count red" data-bind="text:StaffPostpaid">456</div>
+                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i> on POSTPAID TYPE</span>
+                </div>
+
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-user"></i> %age Compliance </span>
+                    <div class="count blue" data-bind="text:PercentageSuccess">66% </div>
+                   <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i></i>with KYC Update </span>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+            <hr />
+
+
+            <div class="card-body">
+                <label>Search Customer by Account or Meter Number</label>
+
+                <div class="input-group">
+
+                    <select class="form-control" data-bind="value:AccountType" id="basic-select">
+                        <option>Select Account Type</option>
+                        <option>PREPAID</option>
+                        <option>POSTPAID</option>
+                    </select>
+
+                    <input type="text" class="form-control" data-bind="value:SearchAccountNumber" placeholder="Customer's Account Number or Meter Number'" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-success btn-success" data-bind="click:SearchData" type="button">Search</button>
+                        @*<button class="btn btn-outline-secondary btn-success" type="button">Button</button>*@
+                    </div>
+                </div>
+                 
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label> <strong> Account Type</strong> </label><br />
+                        <span id="AccountType">N/A</span>
+                    </div>
+                    <div class="col-md-3">
+                        <label><strong>Phone Number</strong></label><br />
+                        <span id="PhoneNumber">N/A</span>
+                    </div>
+                    <div class="col-md-3">
+                        <label> <strong>Email Address</strong>  </label><br />
+                        <span id="EmailAddress">N/A</span>
+                    </div>
+                    <div class="col-md-3">
+                        <label><strong>Day and Month of Birth</strong></label><br />
+                        <span id="DateOfBirth">N/A</span>
+                    </div>
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="col-md-3">
+                        <label><strong>IBC</strong></label><br />
+                        <span id="IBC">N/A</span>
+                    </div>
+                    <div class="col-md-3">
+                        <label><strong>BSC</strong></label><br />
+                        <span id="BSC">N/A</span>
+                    </div>
+                    <div class="col-md-3">
+                        <label> <strong>Account Name</strong> </label><br />
+                        <span id="AccountName">N/A</span>
+                    </div>
+                    <div class="col-md-3">
+                        <label> <strong>AccountNo</strong>  </label><br />
+                        <span id="AccountNo">N/A</span>
+                    </div>
+                </div>
+
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Account Type</label>
+                        <select class="form-control" data-bind="value:AccountType" id="basic-select">
+                            <option>Select Account Type</option>
+                            <option>PREPAID</option>
+                            <option>POSTPAID</option>
+
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Email Address</label>
+                        <input class="form-control" data-bind="value:EmailAddress" type="text" placeholder="input Email Address">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Phone Number</label>
+                        <input class="form-control" type="text" data-bind="value:PhoneNumber" placeholder="input Phone  Number">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Day and Month of Birth</label>
+                        <input class="form-control" type="date" data-bind="value:DateOfBirth" placeholder="Readonly input here…">
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <label>Customer Name</label>
+                        <input class="form-control" data-bind="value:CustomerName" type="text" placeholder="input Customer Name">
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Customer Surname</label>
+                        <input class="form-control" data-bind="value:CustomerSurname" type="text" placeholder="input Customer Surname">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Other Names</label>
+                        <input class="form-control" type="text" data-bind="value:CustomerMiddleName" placeholder="input Other Names">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Residence Status</label>
+                        <select class="form-control" data-bind="value:ResidenceType" id="basic-select">  
+                        <option>Select Residence Status</option>
+                            <option>LANDLORD</option>
+                            <option>TENANT</option> 
+                        </select>   
+                    </div>
+                </div>
+                <br /><br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Customer Address</label>
+                        <textarea data-bind="value:Address" class="form-control" cols="3"></textarea>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="col-md-12">
+                    <button type="button" data-bind="click:SaveKYC" class="btn btn-primary float-right">Save Customer Details</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    @*<div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    History
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between pb-1">
+                    <span>January</span>
+                    <div>
+                        <strong>10,000</strong> <span>Records</span>
+                    </div>
+                </div>
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 52%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="d-flex justify-content-between pb-1">
+                    <span>February</span>
+                    <div>
+                        <strong>8,250</strong> <span>Records</span>
+                    </div>
+                </div>
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="d-flex justify-content-between pb-1">
+                    <span>March</span>
+                    <div>
+                        <strong>1,150</strong> <span>Records</span>
+                    </div>
+                </div>
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 22%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="d-flex justify-content-between pb-1">
+                    <span>April</span>
+                    <div>
+                        <strong>4,625</strong> <span>Records</span>
+                    </div>
+                </div>
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="d-flex justify-content-between pb-1">
+                    <span>May</span>
+                    <div>
+                        <strong>5,875</strong> <span>Records</span>
+                    </div>
+                </div>
+
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 45%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="d-flex justify-content-between pb-1">
+                    <span>June</span>
+                    <div>
+                        <strong>5,875</strong> <span>Records</span>
+                    </div>
+                </div>
+
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 45%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+
+                <div class="d-flex justify-content-between pb-1">
+                    <span>July</span>
+                    <div>
+                        <strong>5,875</strong> <span>Records</span>
+                    </div>
+                </div>
+
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 45%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              
+                <hr />
+            </div>
+        </div>
+    </div>*@
+</div>
+
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/knockout-3.4.0.debug.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/KnockOutMapping.js"></script>
+<script src="~/Scripts/moment.js"></script>
+<script src="~/Scripts/PHEDServe/PHEDServe.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+
+        $("#TodayDate").html(today);
+
+        
+        var AllTaxPayersViewModel;
+        $.ajax({
+            url: '/CustomerCare/KYCLoad',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (result) {
+                var data = JSON.parse(result);
+                console.log("Data From Server " + JSON.stringify(data));
+                AllTaxPayersViewModel = new PHEDServeEnergyViewModel(data);
+                ko.applyBindings(AllTaxPayersViewModel);
+                //apply the Datatable here
+                //$("#TableGrid").dataTable();
+            },
+            error: function (result) {
+
+                swal("Oops!", "An error has occured, We're trying to fix it. Please check your Internet connection. if the error persists, kindly refresh your page or re-login ", "error");
+
+                console.log("Failed" + result.responseText);
+            }
+        });
+    });
+
+
+</script>
+
+<script>
+    ko.bindingHandlers.date = {
+        // https://disqus.com/home/discussion/jasonmitchellcom/binding_and_formatting_dates_using_knockout_and_moment_js/#comment-1374417079
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            ko.utils.registerEventHandler(element, 'change', function () {
+                var value = valueAccessor();
+                if (element.value !== null && element.value !== undefined && element.value.length > 0) {
+                    value(element.value);
+                }
+                else {
+                    value('');
+                }
+            });
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = valueAccessor();
+            var allBindings = allBindingsAccessor();
+            var valueUnwrapped = ko.utils.unwrapObservable(value);
+
+            // Date formats: http://momentjs.com/docs/#/displaying/format/
+            var pattern = allBindings.format || 'DD/MM/YYYY';
+
+            var output = "-";
+            if (valueUnwrapped !== null && valueUnwrapped !== undefined && valueUnwrapped.length > 0) {
+                output = moment(valueUnwrapped).format(pattern);
+            }
+
+            if ($(element).is("input") === true) {
+                $(element).val(output);
+            } else {
+                $(element).text(output);
+            }
+        }
+    };
+</script>
+

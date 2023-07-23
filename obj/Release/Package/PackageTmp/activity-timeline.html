@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="theme-default">
+
+
+<!-- Mirrored from demo.frontted.com/flow/120220181311/activity-timeline.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 18 Jun 2018 21:55:45 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Flow</title>
+
+
+    <link type="text/css" href="assets/css/themes/default/vendor-bootstrap-datepicker.css" rel="stylesheet">
+
+    <!-- Prevent the demo from appearing in search engines -->
+    <meta name="robots" content="noindex">
+
+    <!-- Simplebar -->
+    <link type="text/css" href="assets/vendor/simplebar.css" rel="stylesheet">
+
+    <!-- App CSS -->
+    <link type="text/css" href="assets/css/themes/default/app.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="d-flex flex-column position-relative h-100">
+
+        <nav class="navbar navbar-expand-md navbar-light d-print-none">
+            <a class="navbar-brand" href="index.html">
+                <!-- SVG Logo -->
+                <svg width="24px" height="24px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMaxYMin meet">
+      <defs></defs>
+      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M3,-3.15936513e-15 L20,-2.74650094e-15 L20,-2.66453526e-15 C21.6568542,-2.96889791e-15 23,1.34314575 23,3 L23,20 L23,20 C23,21.6568542 21.6568542,23 20,23 L6,23 L3,23 L3,23 C1.34314575,23 1.09108455e-15,21.6568542 8.8817842e-16,20 L0,3 L0,3 C-2.02906125e-16,1.34314575 1.34314575,-3.24835102e-15 3,-3.55271368e-15 Z" id="logoBackground"></path>
+        <rect id="Rectangle-6" fill="#FFFFFF" x="1.0952381" y="12.0960631" width="9.96553315" height="9.76943696"></rect>
+        <rect id="Rectangle-6-Copy" fill="#FFFFFF" x="11.9533428" y="1.05597629" width="9.96553315" height="9.76943696"></rect>
+      </g>
+    </svg>
+                <!-- //End SVG Logo -->
+
+                <span class="navbar-brand-text">flow</span>
+                <small class="text-muted">v.1</small>
+            </a>
+            <div class="d-none d-md-block d-lg-block">
+                <!-- DEMO COLORS -->
+                <a href="activity-timeline.html" style="background: #6774DF;" class="demo-color active ">
+    <i class="material-icons align-middle align-self-center md-18">check</i>
+  </a>
+                <a href="blue-activity-timeline.html" style="background: #4A90E2;" class="demo-color  ">
+    <i class="material-icons align-middle align-self-center md-18">check</i>
+  </a>
+                <a href="green-activity-timeline.html" style="background: #7DC668;" class="demo-color  ">
+    <i class="material-icons align-middle align-self-center md-18">check</i>
+  </a>
+            </div>
+            <!-- END DEMO  COLORS -->
+            <button class="navbar-toggler navbar-toggler-right d-md-none d-lg-none" type="button" data-toggle="sidebar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ml-auto ">
+                    <li class="nav-item  align-self-center">
+                        <div class="nav-link">
+                            <div class="navbar--stats" role="group" aria-label="Basic example">
+                                <div class="navbar--stats--icon">
+                                    <i class="material-icons align-middle">local_atm</i>
+                                </div>
+                                <div class="navbar--stats--text">
+                                    <a href="#">$13,288</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item  align-self-center">
+                        <div class="nav-link">
+                            <div class="navbar--stats">
+                                <div class="navbar--stats--icon">
+                                    <i class="material-icons align-middle">email</i>
+                                </div>
+                                <div class="navbar--stats--text align-self-center">
+                                    <a href="#">124</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown notifications align-self-center" id="navbarNotifications">
+                        <a href="#" class="nav-link dropdown-toggle nav-link-active" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons align-middle">notifications_active</i>
+        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsDropdown" id="notificationsDropdown">
+                            <ul class="nav nav-tabs-notifications d-flex px-0" id="notifications-ul" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="true">Notifications</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="alerts-tab" data-toggle="tab" href="#alerts" role="tab" aria-controls="alerts" aria-selected="false">Alerts</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Messages</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="notifications-tabs">
+                                <div class="tab-pane fade show active" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="w-100"><a href="#">john</a> received a new quote</div>
+                                            <div class="w-100 text-muted">4 secs ago</div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="w-100"><a href="#">karen</a> received a new quote</div>
+                                            <div class="w-100 text-muted">25 mins ago</div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="w-100"><a href="#">jim</a> received a new quote</div>
+                                            <div class="w-100 text-muted">7 hrs ago</div>
+                                        </li>
+                                        <li class="list-group-item text-right">
+                                            <a href="#">
+                    <span class="align-middle">View All</span>
+                    <i class="material-icons md-18 align-middle">arrow_forward</i>
+                  </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <i class="material-icons align-middle mr-2 text-warning">
+                      info_outline
+                    </i>
+                                                <div class="media-body">
+                                                    <div class="w-100"><a href="profile.html">john</a> received a new <a href="#">quote</a></div>
+                                                    <div class="w-100 text-muted">4 secs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <i class="material-icons align-middle mr-2 text-success">
+                      check_circle
+                    </i>
+                                                <div class="media-body">
+                                                    <div class="w-100"><a href="profile.html">karen</a> completed a <a href="#">task</a></div>
+                                                    <div class="w-100 text-muted">25 mins ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <i class="material-icons align-middle mr-2 text-danger">
+                      warning
+                    </i>
+                                                <div class="media-body">
+                                                    <div class="w-100"><a href="profile.html">jim</a> removed a <a href="#">task</a></div>
+                                                    <div class="w-100 text-muted">7 hrs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item text-right">
+                                            <a href="#">
+                    <span class="align-middle">View All</span>
+                    <i class="material-icons md-18 align-middle">arrow_forward</i>
+                  </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <a href="profile.html">
+                      <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                    </a>
+                                                <div class="media-body">
+                                                    <div class="w-100">I started that project we talked...</div>
+                                                    <div class="w-100 text-muted">4 secs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <a href="profile.html">
+                      <img src="assets/images/avatars/alex-sheldon-271322.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                    </a>
+                                                <div class="media-body">
+                                                    <div class="w-100">Can we arrange a meeting?...</div>
+                                                    <div class="w-100 text-muted">25 mins ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <a href="profile.html">
+                      <img src="assets/images/avatars/foto-sushi-128246.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                    </a>
+                                                <div class="media-body">
+                                                    <div class="w-100">We need to fix some bugs...</div>
+                                                    <div class="w-100 text-muted">7 hrs ago</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item text-right">
+                                            <a href="#">
+                    <span class="align-middle">View All</span>
+                    <i class="material-icons md-18 align-middle">arrow_forward</i>
+                  </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown emails align-self-center">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons align-middle">email</i>
+        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="emailsDropdown" id="emailsDropdown">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <a href="profile.html">
+                  <img src="assets/images/avatars/lucas-sankey-378674.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                </a>
+                                        <div class="media-body">
+                                            <div class="w-100">New project</div>
+                                            <div class="w-100 text-muted">I started that project we talked...</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <a href="profile.html">
+                  <img src="assets/images/avatars/alex-sheldon-271322.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                </a>
+                                        <div class="media-body">
+                                            <div class="w-100">ASAP meeting</div>
+                                            <div class="w-100 text-muted">Can we arrange a meeting?...</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <a href="profile.html">
+                  <img src="assets/images/avatars/foto-sushi-128246.jpg" class="img-fluid rounded-circle mr-2" width="35" alt="">
+                </a>
+                                        <div class="media-body">
+                                            <div class="w-100">Need help</div>
+                                            <div class="w-100 text-muted">We need to fix some bugs...</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item text-right">
+                                    <a href="#">
+                <span class="align-middle">View All</span>
+                <i class="material-icons md-18 align-middle">arrow_forward</i>
+              </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle dropdown-clear-caret" data-toggle="dropdown" aria-expanded="false">
+          Dashboard <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle ml-1" width="35" alt="">
+        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-account">
+                            <div class="account-info">
+                                <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="45" alt="">
+                                <div class="lh-12">
+                                    <a href="profile.html"><strong>Andrew Robles</strong></a>
+                                    <div class="text-light">Site Manager</div>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled account-menu">
+                                <li><a href="account.html" class="dropdown-item "><i class="material-icons md-18 align-middle mr-1">lock</i> <span class="align-middle">Account</span></a></li>
+                                <li><a href="profile.html" class="dropdown-item "><i class="material-icons md-18 align-middle mr-1">account_circle</i> <span class="align-middle">Profile</span></a></li>
+                                <li><a href="#" class="dropdown-item"><i class="material-icons md-18 align-middle mr-1">settings</i> <span class="align-middle">Settings</span></a></li>
+                                <li>
+                                    <a href="#" class="dropdown-item">
+                <i class="material-icons md-18 align-middle mr-1">build</i>
+                <span class="align-middle">Support</span>
+              </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item">
+                <i class="material-icons md-18 align-middle mr-1">question_answer</i>
+                <span class="align-middle">FAQ</span>
+              </a>
+                                </li>
+                                <li><a href="login.html" class="dropdown-item"><i class="material-icons md-18 align-middle mr-1">exit_to_app</i> <span class="align-middle">Logout</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="mdk-drawer-layout js-mdk-drawer-layout" data-fullbleed data-push data-has-scrolling-region>
+            <div class="mdk-drawer-layout__content mdk-header-layout__content--scrollable">
+                <!-- CONTENT BODY -->
+
+
+
+                <div class="container-fluid">
+                    <div class="page-section mb-0">
+                        <h2>Activity Timeline</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="activity-section">
+
+                                <div class="activity-item d-flex">
+                                    <div class="activity-icon activity--color--link-color">
+                                        <i class="material-icons align-middle">description</i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="card p-2">
+                                            <div>
+                                                <a href="#" class="dropdown-toggle dropdown-no-caret float-right" id="activity1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons text-muted align-middle">more_horiz</i>
+                  </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="activity1">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                                <a href="#">Andrew Robles</a> <small class="text-muted"> now</small>
+                                            </div>
+                                            <div class="py-1">
+                                                <div class="mb-2">
+                                                    <p>Uploaded a new <i class="material-icons align-middle">local_movies</i>video</p><iframe class="timeline-video" src="https://player.vimeo.com/video/97243285?title=0&amp;byline=0&amp;portrait=0" frameborder="0"
+                                                        webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                                </div>
+                                                <small>
+                    <a href="#" class="text-muted">
+                      <i class="material-icons md-14 align-middle">comment</i> 2 comments
+                    </a>
+                    <span class="mx-2">-</span>
+                    <a href="#" class="text-muted">
+                      <i class="material-icons md-14 align-middle">thumb_up</i> 21 likes
+                    </a>
+                  </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="activity-item d-flex">
+                                    <div class="activity-icon activity--color--success">
+                                        <i class="material-icons align-middle">email</i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="card p-2">
+                                            <div>
+                                                <a href="#" class="dropdown-toggle dropdown-no-caret float-right" id="activity2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons text-muted align-middle">more_horiz</i>
+                  </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="activity2">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                                <a href="#">Michael Fox</a> <small class="text-muted"> 20 min ago</small>
+                                            </div>
+                                            <div class="py-1">
+                                                <div class="mb-2">Sent an email <strong>"Completed the first drafts"</strong> <a href="#"><i class="material-icons md-18 align-middle">remove_red_eye</i> View</a></div>
+                                                <small>
+                    <a href="#" class="text-muted">
+                      <i class="material-icons md-14 align-middle">comment</i> 4 comments
+                    </a>
+                    <span class="mx-2">-</span>
+                    <a href="#" class="text-muted">
+                      <i class="material-icons md-14 align-middle">thumb_up</i> 5 likes
+                    </a>
+                  </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="activity-item d-flex">
+                                    <div class="activity-icon activity--color--primary">
+                                        <i class="material-icons align-middle">group</i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="card p-2">
+                                            <div>
+                                                <a href="#" class="dropdown-toggle dropdown-no-caret float-right" id="activity3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons text-muted align-middle">more_horiz</i>
+                  </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="activity3">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                                <a href="#">Francis Smart</a> <small class="text-muted"> 2 hrs ago</small>
+                                            </div>
+                                            <div class="py-1">
+                                                <div class="mb-2">Was added to company <a href="#" class="text-muted"><i class="material-icons align-middle md-18">business</i> Themefy LTD</a></div>
+                                                <small>
+                    <a href="#" class="text-muted">
+                      <i class="material-icons md-14 align-middle">comment</i> 2 comments
+                    </a>
+                    <span class="mx-2">-</span>
+                    <a href="#" class="text-muted">
+                      <i class="material-icons md-14 align-middle">thumb_up</i> 1 likes
+                    </a>
+                  </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="activity-item d-flex">
+                                    <div class="activity-icon activity--color--warning">
+                                        <i class="material-icons align-middle">monetization_on</i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="card p-2">
+                                            <div>
+                                                <a href="#" class="dropdown-toggle dropdown-no-caret float-right" id="activity4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons text-muted align-middle">more_horiz</i>
+                  </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="activity4">
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                                <a href="#">Samantha Ray</a> <small class="text-muted"> 2 days ago</small>
+                                            </div>
+                                            <div class="py-1">
+                                                <div class="mb-2">
+                                                    <p>
+                                                        Bought products worth of <strong>$120</strong> with order <a href="#">#21312</a></p>
+                                                    <table class="table table-bordered table-sm">
+                                                        <tr>
+                                                            <td>1. <a href="#">TouchScreen</a></td>
+                                                            <td width="50">1 pcs</td>
+                                                            <td width="100" class="text-center">$90</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2. <a href="#">Keyboard</a></td>
+                                                            <td width="50">2 pcs</td>
+                                                            <td width="100" class="text-center">$30</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <small>
+                    <a href="#" class="text-muted">
+                      <i class="material-icons md-14 align-middle">comment</i> 21 comments
+                    </a>
+                    <span class="mx-2">-</span>
+                    <a href="#" class="text-muted">
+                      <i class="material-icons md-14 align-middle">thumb_up</i> 195 likes
+                    </a>
+                  </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mt-4">
+                                <img src="assets/images/luke-chesser-2347.jpg" class="card-img cover-photo" alt="">
+                                <div class="card-body">
+                                    <div class="d-flex mb-3">
+                                        <div class="author-img">
+                                            <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle" alt="">
+                                        </div>
+                                        <div class="author-info">
+                                            <p class="lead mb-0">Andrew Robles</p>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">I want to talk about two things that are quite important.. <a href="#">read more</a></p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between">
+                                    <a href="#" class="social social-facebook">
+            <svg viewBox="0 0 16 16" width="30%" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M15.117 0H.883C.395 0 0 .395 0 .883v14.234c0 .488.395.883.883.883h7.663V9.804H6.46V7.39h2.086V5.607c0-2.066 1.262-3.19 3.106-3.19.883 0 1.642.064 1.863.094v2.16h-1.28c-1 0-1.195.48-1.195 1.18v1.54h2.39l-.31 2.42h-2.08V16h4.077c.488 0 .883-.395.883-.883V.883C16 .395 15.605 0 15.117 0"/></svg>
+          </a>
+                                    <a href="#" class="social social-twitter">
+            <svg viewBox="0 0 16 16" width="30%" xmlns="http://www.w3.org/2000/svg"  clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z"/></svg>
+          </a>
+                                    <a href="#" class="social social-instagram">
+            <svg viewBox="0 0 16 16" width="30%" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C5.827 0 5.555.01 4.702.048 3.85.088 3.27.222 2.76.42c-.526.204-.973.478-1.417.923-.445.444-.72.89-.923 1.417-.198.51-.333 1.09-.372 1.942C.008 5.555 0 5.827 0 8s.01 2.445.048 3.298c.04.852.174 1.433.372 1.942.204.526.478.973.923 1.417.444.445.89.72 1.417.923.51.198 1.09.333 1.942.372.853.04 1.125.048 3.298.048s2.445-.01 3.298-.048c.852-.04 1.433-.174 1.942-.372.526-.204.973-.478 1.417-.923.445-.444.72-.89.923-1.417.198-.51.333-1.09.372-1.942.04-.853.048-1.125.048-3.298s-.01-2.445-.048-3.298c-.04-.852-.174-1.433-.372-1.942-.204-.526-.478-.973-.923-1.417-.444-.445-.89-.72-1.417-.923-.51-.198-1.09-.333-1.942-.372C10.445.008 10.173 0 8 0zm0 1.44c2.136 0 2.39.01 3.233.048.78.036 1.203.166 1.485.276.374.145.64.318.92.598.28.28.453.546.598.92.11.282.24.705.276 1.485.038.844.047 1.097.047 3.233s-.01 2.39-.05 3.233c-.04.78-.17 1.203-.28 1.485-.15.374-.32.64-.6.92-.28.28-.55.453-.92.598-.28.11-.71.24-1.49.276-.85.038-1.1.047-3.24.047s-2.39-.01-3.24-.05c-.78-.04-1.21-.17-1.49-.28-.38-.15-.64-.32-.92-.6-.28-.28-.46-.55-.6-.92-.11-.28-.24-.71-.28-1.49-.03-.84-.04-1.1-.04-3.23s.01-2.39.04-3.24c.04-.78.17-1.21.28-1.49.14-.38.32-.64.6-.92.28-.28.54-.46.92-.6.28-.11.7-.24 1.48-.28.85-.03 1.1-.04 3.24-.04zm0 2.452c-2.27 0-4.108 1.84-4.108 4.108 0 2.27 1.84 4.108 4.108 4.108 2.27 0 4.108-1.84 4.108-4.108 0-2.27-1.84-4.108-4.108-4.108zm0 6.775c-1.473 0-2.667-1.194-2.667-2.667 0-1.473 1.194-2.667 2.667-2.667 1.473 0 2.667 1.194 2.667 2.667 0 1.473-1.194 2.667-2.667 2.667zm5.23-6.937c0 .53-.43.96-.96.96s-.96-.43-.96-.96.43-.96.96-.96.96.43.96.96z"/></svg>
+          </a>
+                                    <a href="#" class="social social-dribbble">
+            <svg viewBox="0 0 16 16" width="30%" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 16c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm6.747-6.905c-.234-.074-2.115-.635-4.257-.292.894 2.456 1.258 4.456 1.328 4.872 1.533-1.037 2.624-2.68 2.93-4.58zM10.67 14.3c-.102-.6-.5-2.688-1.46-5.18l-.044.014C5.312 10.477 3.93 13.15 3.806 13.4c1.158.905 2.614 1.444 4.194 1.444.947 0 1.85-.194 2.67-.543zm-7.747-1.72c.155-.266 2.03-3.37 5.555-4.51.09-.03.18-.056.27-.08-.173-.39-.36-.778-.555-1.16-3.413 1.02-6.723.977-7.023.97l-.003.208c0 1.755.665 3.358 1.756 4.57zM1.31 6.61c.307.005 3.122.017 6.318-.832-1.132-2.012-2.353-3.705-2.533-3.952-1.912.902-3.34 2.664-3.784 4.785zM6.4 1.368c.188.253 1.43 1.943 2.548 4 2.43-.91 3.46-2.293 3.582-2.468C11.323 1.827 9.736 1.176 8 1.176c-.55 0-1.087.066-1.6.19zm6.89 2.322c-.145.194-1.29 1.662-3.816 2.694.16.325.31.656.453.99.05.117.1.235.147.352 2.274-.286 4.533.172 4.758.22-.015-1.613-.59-3.094-1.543-4.257z"/></svg>
+          </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- drawer -->
+            <div class="mdk-drawer js-mdk-drawer" id="default-drawer">
+                <div class="mdk-drawer__content">
+                    <div class="mdk-drawer__inner" data-simplebar data-simplebar-force-enabled="true">
+
+                        <nav class="drawer  drawer--dark">
+                            <div class="drawer-spacer drawer-spacer-border">
+                                <div class="media align-items-center">
+                                    <img src="assets/images/avatars/andrew-robles-300868.jpg" class="img-fluid rounded-circle mr-2" width="40" alt="">
+                                    <div class="media-body" style="line-height: 1.2">
+                                        <a href="profile.html"><strong>Andrew Robles</strong></a>
+                                        <div>Site Manager</div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle dropdown-clear-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="material-icons">more_vert</i>
+        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="profile.html" class="dropdown-item dropdown-item-action ">View Profile</a>
+                                            <a href="account.html" class="dropdown-item dropdown-item-action ">Edit Account</a>
+                                            <a href="#" class="dropdown-item dropdown-item-action">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- DROPDOWN -->
+                            <div class="drawer-spacer">
+                                <div class="dropdown">
+                                    <button class="btn btn-block dropdown-toggle text-left text-white" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span>Page Layouts</span>
+      </button>
+                                    <div class="dropdown-menu w-100">
+                                        <a href="index.html" class="dropdown-item dropdown-item-action   active ">Default Layout (fluid)</a>
+                                        <a href="index-drawer-light.html" class="dropdown-item dropdown-item-action ">Sidebar - Light Color</a>
+                                        <a href="index-navbar-primary.html" class="dropdown-item dropdown-item-action ">Navbar - Primary</a>
+                                        <a href="index-drawer-right.html" class="dropdown-item dropdown-item-action ">Layout Sidebar Right</a>
+                                        <a href="index-fixed.html" class="dropdown-item dropdown-item-action ">Fixed Layout</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- HEADING -->
+                            <div class="drawer-heading">
+                                Menu
+                            </div>
+                            <!-- MENU -->
+                            <ul class="drawer-menu" id="mainMenu" data-children=".drawer-submenu">
+                                <li class="drawer-menu-item drawer-submenu">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#dashboardMenu" aria-controls="dashboardMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">home</i>
+        <span class="drawer-menu-text"> Dashboard</span>
+      </a>
+                                    <ul class="collapse " id="dashboardMenu">
+                                        <li class="drawer-menu-item "><a href="index.html">Dashboard 1</a></li>
+                                        <li class="drawer-menu-item "><a href="index-second.html">Dashboard 2</a></li>
+                                        <li class="drawer-menu-item "><a href="index-third.html">Dashboard 3</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drawer-menu-item drawer-submenu">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#appsMenu" data-target="#appsMenu" aria-controls="appsMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">view_quilt</i>
+        <span class="drawer-menu-text"> Apps</span>
+      </a>
+                                    <ul class="collapse " id="appsMenu">
+                                        <li class="drawer-menu-item "><a href="apps-email.html">Email</a></li>
+                                        <li class="drawer-menu-item "><a href="apps-chat.html">Chat</a></li>
+                                        <li class="drawer-menu-item "><a href="apps-clients.html">Clients</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drawer-menu-item drawer-submenu">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#uiMenu" aria-controls="uiMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">library_books</i>
+        <span class="drawer-menu-text">UI Components</span>
+      </a>
+                                    <ul class="collapse " id="uiMenu">
+                                        <li class="drawer-menu-item "><a href="ui-buttons.html">Buttons</a></li>
+                                        <li class="drawer-menu-item "><a href="ui-colors.html">Colors</a></li>
+                                        <li class="drawer-menu-item "><a href="ui-grid.html">Grid</a></li>
+                                        <li class="drawer-menu-item "><a href="ui-navs.html">Navs</a></li>
+                                        <li class="drawer-menu-item "><a href="ui-icons.html">Icons</a></li>
+                                        <li class="drawer-menu-item "><a href="ui-typography.html">Typography</a></li>
+                                        <li class="drawer-menu-item "><a href="ui-drag-drop.html">Drag &amp; Drop</a></li>
+                                        <li class="drawer-menu-item "><a href="ui-tables.html">Tables</a></li>
+                                        <li class="drawer-menu-item "><a href="ui-notifications.html">Notifications</a></li>
+                                        <li class="drawer-menu-item "><a href="ui-loaders.html">Loaders</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drawer-menu-item drawer-submenu">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#formsMenu" aria-controls="formsMenu" aria-expanded="false" class="collapsed">
+        <i class="material-icons">text_format</i>
+        <span class="drawer-menu-text">Forms</span>
+      </a>
+                                    <ul class="collapse " id="formsMenu">
+                                        <li class="drawer-menu-item "><a href="form-controls.html">Form controls</a></li>
+                                        <li class="drawer-menu-item "><a href="checkboxes-radios.html">Checkboxes and Radios</a></li>
+                                        <li class="drawer-menu-item "><a href="switches-toggles.html">Switches and Toggles</a></li>
+                                        <li class="drawer-menu-item "><a href="form-layout.html">Layout Variations</a></li>
+                                        <li class="drawer-menu-item "><a href="validation.html">Validation</a></li>
+                                        <li class="drawer-menu-item "><a href="custom-forms.html">Custom Forms</a></li>
+                                        <li class="drawer-menu-item "><a href="text-editor.html">Text Editor</a></li>
+                                        <li class="drawer-menu-item "><a href="datepicker.html">Datepicker</a></li>
+                                    </ul>
+                                </li>
+                                <li class="drawer-menu-item ">
+                                    <a href="events-calendar.html">
+        <i class="material-icons">event_note</i>
+        <span class="drawer-menu-text">Events Calendar</span>
+      </a>
+                                </li>
+                                <li class="drawer-menu-item ">
+                                    <a href="maps.html">
+        <i class="material-icons">language</i>
+        <span class="drawer-menu-text">Maps</span>
+      </a>
+                                </li>
+                                <li class="drawer-menu-item ">
+                                    <a href="charts.html">
+        <i class="material-icons">insert_chart</i>
+        <span class="drawer-menu-text">Charts</span>
+      </a>
+                                </li>
+                                <li class="drawer-menu-item drawer-submenu">
+                                    <a data-toggle="collapse" data-parent="#mainMenu" href="#" data-target="#pageMenu" aria-controls="pageMenu" aria-expanded="true">
+        <i class="material-icons">layers</i>
+        <span class="drawer-menu-text">Pages / Examples</span>
+      </a>
+                                    <ul class="collapse show" id="pageMenu">
+                                        <li class="drawer-menu-item "><a href="tickets.html">Tickets</a></li>
+                                        <li class="drawer-menu-item "><a href="blog-post.html">Blog Post</a></li>
+                                        <li class="drawer-menu-item "><a href="profile.html">Profile</a></li>
+                                        <li class="drawer-menu-item "><a href="account.html">Account</a></li>
+                                        <li class="drawer-menu-item "><a href="emails-listing.html">Emails Listing</a></li>
+                                        <li class="drawer-menu-item "><a href="lessons.html">Lessons</a></li>
+                                        <li class="drawer-menu-item "><a href="lessons_second.html">Lessons 2</a></li>
+                                        <li class="drawer-menu-item "><a href="learning.html">Learning</a></li>
+                                        <li class="drawer-menu-item active"><a href="activity-timeline.html">Activity Timeline</a></li>
+                                        <li class="drawer-menu-item "><a href="error.html">Error Page</a></li>
+                                        <li class="drawer-menu-item "><a href="cart.html">Shopping cart</a></li>
+                                        <li class="drawer-menu-item "><a href="invoice.html">Invoice</a></li>
+                                        <li class="drawer-menu-item "><a href="pricing-2.html">Pricing (New)</a></li>
+                                        <li class="drawer-menu-item "><a href="pricing.html">Pricing</a></li>
+                                        <li class="drawer-menu-item"><a href="signup.html">Sign Up</a></li>
+                                        <li class="drawer-menu-item"><a href="login.html">Login</a></li>
+                                        <li class="drawer-menu-item"><a href="forgot-password.html">Forgot Password</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <!-- HEADING -->
+                            <div class="drawer-heading">
+                                Activity
+                            </div>
+                            <!-- ACTIVITY -->
+                            <div class="list-group list-group-flush drawer-activity">
+                                <div class="list-group-item flex-column align-items-start active">
+                                    <div class="media">
+                                        <div class="list-dot d-flex align-self-center"></div>
+                                        <div class="media-body">
+                                            <a href="#"> <i class="material-icons align-middle">person</i> brian</a> left a comment on a ticket <a href="#">#1224</a> in milestone <a href="#">Initial Release</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <div class="media">
+                                        <div class="list-dot d-flex align-self-center"></div>
+                                        <div class="media-body">
+                                            <a href="#"> <i class="material-icons align-middle">person</i> steven</a> left a comment on a ticket <a href="#">#1225</a> in milestone <a href="#">Initial Release</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <div class="media">
+                                        <div class="list-dot d-flex align-self-center"></div>
+                                        <div class="media-body">
+                                            <a href="#"> <i class="material-icons align-middle">person</i> karen</a> left a comment on a ticket <a href="#">#283</a> in milestone <a href="#">Alpha Release</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <div class="media">
+                                        <div class="list-dot d-flex align-self-center"></div>
+                                        <div class="media-body">
+                                            <a href="#"> <i class="material-icons align-middle">person</i> themefy</a> left a comment on a ticket <a href="#">#285</a> in milestone <a href="#">Alpha Release</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- // END drawer-layout -->
+    </div>
+
+    <!-- jQuery -->
+    <script src="assets/vendor/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="assets/vendor/popper.js"></script>
+    <script src="assets/vendor/bootstrap.min.js"></script>
+
+    <!-- Simplebar -->
+    <!-- Used for adding a custom scrollbar to the drawer -->
+    <script src="assets/vendor/simplebar.js"></script>
+
+
+    <script src="assets/vendor/Chart.min.js"></script>
+    <script src="assets/vendor/moment.min.js"></script>
+    <script src="assets/vendor/dateformat.js"></script>
+    <script src="assets/vendor/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        window.theme = "default";
+    </script>
+    <script src="assets/js/color_variables.js"></script>
+    <script src="assets/js/app.js"></script>
+
+
+    <script src="assets/vendor/dom-factory.js"></script>
+    <!-- DOM Factory -->
+    <script src="assets/vendor/material-design-kit.js"></script>
+    <!-- MDK -->
+
+
+
+    <script>
+        (function() {
+            'use strict';
+
+            // Self Initialize DOM Factory Components
+            domFactory.handler.autoInit()
+
+            // Connect button(s) to drawer(s)
+            var sidebarToggle = Array.prototype.slice.call(document.querySelectorAll('[data-toggle="sidebar"]'))
+
+            sidebarToggle.forEach(function(toggle) {
+                toggle.addEventListener('click', function(e) {
+                    var selector = e.currentTarget.getAttribute('data-target') || '#default-drawer'
+                    var drawer = document.querySelector(selector)
+                    if (drawer) {
+                        drawer.mdkDrawer.toggle()
+                    }
+                })
+            })
+
+            //////////////////////////////////////////
+            // BREAK OUT OF ENVATO LIVE DEMO IFRAME //
+            //////////////////////////////////////////
+
+            window.top.location.hostname !== window.location.hostname && (window.top.location = window.location)
+
+        })();
+    </script>
+
+
+    <script src="assets/vendor/bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/datepicker.js"></script>
+
+
+</body>
+
+
+<!-- Mirrored from demo.frontted.com/flow/120220181311/activity-timeline.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 18 Jun 2018 21:55:45 GMT -->
+</html>
