@@ -4379,10 +4379,181 @@ namespace PHEDServe.Controllers
 
         }
 
-
         [System.Web.Http.HttpPost]
         [Route("api/PHEDConnectAPI/GetCustomerPaymentHistoryWithToken")]
         public HttpResponseMessage GetCustomerPaymentHistoryWithToken(RCDCModel Data)
+        {
+            RCDCModel d = new RCDCModel();
+            db = new ApplicationDbContext();
+
+            if (Data == null || string.IsNullOrEmpty(Data.AccountNo))
+            {
+                // var message = string.Format("The Zone or the Feeder was not Selected with id = {0} not found", id,32);
+
+                var message = string.Format("Please select an Account Number to Proceed and Try again");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+
+            else
+            {
+                //convert the Date to DateTime and Get Year
+
+                string Year = DateTime.Now.Year.ToString();
+                string Month = DateTime.Now.Month.ToString();
+                DateTime DateofDiscon = Convert.ToDateTime(Data.Date);
+                DataSet dataSet = new DataSet();
+                int Count = 20;
+
+
+               
+                conn = new OracleConnection(ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString());
+                conn.Open();
+                OracleCommand cmd = new OracleCommand
+                {
+                    Connection = conn,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "ENSERV.SP_WF_GET_CUSTOMER_PAYMENTHISTORY"
+                };
+                cmd.CommandTimeout = 900;
+                cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                cmd.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
+                cmd.Parameters.Add("P_COUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = Count;
+
+
+                    try
+                    {
+                        RCDCCustomer Customer = new RCDCCustomer();
+                        using (OracleDataReader rdr = cmd.ExecuteReader())
+                        {
+                            if (rdr.HasRows)
+                            {
+                                //Formulate the Customer details here before Sending
+
+                                List<RCDCCustomerPayments> Pay = new List<RCDCCustomerPayments>();
+
+                                RCDCCustomerPayments _pay = new RCDCCustomerPayments();
+                                while (rdr.Read())
+                                {
+                                   
+                                _pay = new RCDCCustomerPayments();
+                                //Iterate through the Dataset and Set the Payment history Objects to the Model
+                                _pay.AmountPaid = Convert.ToDouble(rdr["Amount"].ToString());
+                                _pay.PaymentDescription = rdr["paymentpurpose"].ToString();
+                                _pay.PaymentID = rdr["receiptnumber"].ToString();
+                                _pay.PaymentChannel = rdr["channelname"].ToString();
+                                _pay.Token = rdr["Tokendec"].ToString();
+                                _pay.TarriffIndex = rdr["TI"].ToString();
+                                Pay.Add(_pay);
+                            }
+                                Customer.PaymentHistory = Pay.OrderByDescending(p => p.DatePaid).ToList();
+                                //provisional Outstanding 
+                                //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+                                #region Provisional Outstanding
+                                ProvisionalOutstanding Prov = new ProvisionalOutstanding();
+                                List<ProvisionalOutstanding> _Prov = new List<ProvisionalOutstanding>();
+
+                                OracleDataAdapter da = new OracleDataAdapter();
+                                OracleCommand oracmd = new OracleCommand
+                                {
+                                    Connection = conn,
+                                    CommandType = CommandType.StoredProcedure,
+                                    CommandText = "ENSERV.SP_RCDC_GETINCIDENTS"
+                                };
+
+                                oracmd.CommandTimeout = 900;
+                                oracmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                                oracmd.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
+
+                                using (OracleDataReader rdrRcdc = oracmd.ExecuteReader())
+                                {
+                                    if (rdrRcdc.HasRows)
+                                    {
+                                        while (rdrRcdc.Read())
+                                        {
+                                            Prov = new ProvisionalOutstanding();
+                                            //Iterate through the Dataset and Set the Payment history Objects to the Model
+                                            Prov.INCIDENCE = rdrRcdc["Incidence"].ToString();
+                                            Prov.PRI_OUT_CRE_COM = rdrRcdc["PRI_FT_FA_OUT_CRE_COM"].ToString();
+                                            _Prov.Add(Prov);
+                                        }
+                                    }
+
+                                    Customer.ProvisionalOutstanding = _Prov;
+                                }
+
+                                // conn.Close();
+                                //conn.Dispose();
+                                oracmd.Dispose();
+                                #endregion
+
+                                //Billing History
+
+
+                                OracleCommand cmdBill = new OracleCommand
+                                {
+                                    Connection = conn,
+                                    CommandType = CommandType.StoredProcedure,
+                                    CommandText = "ENSERV.SP_WF_GET_BILLINFO_BY_CUSTOMERACCOUNT"
+                                };
+                                cmdBill.CommandTimeout = 900;
+                                cmdBill.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                                cmdBill.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
+                                cmdBill.Parameters.Add("P_COUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = Count;
+                                using (OracleDataReader billrdr = cmdBill.ExecuteReader())
+                                {
+                                    RCDC_Spot_Billing Bills = new RCDC_Spot_Billing();
+                                    List<RCDC_Spot_Billing> _Bills = new List<RCDC_Spot_Billing>();
+                                    if (billrdr.HasRows)
+                                    {
+                                        while (billrdr.Read())
+                                        {
+                                            Bills = new RCDC_Spot_Billing();
+                                            //Iterate through the Dataset and Set the Payment history Objects to the Model
+                                            Bills.BilledQty = billrdr["BilledAmount"].ToString();
+                                            Bills.BillingDate = Convert.ToDateTime(billrdr["BillMonth"].ToString());
+                                            _Bills.Add(Bills);
+                                        }
+                                        Customer.BillingHistory = _Bills;
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                }
+
+                                //FT-00462 
+                                return Request.CreateResponse(HttpStatusCode.OK, Customer);
+
+                            }
+                            else
+                            {
+                                var message = string.Format("No Account record exists for this Account Selected ");
+                                HttpError err = new HttpError(message);
+                                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+                            }
+                        }
+
+                    }
+                    catch (Exception exception1)
+                    {
+                        conn.Close();
+                        conn.Dispose();
+                        Exception exception = exception1;
+                        var message = string.Format("Could not retrieve Customer records because " + exception1.Message + ". Please try again Thank you");
+                        HttpError err = new HttpError(message);
+                        return Request.CreateResponse(HttpStatusCode.NotFound, err);
+                    }               
+
+            }
+        }
+
+
+
+        [System.Web.Http.HttpPost]
+        [Route("api/PHEDConnectAPI/GetCustomerPaymentHistoryWithTokenOld")]
+        public HttpResponseMessage GetCustomerPaymentHistoryWithTokenOld(RCDCModel Data)
         {
             RCDCModel d = new RCDCModel();
             db = new ApplicationDbContext();
