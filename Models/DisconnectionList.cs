@@ -193,6 +193,14 @@ namespace PHEDServe.Models
         public string Longitude { get; set; }
         
     }
+    public class ImageUploadModel
+    {
+        public List<string> filePaths { get; set; }
+        public string Status { get; set; }
+
+        public string Message { get; set; }
+    }
+
     public class RCDCModel
     {
         public string UserName { get; set; }
@@ -252,6 +260,8 @@ namespace PHEDServe.Models
         public string FeederName { get; set; }
 
         public string  FeederId { get; set; }
+
+        public string Feeder11Id { get; set; }
 
         public string LoadProfile { get; set; }
 

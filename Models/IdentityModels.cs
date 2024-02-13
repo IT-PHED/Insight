@@ -135,8 +135,10 @@ namespace PHEDServe.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)
-        { }
+        public ApplicationDbContext() : base("DefaultConnection")
+        {
+            string test = "";
+        }
 
 
   
@@ -197,6 +199,8 @@ namespace PHEDServe.Models
         public DbSet<RCDC_DisconnectionList> RCDCDisconnectionLists { get; set; }
         public DbSet<RCDCDTR_Exec> RCDCDTR_Execs { get; set; }
         public DbSet<RCDC_DTR> RCDC_DTRs { get; set; }
+
+        public DbSet<RCDC_Faulty_Transformer> RCDC_FaultyTransformers { get; set; }
         public DbSet<RCDC_OnboardCustomers> RCDC_OnboardCustomerss { get; set; }public DbSet<RCDC_BillDistribution>  RCDC_BillDistributions { get; set; }
         public DbSet<DOCUMENTS> DOCUMENTSs { get; set; }
         public DbSet<RCDC_Settlement_Duration> RCDC_Settlement_Durations { get; set; }
@@ -246,7 +250,7 @@ namespace PHEDServe.Models
     public class ApplicationDbContextUAT : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContextUAT()
-            : base("DefaultConnectionUAT")
+            : base("OracleConnectionUAT")
         { }
 
 
@@ -291,7 +295,9 @@ namespace PHEDServe.Models
         public DbSet<Customercomplaints> Customercomplaintss { get; set; }
         public DbSet<CustomercomplaintsModel> CustomercomplaintsModels { get; set; }
 
-        public DbSet<RCDC_Ireport> RCDC_Ireports { get; set; } 
+        public DbSet<RCDC_Ireport> RCDC_Ireports { get; set; }
+
+        public DbSet<RCDC_Faulty_Transformer> RCDC_FaultyTransformers { get; set; }
         public DbSet<METER_REPAYMENT_PLAN> METER_REPAYMENT_PLANs { get; set; }
         public DbSet<MAP_CONTRACTOR> MAP_CONTRACTORS { get; set; } 
         public DbSet<DirectPayments> DirectPaymentss { get; set; }

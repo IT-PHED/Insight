@@ -20,6 +20,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -27,11 +28,20 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 using HttpGetAttribute = System.Web.Mvc.HttpGetAttribute;
 using RouteAttribute = System.Web.Mvc.RouteAttribute;
+using System.IO.Compression;
+using System.Runtime.InteropServices.ComTypes;
+using System.Security.Policy;
+using System.Web.Http.Results;
+using System.Web.Services.Description;
+using System.EnterpriseServices;
+
 
 namespace PHEDServe.Controllers
 {
+    [System.Web.Http.Cors.EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PHEDConnectAPIController : ApiController
     {     
         ApplicationDbContext db = new ApplicationDbContext();
@@ -56,7 +66,7 @@ namespace PHEDServe.Controllers
         private SqlConnection sqlcon = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
         // private SqlConnection EnumsConnection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["EnumsConnection"].ConnectionString);
-
+        private SqlConnection sqlconAttendance = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["AttendanceConnection"].ConnectionString);
 
         string EnumerationConnection = System.Configuration.ConfigurationManager.ConnectionStrings["EnumerationConnection"].ConnectionString.ToString();
 
@@ -217,9 +227,68 @@ namespace PHEDServe.Controllers
 
           }
 
-          #endregion
+        [System.Web.Http.HttpPost]
+        [Route("api/PHEDConnectAPI/InsertEnumCustomerDetails")]
+        public HttpResponseMessage InsertEnumCustomerDetails(enumCustomerValidation enumCustomer)
+        {
+            string msg = "";
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["EnumsConnection"].ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand("SP_WF_InsertEnumCustomerDetails", con))
+                {
+                    //a shorter syntax to adding parameters
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Status", SqlDbType.VarChar).Value = enumCustomer.Status ?? null;
+                    command.Parameters.Add("@AccountNumber", SqlDbType.VarChar).Value = enumCustomer.AccountNumber;
+                    command.Parameters.Add("@CustomerName", SqlDbType.VarChar).Value = enumCustomer.CustomerName;
+                    command.Parameters.Add("@CustomerPhone", SqlDbType.VarChar).Value = enumCustomer.CustomerPhone;
+                    command.Parameters.Add("@CustomerEmail", SqlDbType.VarChar).Value = enumCustomer.CustomerEmail;
+                    command.Parameters.Add("@LandLordName", SqlDbType.VarChar).Value = enumCustomer.LandLordName;
+                    command.Parameters.Add("@PPM", SqlDbType.Int).Value = enumCustomer.PPM;
+                    command.Parameters.Add("@CorrectAddress", SqlDbType.VarChar).Value = enumCustomer.CorrectAddress;
+                    command.Parameters.Add("@BuildType", SqlDbType.VarChar).Value = enumCustomer.BuildType;
+                    command.Parameters.Add("@CustomerClass", SqlDbType.VarChar).Value = enumCustomer.CustomerClass;
+                    command.Parameters.Add("@Upriser", SqlDbType.Int).Value = enumCustomer.Upriser;
+                    command.Parameters.Add("@PoleNo", SqlDbType.Int).Value = enumCustomer.PoleNo;
+                    command.Parameters.Add("@FeederId", SqlDbType.Int).Value = enumCustomer.FeederId;
+                    command.Parameters.Add("@DTRId", SqlDbType.Int).Value = enumCustomer.DTRId;
+                    command.Parameters.Add("@userId", SqlDbType.Int).Value = enumCustomer.userId;
+                    command.Parameters.Add("@remarks", SqlDbType.VarChar).Value = enumCustomer.remarks;
+                    command.Parameters.Add("@infraction", SqlDbType.VarChar).Value = enumCustomer.Infraction;
+                    command.Parameters.Add("@NoofRooms", SqlDbType.Int).Value = enumCustomer.NoofRooms;
+                    command.Parameters.Add("@NoofNew", SqlDbType.Int).Value = enumCustomer.NoofNew;
+                    command.Parameters.Add("@timeStampDate", SqlDbType.VarChar).Value = enumCustomer.timeStampDate;
+                    command.Parameters.Add("@DateCaptured", SqlDbType.VarChar).Value = enumCustomer.DateCaptured;
+                    command.Parameters.Add("@noofSeperation", SqlDbType.Int).Value = enumCustomer.noofSeperation;
+                    command.Parameters.Add("@seperationforBilling", SqlDbType.VarChar).Value = enumCustomer.seperationforBilling;
+                    command.Parameters.Add("@Recommendation", SqlDbType.VarChar).Value = (enumCustomer.Recommendation == null || enumCustomer.Recommendation == "") ? "N/A" : enumCustomer.Recommendation;
+                    command.Parameters.Add("@Latitude", SqlDbType.VarChar).Value = (enumCustomer.Latitude == null || enumCustomer.Latitude == "") ? "N/A" : enumCustomer.Latitude;
+                    command.Parameters.Add("@Longitude", SqlDbType.VarChar).Value = (enumCustomer.Longitude == null || enumCustomer.Longitude == "") ? "N/A" : enumCustomer.Longitude;
+                    //make sure you open and close(after executing) the connection
+                    con.Open();
+                    try
+                    {
+                        int res = command.ExecuteNonQuery();
+                        con.Close();
+                        msg = "Account Synced";
 
-          private string GetSeparationAccount(string primaryaccount, string StaffName, string StaffId)
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.StackTrace);
+                        con.Close();
+                        msg = "Account not Synced:"+e.Message;
+                    }
+                }
+            }
+            var message = string.Format("The Data Status: " + msg);
+            HttpError err = new HttpError(message);
+            return Request.CreateResponse(HttpStatusCode.NotFound, err);
+        }
+
+            #endregion
+
+            private string GetSeparationAccount(string primaryaccount, string StaffName, string StaffId)
           {
               List<string> list = new List<string>();
               List<string> subactlist = new List<string>();
@@ -384,6 +453,8 @@ namespace PHEDServe.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, subactlist);
             }
         }
+
+
          
          
         private int InsertParentAccountToSQL(string requestbyname, string requestbyid, string primaryaccount, int noofseparation, string requestdate)
@@ -456,13 +527,1912 @@ namespace PHEDServe.Controllers
             return "value";
         }
 
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getEnumCustomerPremisesHtml")]
+        public HttpResponseMessage getEnumCustomerPremisesHtml()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            string contents = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/index.html");
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/index.html", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return response;
+        }
 
-        /// <summary>
-        /// This returns the Accounts that have been approved and the Accounts that have not been approved
-        /// </summary>
-        /// <param name="Data"></param>
-        /// <returns></returns>
-        [System.Web.Http.HttpPost]
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getTodayReportHtml")]
+        public HttpResponseMessage getTodayReportHtml()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            string contents = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/TodayReport.html");
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/TodayReport.html", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getRPDHtml")]
+        public HttpResponseMessage getRPDHtml()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            string contents = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/RPD.html");
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/RPD.html", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getCustomerDtails")]
+        public HttpResponseMessage getCustomerDtails()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            string contents = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/CustomerDetails.html");
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/CustomerDetails.html", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/InsightsPage")]
+        public HttpResponseMessage InsightsPage()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            string contents = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/SmartInsights.html");
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/SmartInsights.html", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return response;
+        }
+
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/ReportFaultyTransformer")]
+        public HttpResponseMessage ReportFaultyTransformer()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            string contents = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/ReportFaultyTransformer.html");
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/ReportFaultyTransformer.html", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getRPDJS")]
+        public HttpResponseMessage getRPDJS()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            string contents = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/jquery-3.7.1.js");
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/jquery-3.7.1.js", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/javascript");
+            return response;
+        }
+
+
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getCustomerDataCompleteOfflineZipFile")]
+        public HttpResponseMessage getCustomerDataCompleteOfflineZipFile(string staffId, string feederId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata"))
+            {
+                Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata", true);
+            }
+            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata.zip"))
+            {
+                File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata.zip");
+            }
+            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata"))
+            {
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata");
+            }
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = "SELECT TOP 1000 [TSID],[TSName],[Feeder33ID],[Feeder33Name],[INJID],[INJName],[Feeder11ID]," +
+                "[Feeder11Name],[DTRID],[DistrictName],[DistrictID],[ServiceCenterName],[ServiceCenterID],[ACCOUNTNO]," +
+                "[Name],[Addr1],[IBC],[BSC],[CurrentMeterSerialNo],[CONS_TYPE],[CurrentTarriffClass],[GSM],[AccountStatus]," +
+                "[TransformerID],[cin],[DTR_Name],[ZONE],[FeederType] ,[Region_Id],[Reginal_Names]" +
+                " FROM [RCDC_App].[RCDC_User].[HierarchyEnumsData33415_11415_temp4Updated] WHERE   ([Feeder33ID]='" + feederId + "' and [Feeder11name] like '%------%')  " +
+                "or ([Feeder11ID]='" + feederId + "' and not [Feeder11name] like '%------%') FOR JSON AUTO,INCLUDE_NULL_VALUES";
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "customerOfflineData.json", jsonResult.ToString());
+                    sqlcon.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            ///-----------------------------old Customer Data---------------------------------------------------//
+             query = "SELECT TOP 1000 CurrentMeterSerialNo,ACCOUNTNO," +
+                            "Addr1,cin,Latitude,Longitude,AccountType,Name," +
+                            "DTR_Name,DTRID,Phase,feederid,newDTRId,CurrentTarriffClass," +
+                            "Feeder33Name,GSM,bookcode,billsn,delivered FROM enumeration.rcdc_user.view_customerrecordsx where feederid =" + feederId + "FOR JSON AUTO";
+            jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "oldCustomerOfflineData.json", jsonResult.ToString());
+                    sqlcon.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            //---------------------------Customer Premises Data-------------------------------------//
+             query = "SELECT top 1000 selectedArea,feederid," +
+                           "dtrid,streetID,pin,streetenteringfrom,noofCustomers,premisesType,upriserNo,poleNo," +
+                           "closestLandMark,nameOfLandLord,streetAddress,latlon,userid,deviceid,sn,datecaptured," +
+                           "lon,premise_is_on,premiseno,isstreetmapped,extra,streetpremiseno,streetpremisenos,taplat," +
+                           "taplon,Flag,cpole,cupriser,datecaptured2,hasborehole,noofborehole,uploadflag,gpstrackID " +
+                           "FROM ENUMERATION.RCDC_User.enumsverificationpremise FOR JSON AUTO,INCLUDE_NULL_VALUES";
+             jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "customerPremise.json", jsonResult.ToString()); 
+                    sqlcon.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            //----------------------------- Enum Verification Customer Data---------------------------//
+             query = "SELECT top 1000 nameOfCustomer,customerPhone," +
+                          "customerEmail,  flatno, conntype, metertype, acctNo, meterno, tarriffclass, vacantStatus, meterCondition," +
+                          "typeOfBuilding,userid, remarks,premiseid,isseperation,sn,iscallback," +
+                          "timestamp,datecaptured,lon,lat,meterFaultyCondition,callbackid,buildingStatus,poleno," +
+                          "upriserno,extra,sec,seperation_account,noofseperation,buildingtype, meteraddress,connectionStatus, " +
+                          "selectedAccountType,useofbuilding,reportsn,Sticker_ID,stickerno,pin,taplat,taplon,Flag, " +
+                          "enumssn,servicewire,Customersereial,datecaptured2,DTRApprovalStatus,DTRCheckedDate,DTRApprovedBy, DTRCheckedDate, uploadflag ,gpstrackID " +
+                          " FROM [ENUMERATION].[RCDC_User].enumsverificationcustomerdetails FOR JSON AUTO,INCLUDE_NULL_VALUES";
+             jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "enumVerificationcustomerData.json", jsonResult.ToString());
+                    sqlcon.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            //----------------------------------Get TBIS Customer Data--------------------------------------//
+             query = "SELECT TOP 1000 SI, SIID FROM  ENUMERATION.dbo.L_tblSI FOR JSON AUTO,INCLUDE_NULL_VALUES";
+
+            jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                   
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "tbiscustomerData.json", jsonResult.ToString());
+                    sqlcon.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            //--------------------- get Customer call back------------------------//
+             query = "select top 1000 [nameOfCustomer],[customerPhone],[customerEmail],[flatno]" +
+                ",[conntype],[metertype],[acctNo],[meterno],[tarriffclass],[vacantStatus]" +
+                ",[meterCondition],[typeOfBuilding],[userid],[remarks],[premiseid],[isseperation],[sn],[iscallback],[timestamp],[datecaptured],[lon]" +
+                ",[upriserno],[extra],[sec],[seperation_account],[noofseperation],[buildingtype],[meteraddress]" +
+                ",[connectionStatus],[selectedAccountType],[useofbuilding],[reportsn],[Sticker_ID],[stickerno]" +
+                ",[pin],[taplon],[taplat],[enumssn],[datecaptured2] FROM [ENUMERATION].[RCDC_User].[enumsvalcallbacks] where callbackid is null or callbackid ='' " +
+                " FOR JSON AUTO,INCLUDE_NULL_VALUES";
+
+             jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "customercallbackData.json", jsonResult.ToString());
+                    sqlcon.Close();
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            //---------------------get customer DTR -------------------------//
+             query = "SELECT TOP 1000 [Feeder33ID],[Feeder33Name],[Feeder11ID],[Feeder11Name],[DTRID],[DTR_Name],[ZONE]" +
+                " FROM [RCDC_App].[RCDC_User].[HierarchyEnumsData33415_11415Dtr_temp] FOR JSON AUTO,INCLUDE_NULL_VALUES";
+
+             jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "customerTransformerOfflineData.json", jsonResult.ToString());
+                    sqlcon.Close();
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            //------------get customer tariff data------------------//
+             query = "SELECT [TariffClass] FROM [ENUMERATION].[dbo].[L_tblTariffClass] FOR JSON AUTO,INCLUDE_NULL_VALUES";
+
+             jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                   
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "customerTariffOfflineData.json", jsonResult.ToString());
+                    sqlcon.Close();
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            //----------------------get customer street data--------------//
+             query = " SELECT TOP 1000 SIID, StreetIdentifierID, IdentifierCode, StreetName, EnrollmentAreaID FROM [ENUMERATION].dbo.L_tblStreetIdentifier FOR JSON AUTO,INCLUDE_NULL_VALUES";
+
+             jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "customerStreetOfflineData.json", jsonResult.ToString());
+                    sqlcon.Close();
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            //----------------------get Enrollment Area data--------------//
+            query = "SELECT [EnrollmentAreaID],[EnrollmentArea] FROM [ENUMERATION].[dbo].[M_tblEnrollmentArea] FOR JSON AUTO,INCLUDE_NULL_VALUES";
+
+            jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "enrollmentAreaOfflineData.json", jsonResult.ToString());
+                    sqlcon.Close();
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            //---------------------------------Feeder 11 Details----------------------------------------//
+            query = "SELECT distinct [Feeder11ID],[Feeder11Name] FROM [RCDC_App].[RCDC_User].[HierarchyEnumsData33415_11415_temp4Updated] FOR JSON AUTO,INCLUDE_NULL_VALUES";
+
+            jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "feeder11DetailsOfflineData.json", jsonResult.ToString());
+                    sqlcon.Close();
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            //--------------------------DTR Names ---------------------------------------//
+            query = "SELECT distinct  [Feeder11ID],[DTRID],[DTR_Name] FROM [RCDC_App].[RCDC_User].[HierarchyEnumsData33415_11415_temp4Updated] order by [Feeder11ID] FOR JSON AUTO,INCLUDE_NULL_VALUES";
+
+            jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata" + "/" + "dtrDetailsOfflineData.json", jsonResult.ToString());
+                    sqlcon.Close();
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata.zip", CompressionLevel.Fastest, true);
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getCustomerDataOfflineZipFile")]
+        public HttpResponseMessage getCustomerDataOfflineZipFile(string staffId, string feederId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = "SELECT TOP 1000 [TSID],[TSName],[Feeder33ID],[Feeder33Name],[INJID],[INJName],[Feeder11ID]," +
+                "[Feeder11Name],[DTRID],[DistrictName],[DistrictID],[ServiceCenterName],[ServiceCenterID],[ACCOUNTNO]," +
+                "[Name],[Addr1],[IBC],[BSC],[CurrentMeterSerialNo],[CONS_TYPE],[CurrentTarriffClass],[GSM],[AccountStatus]," +
+                "[TransformerID],[cin],[DTR_Name],[ZONE],[FeederType] ,[Region_Id],[Reginal_Names]" +
+                " FROM [RCDC_App].[RCDC_User].[HierarchyEnumsData33415_11415_temp4Updated] WHERE   ([Feeder33ID]='" + feederId + "' and [Feeder11name] like '%------%')  " +
+                "or ([Feeder11ID]='" + feederId + "' and not [Feeder11name] like '%------%') FOR JSON AUTO";
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata",true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata");
+                    }
+                   
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata" + "/" + "customerOfflineData.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata.zip", CompressionLevel.Fastest, true);
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_customeroffdata.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getOldCustomerDataOfflineZipFile")]
+        public HttpResponseMessage getOldCustomerDataOfflineZipFile(string feederId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = "SELECT TOP 1000 CurrentMeterSerialNo,ACCOUNTNO," +
+                            "Addr1,cin,Latitude,Longitude,AccountType,Name," +
+                            "DTR_Name,DTRID,Phase,feederid,newDTRId,CurrentTarriffClass," +
+                            "Feeder33Name,GSM,bookcode,billsn,delivered FROM enumeration.rcdc_user.view_customerrecordsx where feederid =" + feederId + "FOR JSON AUTO";
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata", true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata");
+                    }
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata" + "/" + "oldCustomerOfflineData.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata.zip", CompressionLevel.Fastest, true);
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_oldCustomeroffdata.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getCustomerPermisesZipFile")]
+        public HttpResponseMessage getCustomerPermisesZipFile(string staffId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = "SELECT top 1000 selectedArea,feederid,"+
+                           "dtrid,streetID,pin,streetenteringfrom,noofCustomers,premisesType,upriserNo,poleNo," +
+                           "closestLandMark,nameOfLandLord,streetAddress,latlon,userid,deviceid,sn,datecaptured," +
+                           "lon,premise_is_on,premiseno,isstreetmapped,extra,streetpremiseno,streetpremisenos,taplat," +
+                           "taplon,Flag,cpole,cupriser,datecaptured2,hasborehole,noofborehole,uploadflag,gpstrackID " +
+                           "FROM ENUMERATION.RCDC_User.enumsverificationpremise FOR JSON AUTO,INCLUDE_NULL_VALUES";
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerPremise"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerPremise", true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerPremise.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerPremise.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerPremise"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerPremise");
+                    }
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerPremise" + "/" + "customerPremise.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerPremise",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerPremise.zip", CompressionLevel.Fastest, true);
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerPremise.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_customerPremise.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getEnumVerificationCustomerOfflineDataZipFile")]
+        public HttpResponseMessage getEnumVerificationCustomerOfflineDataZipFile(string staffId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = "SELECT top 1000 nameOfCustomer,customerPhone," +
+                           "customerEmail,  flatno, conntype, metertype, acctNo, meterno, tarriffclass, vacantStatus, meterCondition," +
+                           "typeOfBuilding,userid, remarks,premiseid,isseperation,sn,iscallback," +
+                           "timestamp,datecaptured,lon,lat,meterFaultyCondition,callbackid,buildingStatus,poleno," +
+                           "upriserno,extra,sec,seperation_account,noofseperation,buildingtype, meteraddress,connectionStatus, " +
+                           "selectedAccountType,useofbuilding,reportsn,Sticker_ID,stickerno,pin,taplat,taplon,Flag, " +
+                           "enumssn,servicewire,Customersereial,datecaptured2,DTRApprovalStatus,DTRCheckedDate,DTRApprovedBy, DTRCheckedDate, uploadflag ,gpstrackID " +
+                           " FROM [ENUMERATION].[RCDC_User].enumsverificationcustomerdetails FOR JSON AUTO";
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData", true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData");
+                    }
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData" + "/" + "enumVerificationcustomerData.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData.zip", CompressionLevel.Fastest, true);
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_enumVerificationcustomerData.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getStaffOfflineDataZipFile")]
+        public HttpResponseMessage getStaffOfflineDataZipFile(string staffId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+             
+        var list = new List<PHEDServe.Models.StaffBasicData>();
+            string query = "SELECT staff_Id,Surname," +
+                           "OtherNames,Phone, CUG, Email, DepartmentID, TeamID, Department, IBC, BSU," +
+                           "Status,IMEI1, IMEI2,IMEILogin" +
+                           " FROM [ENHANCE].[dbo].[StaffBasicData] where [DateExited] is null FOR JSON AUTO";
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData", true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData");
+                    }
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData" + "/" + "StaffData.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData.zip", CompressionLevel.Fastest, true);
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_staffOfflineData.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getOfficeLocationsDataZipFile")]
+        public HttpResponseMessage getOfficeLocationsDataZipFile(string staffId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var list = new List<PHEDServe.Models.StaffBasicData>();
+            string query = "SELECT OfficeDescription,Address," +
+                           "Latitude,Longitude" +
+                           " FROM [HCM_ATTENDANCE_SYSTEM].[dbo].[OfficeLocations] where [isActive] = 1 FOR JSON AUTO";
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlconAttendance))
+            {
+                sqlconAttendance.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData", true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData");
+                    }
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData" + "/" + "OfficeLocationData.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData.zip", CompressionLevel.Fastest, true);
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlconAttendance.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_OfficeLocationOfflineData.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+         }
+
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getTBISCustomerOfflineDataZipFile")]
+        public HttpResponseMessage getTBISCustomerOfflineDataZipFile(string staffId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = "SELECT TOP 1000 SI, SIID FROM  ENUMERATION.dbo.L_tblSI FOR JSON AUTO";
+                          
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData", true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData");
+                    }
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData" + "/" + "tbiscustomerData.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData.zip", CompressionLevel.Fastest, true);
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getCustomerCallbackDataZipFile")]
+        public HttpResponseMessage getCustomerCallbackDataZipFile(string staffId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = "select top 1000 [nameOfCustomer],[customerPhone],[customerEmail],[flatno]"+
+                ",[conntype],[metertype],[acctNo],[meterno],[tarriffclass],[vacantStatus]" +
+                ",[meterCondition],[typeOfBuilding],[userid],[remarks],[premiseid],[isseperation],[sn],[iscallback],[timestamp],[datecaptured],[lon]" +
+                ",[upriserno],[extra],[sec],[seperation_account],[noofseperation],[buildingtype],[meteraddress]" +
+                ",[connectionStatus],[selectedAccountType],[useofbuilding],[reportsn],[Sticker_ID],[stickerno]" +
+                ",[pin],[taplon],[taplat],[enumssn],[datecaptured2] FROM [ENUMERATION].[RCDC_User].[enumsvalcallbacks] where callbackid is null or callbackid ='' " +
+                " FOR JSON AUTO";
+
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customercallbackData"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customercallbackData", true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customercallbackData.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customercallbackData.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customercallbackData"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customercallbackData");
+                    }
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customercallbackData" + "/" + "customercallbackData.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_tbiscustomerData",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customercallbackData.zip", CompressionLevel.Fastest, true);
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customercallbackData.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_customercallbackData.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getTransformerOfflineDataZipFile")]
+        public HttpResponseMessage getTransformerOfflineDataZipFile(string staffId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = "SELECT TOP 1000 [Feeder33ID],[Feeder33Name],[Feeder11ID],[Feeder11Name],[DTRID],[DTR_Name],[ZONE]" +
+                " FROM [RCDC_App].[RCDC_User].[HierarchyEnumsData33415_11415Dtr_temp] FOR JSON AUTO " ;
+
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData", true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData");
+                    }
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData" + "/" + "customerTransformerOfflineData.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData.zip", CompressionLevel.Fastest, true);
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_customerTransformerOfflineData.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getTariffOfflineDataZipFile")]
+        public HttpResponseMessage getTariffOfflineDataZipFile()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = "SELECT [TariffClass] FROM [ENUMERATION].[dbo].[L_tblTariffClass] FOR JSON AUTO";
+
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData", true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData");
+                    }
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData" + "/" + "customerTariffOfflineData.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData.zip", CompressionLevel.Fastest, true);
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerCompleteofflinedata", true);
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_customerTariffOfflineData.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getStreetNumberandIdoffline")]
+        public HttpResponseMessage getStreetNumberandIdoffline()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            var list = new List<PHEDServe.Models.StreetNameId>();
+            string query = "SELECT SI,StreetName,EnrollmentArea FROM enumeration.rcdc_user.View_streetnameandid";
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            list.Add(new StreetNameId
+                            {
+                                SI = rdr[0].ToString(),
+                                StreetName = rdr[1].ToString(),
+                                EnrollmentArea = rdr[2].ToString()
+                            });
+                        }
+
+                    }
+                    sqlcon.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, list);
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getenrollmentareaoffline")]
+        public HttpResponseMessage getenrollmentareaoffline()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            var list = new List<PHEDServe.Models.EnrollmentArea>();
+            string query = "SELECT [EnrollmentAreaID],[EnrollmentArea] FROM [ENUMERATION].[dbo].[M_tblEnrollmentArea]";
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            list.Add(new EnrollmentArea
+                            {
+                                EnrollmentAreaID = rdr[0].ToString(),
+                                EnrollmentAreaName = rdr[1].ToString()
+                                
+                            });
+                        }
+
+                    }
+                    sqlcon.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, list);
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getBIInsightByProduct")]
+        public HttpResponseMessage getBIInsightByProduct(string regionId,string feeder33id,string feederId,string dtrid)
+        {
+            conn = new OracleConnection(strConnString);
+            try
+            {
+               
+                conn.Open();
+               
+                       
+                        OracleCommand cmd = new OracleCommand
+                        {
+                            Connection = conn,
+                            CommandType = CommandType.StoredProcedure,
+                            CommandText = "ENSERV.SP_GET_BI_INHIGHTS_BY_PRODUCT"
+                        };
+                        cmd.CommandTimeout = 900;
+                        cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                        cmd.Parameters.Add("IN_REGIONID", OracleDbType.Varchar2, ParameterDirection.Input).Value = regionId;
+                        cmd.Parameters.Add("IN_FEEDER33ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = feeder33id;
+                        cmd.Parameters.Add("IN_FEEDER11ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = feederId;
+                        cmd.Parameters.Add("IN_DTRID", OracleDbType.Varchar2, ParameterDirection.Input).Value = dtrid;
+                        using (OracleDataReader rdr = cmd.ExecuteReader())
+                        {
+                            if (rdr.HasRows)
+                            {
+                                List<BIInsightData> bIInsightDataList = new List<BIInsightData>();
+                                while (rdr.Read())
+                                {
+                                    BIInsightData bIInsight = new BIInsightData();
+                                    bIInsight.product = rdr["product"].ToString();
+                                    bIInsight.total_population = rdr["TOTAL_TPOPU_A_N_I"].ToString()!=""? rdr["TOTAL_TPOPU_A_N_I"].ToString():"0";
+                                    bIInsight.total_active_population = rdr["TOTAL_ACTIVE_POP_PP_N_PPM"].ToString()!=""? rdr["TOTAL_ACTIVE_POP_PP_N_PPM"].ToString():"0";
+                                    bIInsight.total_billed_population = rdr["TOTAL_BILLED_POPU"].ToString()!=""? rdr["TOTAL_BILLED_POPU"].ToString():"0";
+                                    bIInsight.total_kwh_billed = rdr["TOTAL_KWH_BILLED"].ToString()!=""? rdr["TOTAL_KWH_BILLED"].ToString():"0";
+                                    bIInsight.previous_total_billed = rdr["TOTAL_AMOUNT_BILLED_PREVIOUS_MONTH"].ToString()!=""? rdr["TOTAL_AMOUNT_BILLED_PREVIOUS_MONTH"].ToString():"0";
+                                    bIInsight.current_total_billed = rdr["TOTAL_AMOUNT_BILLED_CURRENT_MONTH"].ToString()!=""? rdr["TOTAL_AMOUNT_BILLED_CURRENT_MONTH"].ToString():"0";
+                                    bIInsight.previous_total_payment = rdr["TOTAL_PAYMENT_PREVIOUS_MONTH"].ToString()!=""? rdr["TOTAL_PAYMENT_PREVIOUS_MONTH"].ToString():"0";
+                                    bIInsight.current_total_payment = rdr["TOTAL_PAYMENT_CURRENT_MONTH"].ToString()!=""? rdr["TOTAL_PAYMENT_CURRENT_MONTH"].ToString():"0";
+                                    bIInsight.current_total_payment_today = rdr["TOTAL_PAYMENT_TODAY"].ToString()!=""? rdr["TOTAL_PAYMENT_TODAY"].ToString():"0";
+                                    bIInsight.total_response = rdr["TOTAL_RESPS"].ToString()!=""?rdr["TOTAL_RESPS"].ToString():"0";
+                                    bIInsight.total_ARREARSPMT = rdr["TOTAL_ARREARS_AMT"].ToString()!=""? rdr["TOTAL_ARREARS_AMT"].ToString():"0";
+                                    bIInsight.payment_variance = rdr["TOTAL_PAYMENT_VARIANCE"].ToString()!=""? rdr["TOTAL_PAYMENT_VARIANCE"].ToString():"0";
+                                    bIInsight.response_variance = rdr["TOTAL_RESP_VARIANCE"].ToString()!=""? rdr["TOTAL_RESP_VARIANCE"].ToString():"0";
+                                    bIInsight.previous_collectionefficiency = rdr["TOTAL_CE_PREVIOUS"].ToString()!=""? rdr["TOTAL_CE_PREVIOUS"].ToString():"0";
+                                    bIInsight.current_collectionefficiency = rdr["TOTAL_CE_PRESENT"].ToString()!=""? rdr["TOTAL_CE_PRESENT"].ToString():"0";
+                                    bIInsight.current_collectionefficiency_percentage =rdr["TOTAL_CE_PRESENT_PERCENTAGE"].ToString() != "" ? rdr["TOTAL_CE_PRESENT_PERCENTAGE"].ToString() : "0";
+                                    bIInsight.response_variance_percentage = rdr["TOTAL_RESP_VARIANCE_PERCENTAGE"].ToString()!=""? rdr["TOTAL_RESP_VARIANCE_PERCENTAGE"].ToString():"0";
+                                    bIInsight.payment_variance_percentage = rdr["PERCENTAGE_PAYMENT_VARIANCE"].ToString()!=""? rdr["PERCENTAGE_PAYMENT_VARIANCE"].ToString():"0";
+                                    bIInsight.billDate = rdr["billdate"].ToString();
+                                    bIInsightDataList.Add(bIInsight);
+                                }
+                                return this.Request.CreateResponse(HttpStatusCode.OK, bIInsightDataList, new JsonMediaTypeFormatter());
+                            }
+                        }
+                        //Cmnd.Parameters.AddWithValue("@NAME", SqlDbType.NVarChar).Value = Name;
+                        conn.Close();
+                       
+
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                HttpError Error = new HttpError(ex.Message) { { "IsSuccess", false } };
+                return Request.CreateErrorResponse(HttpStatusCode.OK, Error);
+            }
+           
+        }
+
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getBIInsightByTariffBand")]
+        public HttpResponseMessage getBIInsightByTariffBand(string regionId, string feeder33id, string feederId, string dtrid)
+        {
+            conn = new OracleConnection(strConnString);
+            try
+            {
+               
+                conn.Open();
+
+
+                OracleCommand cmd = new OracleCommand
+                {
+                    Connection = conn,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "ENSERV.SP_GET_BI_INHIGHTS_BY_TARIFF"
+                };
+                cmd.CommandTimeout = 900;
+                cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
+                cmd.Parameters.Add("IN_REGIONID", OracleDbType.Varchar2, ParameterDirection.Input).Value = regionId;
+                cmd.Parameters.Add("IN_FEEDER33ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = feeder33id;
+                cmd.Parameters.Add("IN_FEEDER11ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = feederId;
+                cmd.Parameters.Add("IN_DTRID", OracleDbType.Varchar2, ParameterDirection.Input).Value = dtrid;
+                using (OracleDataReader rdr = cmd.ExecuteReader())
+                {
+                    if (rdr.HasRows)
+                    {
+                        List<BIInsightData> bIInsightDataList = new List<BIInsightData>();
+                        while (rdr.Read())
+                        {
+                            BIInsightData bIInsight = new BIInsightData();
+                            bIInsight.tariff_band = rdr["tariff_band"].ToString();
+                            bIInsight.total_population = rdr["TOTAL_TPOPU_A_N_I"].ToString() != "" ? rdr["TOTAL_TPOPU_A_N_I"].ToString() : "0";
+                            bIInsight.total_active_population = rdr["TOTAL_ACTIVE_POP_PP_N_PPM"].ToString() != "" ? rdr["TOTAL_ACTIVE_POP_PP_N_PPM"].ToString() : "0";
+                            bIInsight.total_billed_population = rdr["TOTAL_BILLED_POPU"].ToString() != "" ? rdr["TOTAL_BILLED_POPU"].ToString() : "0";
+                            bIInsight.total_kwh_billed = rdr["TOTAL_KWH_BILLED"].ToString() != "" ? rdr["TOTAL_KWH_BILLED"].ToString() : "0";
+                            bIInsight.previous_total_billed = rdr["TOTAL_AMOUNT_BILLED_PREVIOUS_MONTH"].ToString() != "" ? rdr["TOTAL_AMOUNT_BILLED_PREVIOUS_MONTH"].ToString() : "0";
+                            bIInsight.current_total_billed = rdr["TOTAL_AMOUNT_BILLED_CURRENT_MONTH"].ToString() != "" ? rdr["TOTAL_AMOUNT_BILLED_CURRENT_MONTH"].ToString() : "0";
+                            bIInsight.previous_total_payment = rdr["TOTAL_PAYMENT_PREVIOUS_MONTH"].ToString() != "" ? rdr["TOTAL_PAYMENT_PREVIOUS_MONTH"].ToString() : "0";
+                            bIInsight.current_total_payment = rdr["TOTAL_PAYMENT_CURRENT_MONTH"].ToString() != "" ? rdr["TOTAL_PAYMENT_CURRENT_MONTH"].ToString() : "0";
+                            bIInsight.current_total_payment_today = rdr["TOTAL_PAYMENT_TODAY"].ToString() != "" ? rdr["TOTAL_PAYMENT_TODAY"].ToString() : "0";
+                            bIInsight.total_response = rdr["TOTAL_RESPS"].ToString() != "" ? rdr["TOTAL_RESPS"].ToString() : "0";
+                            bIInsight.total_ARREARSPMT = rdr["TOTAL_ARREARS_AMT"].ToString() != "" ? rdr["TOTAL_ARREARS_AMT"].ToString() : "0";
+                            bIInsight.payment_variance = rdr["TOTAL_PAYMENT_VARIANCE"].ToString() != "" ? rdr["TOTAL_PAYMENT_VARIANCE"].ToString() : "0";
+                            bIInsight.response_variance = rdr["TOTAL_RESP_VARIANCE"].ToString() != "" ? rdr["TOTAL_RESP_VARIANCE"].ToString() : "0";
+                            bIInsight.previous_collectionefficiency = rdr["TOTAL_CE_PREVIOUS"].ToString() != "" ? rdr["TOTAL_CE_PREVIOUS"].ToString() : "0";
+                            bIInsight.current_collectionefficiency = rdr["TOTAL_CE_PRESENT"].ToString() != "" ? rdr["TOTAL_CE_PRESENT"].ToString() : "0";
+                            bIInsight.response_variance_percentage = rdr["TOTAL_RESP_VARIANCE_PERCENTAGE"].ToString() != "" ? rdr["TOTAL_RESP_VARIANCE_PERCENTAGE"].ToString() : "0";
+                            bIInsight.payment_variance_percentage = rdr["PERCENTAGE_PAYMENT_VARIANCE"].ToString() != "" ? rdr["PERCENTAGE_PAYMENT_VARIANCE"].ToString() : "0";
+                            bIInsight.billDate = rdr["billdate"].ToString();
+                            bIInsightDataList.Add(bIInsight);
+                        }
+                        return this.Request.CreateResponse(HttpStatusCode.OK, bIInsightDataList, new JsonMediaTypeFormatter());
+                    }
+                }
+                //Cmnd.Parameters.AddWithValue("@NAME", SqlDbType.NVarChar).Value = Name;
+                conn.Close();
+
+
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                HttpError Error = new HttpError(ex.Message) { { "IsSuccess", false } };
+                return Request.CreateErrorResponse(HttpStatusCode.OK, Error);
+            }
+
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getBillsToDeliverApiOffline")]
+        public HttpResponseMessage getBillsToDeliverApiOffline(string feederId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            var list = new List<PHEDServe.Models.BillData>();
+            string query = "SELECT ID, AccountNo, BookCode, IBC, NAMES, ADDRESS, METERNO, NETARREARS, BILLDATE, TOTALDUE, CURRTCHARGES, LARDATE, Feeder33ID, Feeder11ID,"+
+                           " DTRID, AccountStatus, DTR_Name, CurrentTarriffClass, GSM, CIN, AccountType, Latitude, Longitude, Upriser,Feeder33Name, Service_LT_Pole, ZONE,"+
+                           " Phase FROM [ENHANCE].[RCDC_User].[BillDeliveryList] where Feeder33ID="+feederId+" and Feeder11ID='9999' and AccountStatus='Active'";
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            list.Add(new BillData
+                            {
+                                ID = rdr[0].ToString(),
+                                AccountNo = rdr[1].ToString(),
+                                BookCode = rdr[2].ToString(),
+                                IBC = rdr[3].ToString(),
+                                NAMES = rdr[4].ToString(),
+                                ADDRESS = rdr[5].ToString(),
+                                METERNO = rdr[6].ToString(),
+                                NETARREARS = rdr[7].ToString(),
+                                BILLDATE = rdr[8].ToString(),
+                                TOTALDUE = rdr[9].ToString(),
+                                CURRTCHARGES = rdr[10].ToString(),
+                                LARDATE = rdr[11].ToString(),
+                                Feeder33ID = rdr[12].ToString(),
+                                Feeder11ID = rdr[13].ToString(),
+                                DTRID = rdr[14].ToString(),
+                                AccountStatus = rdr[15].ToString(),
+                                DTR_Name = rdr[16].ToString(),
+                                CurrentTarriffClass = rdr[17].ToString(),
+                                GSM = rdr[18].ToString(),
+                                CIN = rdr[19].ToString(),
+                                AccountType = rdr[20].ToString(),
+                                Latitude = rdr[21].ToString(),
+                                Longitude = rdr[22].ToString(),
+                                Upriser = rdr[23].ToString(),
+                                Feeder33Name = rdr[24].ToString(),
+                                Service_LT_Pole = rdr[25].ToString(),
+                                ZONE = rdr[26].ToString(),
+                                Phase = rdr[27].ToString()
+                            });
+                        }
+
+                    }
+                    sqlcon.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, list);
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getDTRSByFeederCode")]
+        public HttpResponseMessage getDTRSByFeederCode(string feederId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            var list = new List<PHEDServe.Models.DTRName>();
+            string query = "SELECT dtrid,DTR_Name FROM [RCDC_App].[RCDC_User].[HierarchyEnumsData33415_11415Dtr_temp]" +
+                           " where (feeder33id="+ feederId+ " or feeder11id="+ feederId+")";
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            list.Add(new DTRName { dtrId = rdr[0].ToString(), dtrName = rdr[1].ToString()
+                        });
+                        }
+
+                    }
+                    sqlcon.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, list);
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/customersnoffline")]
+        public HttpResponseMessage customersnoffline(string staffId,string dtrId,string upriserNo)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            string dataTableName = "enumeration.rcdc_user.Customersn" + staffId;
+            string dropQuery = "drop table " + dataTableName + ";";
+            try
+            {
+                int status = DropTable(dataTableName);
+                
+                    string insertquery = "SELECT t1.dtrid, t2.upriserNo, t2.acctNo,   t2.sn,convert( integer,'') as poleno2  into " + dataTableName
+                               + " FROM enumeration.rcdc_user.enumsverificationpremise  as t1 LEFT OUTER JOIN" +
+                               " enumeration.rcdc_user.enumsverificationcustomerdetails  as t2 ON t1.sn = t2.sn" +
+                               " where dtrid=" + dtrId + " and  t1.upriserNo=" + upriserNo + " order by  t2.lat, t2.lon   desc";
+                    int res = InsertData(insertquery);
+                    int deleteCount = 0;
+                    if (res > 0)
+                    {
+                        deleteCount = DeleteCustomerData(staffId);
+                        insertquery = "INSERT INTO enumeration.rcdc_user.Customersn ("
+                                      + "dtrid, upriserNo, acctNo, sn, poleno2,userid) select   dtrid, upriserNo, acctNo, sn, poleno2,'" + staffId + "'"
+                                      + " FROM " + dataTableName + " where dtrid=" + dtrId + " and upriserNo=" + upriserNo;
+                        res = InsertData(insertquery);
+                       // int spRes = InsertDataStoreProcedure(dtrId, upriserNo, staffId);
+                        string Query = "SELECT  top 1 *    from  enumeration.rcdc_user.Customersn  where userid=" +
+                                        staffId + " order by Poleno2 desc";
+                        PHEDServe.Models.customerOfflineSn customerOfflineSn = new customerOfflineSn();
+                        using (SqlCommand command = new SqlCommand(Query, sqlcon))
+                        {
+                            sqlcon.Open();
+                            SqlDataReader rdr = command.ExecuteReader();
+                        if (rdr.HasRows)
+                        {
+                            while (rdr.Read())
+                            {
+                                customerOfflineSn.dtrId = Convert.ToInt32(rdr[0].ToString());
+                                customerOfflineSn.upriserNo = Convert.ToInt32(rdr[1].ToString());
+                                customerOfflineSn.acctNo = rdr[2].ToString();
+                                customerOfflineSn.sno = Convert.ToInt32(rdr[3].ToString());
+                                customerOfflineSn.poleno2 = Convert.ToInt32(rdr[4].ToString());
+                                customerOfflineSn.userId = Convert.ToInt32(rdr[5].ToString());
+                            }
+                        }
+                            sqlcon.Close();
+                            return Request.CreateResponse(HttpStatusCode.OK, customerOfflineSn);
+                        }
+                    }
+
+                
+            }catch(Exception ex)
+            {
+
+            }
+                return Request.CreateResponse(HttpStatusCode.OK, "");
+        }
+        
+        private int InsertData(string query)
+        {
+            int count = -1;
+            try
+            {
+                using (SqlCommand command = new SqlCommand(query, sqlcon))
+                {
+                    sqlcon.Open();
+                    int result = command.ExecuteNonQuery();
+                    if (result != -1)
+                    {
+                        count = result;
+                    }
+                    sqlcon.Close();
+                }
+            }catch(Exception ex)
+            {
+                string qt = "";
+            }
+            return count;
+        }
+
+        private int InsertDataStoreProcedure(string dtrId,string upriserNo,string staffId)
+        {
+            int count = -1;
+            string spQuery = "EXEC [ENUMERATION].[RCDC_User].[sp_CreateCustomer_sn] "+dtrId+ ","+upriserNo+","+ staffId;
+            using (SqlCommand command = new SqlCommand(spQuery, sqlcon))
+            {
+                //command.CommandType = CommandType.StoredProcedure;
+                //Cmnd.Parameters.AddWithValue("@ID", SqlDbType.Int).Value = Id;
+                //Cmnd.Parameters.AddWithValue("@NAME", SqlDbType.NVarChar).Value = Name;
+                sqlcon.Open();
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    count = Convert.ToInt32(result);
+                }
+                sqlcon.Close();
+            }
+            return count;
+        }
+
+        private int DropTable(string tableName)
+        {
+            string query = "Drop table if exists " + tableName;
+            int count = -1;
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                object result = command.ExecuteNonQuery();
+                if (result != null)
+                {
+                    count = Convert.ToInt32(result);
+                }
+                sqlcon.Close();
+            }
+            return count;
+        }
+
+        private int DeleteCustomerData(string staffId)
+        {
+            string query = "DELETE FROM enumeration.rcdc_user.Customersn WHERE userid=" + staffId;
+            int count = -1;
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                object result = command.ExecuteNonQuery();
+                if (result != null)
+                {
+                    count = Convert.ToInt32(result);
+                }
+                sqlcon.Close();
+            }
+            return count;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getFeederNameByFeederCode")]
+        public HttpResponseMessage getFeederNameByFeederCode(string feederId)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            string query = "select feedername, feederid from (SELECT  [Feeder33ID] feederid,[Feeder33Name] feedername FROM [RCDC_App].[RCDC_User].[HierarchyEnumsData33415_11415Dtr_temp]" +
+                           "union all SELECT  [Feeder11ID] feederid,[Feeder11Name] feedername FROM [RCDC_App].[RCDC_User].[HierarchyEnumsData33415_11415Dtr_temp]" +
+                           ") t2    where [feederid] ="+feederId+" group by feederid, feedername";
+            string feederName = "";
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            feederName = rdr.GetValue(0).ToString();
+                        }
+                        
+                    }
+                    sqlcon.Close();
+                }catch(Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, "");
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK,feederName);
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getStreetOfflineDataZipFile")]
+        public HttpResponseMessage getStreetOfflineDataZipFile()
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = " SELECT TOP 1000 SIID, StreetIdentifierID, IdentifierCode, StreetName, EnrollmentAreaID FROM [ENUMERATION].dbo.L_tblStreetIdentifier FOR JSON AUTO";
+
+            var jsonResult = new StringBuilder();
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (!rdr.HasRows)
+                    {
+                        jsonResult.Append("[]");
+                    }
+                    else
+                    {
+                        while (rdr.Read())
+                        {
+                            jsonResult.Append(rdr.GetValue(0).ToString());
+                        }
+                    }
+                    if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData"))
+                    {
+                        Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData", true);
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData.zip"))
+                    {
+                        File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData.zip");
+                    }
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData"))
+                    {
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData");
+                    }
+
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData" + "/" + "customerStreetOfflineData.json", jsonResult.ToString());
+                    ZipFile.CreateFromDirectory(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData",
+                        AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData.zip", CompressionLevel.Fastest, true);
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+
+            response.Content = new StreamContent(new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/bin/" + DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData.zip", FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = DateTime.Now.ToString("ddMMyyyy") + "_customerStreetOfflineData.zip";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return response;
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("api/PHEDConnectAPI/getCustomerDataOffline")]
+        public HttpResponseMessage getCustomerDataOffline(string staffId, string feederId)
+        {
+            var list = new List<PHEDServe.Models.CustomerOfflineData>();
+            string query = "SELECT  [TSID],[TSName],[Feeder33ID],[Feeder33Name],[INJID],[INJName],[Feeder11ID]," +
+                "[Feeder11Name],[DTRID],[DistrictName],[DistrictID],[ServiceCenterName],[ServiceCenterID],[ACCOUNTNO]," +
+                "[Name],[Addr1],[IBC],[BSC],[CurrentMeterSerialNo],[CONS_TYPE],[CurrentTarriffClass],[GSM],[AccountStatus]," +
+                "[TransformerID],[cin],[DTR_Name],[ZONE],[FeederType] ,[Region_Id],[Reginal_Names]" +
+                " FROM [RCDC_App].[RCDC_User].[HierarchyEnumsData33415_11415_temp4Updated] WHERE   ([Feeder33ID]='"+feederId+"' and [Feeder11name] like '%------%')  " +
+                "or ([Feeder11ID]='"+feederId+"' and not [Feeder11name] like '%------%')";
+            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            {
+                sqlcon.Open();
+                try
+                {
+                    SqlDataReader rdr = command.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            var tsid = rdr[0].ToString();
+                            var tsName = rdr[1].ToString();
+                            var feeder33Id = rdr[2].ToString();
+                            var feeder33Name = rdr[3].ToString();
+                            var injid = rdr[4].ToString();
+
+                            list.Add(new CustomerOfflineData
+                            {
+                                tsid = rdr[0].ToString(),
+                                tsName = rdr[1].ToString(),
+                                Feeder33ID = rdr[2].ToString(),
+                                Feeder33Name = rdr[3].ToString(),
+                                InjId = rdr[4].ToString(),
+                                InjName = rdr[5].ToString(),
+                                Feeder11ID = rdr[6].ToString(),
+                                Feeder11Name = rdr[7].ToString(),
+                                DTRID = rdr[8].ToString(),
+                                DistrictName = rdr[9].ToString(),
+                                DistrictID = rdr[10].ToString(),
+                                ServiceCenterName = rdr[11].ToString(),
+                                ServiceCenterID = rdr[12].ToString(),
+                                ACCOUNTNO = rdr[13].ToString(),
+                                Name = rdr[14].ToString(),
+                                Addr1 = rdr[15].ToString(),
+                                IBC = rdr[16].ToString(),
+                                BSC = rdr[17].ToString(),
+                                CurrentMeterSerialNo = rdr[18].ToString(),
+                                CONS_TYPE = rdr[19].ToString(),
+                                CurrentTarriffClass = rdr[20].ToString(),
+                                GSM = rdr[21].ToString(),
+                                AccountStatus = rdr[22].ToString(),
+                                TransformerID = rdr[23].ToString(),
+                                cin = rdr[24].ToString(),
+                                DTR_Name = rdr[25].ToString(),
+                                ZONE = rdr[26].ToString(),
+                                FeederType = rdr[27].ToString(),
+                                Region_Id = rdr[28].ToString(),
+                                Reginal_Names = rdr[29].ToString()
+                            });
+                        }
+                        sqlcon.Close();
+                       
+                        return Request.CreateResponse(HttpStatusCode.OK, list);
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    sqlcon.Close();
+                    //var tsid = 0;
+                    //var tsName = "Error Occured";
+                    //list.Add(new  { tsid = tsid.ToString(), tsName = tsName });
+                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                }
+            }
+            return null;
+        }
+            /// <summary>
+            /// This returns the Accounts that have been approved and the Accounts that have not been approved
+            /// </summary>
+            /// <param name="Data"></param>
+            /// <returns></returns>
+            [System.Web.Http.HttpPost]
         [Route("api/PHEDConnectAPI/getAllPrimaryAccountsPendingSubAccountsforApproval")]
         public HttpResponseMessage getAllPrimaryAccountsPendingSubAccountsforApproval(AccountSeparation Data)
         {
@@ -1360,7 +3330,7 @@ namespace PHEDServe.Controllers
                     string ImgName = filePaths[i].ToString();
                     var name = ImgName.Split('.');
                     String filename = name[0];
-                    String fileext = name[3];
+                    String fileext = name[1];
                     Docs = new DOCUMENTS();
 
                     if (Data.OnboardCategory == "MASSMETERCAPTURE")
@@ -1515,6 +3485,8 @@ namespace PHEDServe.Controllers
             //conn.Close();
 
         }
+
+
 
         [System.Web.Http.HttpPost]
         [Route("api/PHEDConnectAPI/GetMassMetersInstalled")]
@@ -2005,46 +3977,56 @@ namespace PHEDServe.Controllers
         [Route("api/PHEDConnectAPI/KYCApplicationUpdate")]
         public HttpResponseMessage KYCApplicationUpdate(KYCModel Data)
         {
-            RCDCModel d = new RCDCModel();
-            db = new ApplicationDbContext(); 
-            if (!CheckIfAccountNumberExists(Data.AccountNo))
+            try
             {
-                var message = string.Format("The Account No is Wrong or does not exist on the PHED Database. Please cross check and try again. Thank you.");
-                HttpError err = new HttpError(message);
-                return Request.CreateResponse(HttpStatusCode.NotFound, err);
-            }
-            else
-            { 
-                KYC k = new KYC(); 
-                k.ACCOUNT_NO = Data.AccountNo;
-                k.ACCOUNT_TYPE = Data.AccountType;
-                k.ADDRESS = Data.Address;
-                k.CustomerAddress = Data.Address;
-                k.CustomerMiddleName = Data.Othernames;
-                k.CustomerName = Data.FirstName;
-                k.CustomerSurname = Data.Surname;
-                k.DATE_OF_BIRTH = Convert.ToDateTime(Data.DOB);
-                DateTime Date = Convert.ToDateTime(Data.DOB);
-                k.DATE_OF_BIRTH = new DateTime?(Date);
-                k.DayOfBirth = new int?(Date.Day);
-                k.MonthOfBirth = Date.ToString("MMMM"); 
-                k.E_MAIL = Data.EmailAddress;
-                k.PHONE = Data.PhoneNo;
-                k.UPDATED_BY = "CUSTOMER"; 
-                k.BVN = Data.BVN;
-                k.SMS = Data.SMS;
-                k.EmailCheck = Data.EmailCheck;
-                k.HardCopy = Data.HardCopy;
-                k.ResidentType = Data.Type; 
-                k.TENANT_PHONE =   Data.TENANT_PHONE;
-                k.TENANT_PHONE2 =  Data.TENANT_PHONE2;
-                db.KYCs.Add(k);
-                db.SaveChanges(); 
-                //Insert data into he Application  
-                var message = string.Format("Your Data was saved Successfully. You will begin to get an SMS and Email Notifications from PHED. Thank you.");
-                HttpError err = new HttpError(message);
-                return Request.CreateResponse(HttpStatusCode.OK, err);
+                RCDCModel d = new RCDCModel();
+                db = new ApplicationDbContext();
+                if (!CheckIfAccountNumberExists(Data.AccountNo))
+                {
+                    var message = string.Format("The Account No is Wrong or does not exist on the PHED Database. Please cross check and try again. Thank you.");
+                    HttpError err = new HttpError(message);
+                    return Request.CreateResponse(HttpStatusCode.NotFound, err);
+                }
+                else
+                {
+                    KYC k = new KYC();
+                    k.ACCOUNT_NO = Data.AccountNo;
+                    k.ACCOUNT_TYPE = Data.AccountType;
+                    k.ADDRESS = Data.Address;
+                    k.CustomerAddress = Data.Address;
+                    k.CustomerMiddleName = Data.CustomerMiddleName;
+                    k.CustomerName = Data.CustomerName;
+                    k.CustomerSurname = Data.CustomerSurname;
+                    k.DATE_OF_BIRTH = Convert.ToDateTime(Data.DOB);
+                    DateTime Date = Convert.ToDateTime(Data.DOB);
+                    k.DATE_OF_BIRTH = new DateTime?(Date);
+                    k.DayOfBirth = new int?(Date.Day);
+                    k.MonthOfBirth = Date.ToString("MMMM");
+                    k.E_MAIL = Data.EmailAddress;
+                    k.PHONE = Data.PhoneNo;
+                    k.UPDATED_BY = "CUSTOMER";
+                    k.BVN = Data.BVN;
+                    k.SMS = Data.SMS;
+                    k.EmailCheck = Data.EmailCheck;
+                    k.HardCopy = Data.HardCopy;
+                    k.ResidentType = Data.ResidentType;
+                    k.TENANT_PHONE = Data.TENANT_PHONE;
+                    k.TENANT_PHONE2 = Data.TENANT_PHONE2;
+                    k.TENTANCY_DURATION = Data.TENTANCY_DURATION;
+                    k.T_D_END_DATE = Data.T_D_END_DATE;
+                    k.T_D_START_DATE = Data.T_D_START_DATE;
+                    db.KYCs.Add(k);
+                    db.SaveChanges();
+                    //Insert data into he Application  
+                    var message = string.Format("Your Data was saved Successfully. You will begin to get an SMS and Email Notifications from PHED. Thank you.");
+                    HttpError resp = new HttpError(message);
+                    return Request.CreateResponse(HttpStatusCode.OK, resp);
 
+                }
+            }catch(Exception ex)
+            {
+                HttpError Error = new HttpError(ex.Message) { { "IsSuccess", false } };
+                return this.Request.CreateErrorResponse(HttpStatusCode.OK, Error);
             }
         }
 
@@ -2503,7 +4485,7 @@ namespace PHEDServe.Controllers
                                         string ImgName = filePaths[i].ToString();
                                         var name = ImgName.Split('.'); 
                                         String filename = name[0];
-                                        String fileext = name[3];
+                                        String fileext = name[1];
                                         Docs = new DOCUMENTS(); 
                                         Docs.COMMENTS = "New Meter Installation Data for " + Data.MeterNo;
                                         Docs.DOCUMENT_NAME = "Meter Installation Data for " + Data.MeterNo;
@@ -4341,6 +6323,7 @@ namespace PHEDServe.Controllers
 
         }
 
+
         [System.Web.Http.HttpPost]
         [Route("api/PHEDConnectAPI/GetCustomerPaymentHistoryWithToken")]
         public HttpResponseMessage GetCustomerPaymentHistoryWithToken(RCDCModel Data)
@@ -4365,186 +6348,6 @@ namespace PHEDServe.Controllers
                 string Month = DateTime.Now.Month.ToString();
                 DateTime DateofDiscon = Convert.ToDateTime(Data.Date);
                 DataSet dataSet = new DataSet();
-
-                int Count = 20;
-
-
-               
-                conn = new OracleConnection(ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString());
-                conn.Open();
-                OracleCommand cmd = new OracleCommand
-                {
-                    Connection = conn,
-                    CommandType = CommandType.StoredProcedure,
-                    CommandText = "ENSERV.SP_WF_GET_CUSTOMER_PAYMENTHISTORY"
-                };
-                cmd.CommandTimeout = 900;
-                cmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
-                cmd.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
-                cmd.Parameters.Add("P_COUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = Count;
-
-
-                    try
-                    {
-                        RCDCCustomer Customer = new RCDCCustomer();
-                        using (OracleDataReader rdr = cmd.ExecuteReader())
-                        {
-                            if (rdr.HasRows)
-                            {
-                                //Formulate the Customer details here before Sending
-
-                                List<RCDCCustomerPayments> Pay = new List<RCDCCustomerPayments>();
-
-                                RCDCCustomerPayments _pay = new RCDCCustomerPayments();
-                                while (rdr.Read())
-                                {
-                                   
-                                _pay = new RCDCCustomerPayments();
-                                //Iterate through the Dataset and Set the Payment history Objects to the Model
-                                _pay.AmountPaid = Convert.ToDouble(rdr["Amount"].ToString());
-                                _pay.PaymentDescription = rdr["paymentpurpose"].ToString();
-                                _pay.PaymentID = rdr["receiptnumber"].ToString();
-                                _pay.PaymentChannel = rdr["channelname"].ToString();
-                                _pay.Token = rdr["Tokendec"].ToString();
-                                _pay.TarriffIndex = rdr["TI"].ToString();
-                                Pay.Add(_pay);
-                            }
-                                Customer.PaymentHistory = Pay.OrderByDescending(p => p.DatePaid).ToList();
-                                //provisional Outstanding 
-                                //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-                                #region Provisional Outstanding
-                                ProvisionalOutstanding Prov = new ProvisionalOutstanding();
-                                List<ProvisionalOutstanding> _Prov = new List<ProvisionalOutstanding>();
-
-                                OracleDataAdapter da = new OracleDataAdapter();
-                                OracleCommand oracmd = new OracleCommand
-                                {
-                                    Connection = conn,
-                                    CommandType = CommandType.StoredProcedure,
-                                    CommandText = "ENSERV.SP_RCDC_GETINCIDENTS"
-                                };
-
-                                oracmd.CommandTimeout = 900;
-                                oracmd.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
-                                oracmd.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
-
-                                using (OracleDataReader rdrRcdc = oracmd.ExecuteReader())
-                                {
-                                    if (rdrRcdc.HasRows)
-                                    {
-                                        while (rdrRcdc.Read())
-                                        {
-                                            Prov = new ProvisionalOutstanding();
-                                            //Iterate through the Dataset and Set the Payment history Objects to the Model
-                                            Prov.INCIDENCE = rdrRcdc["Incidence"].ToString();
-                                            Prov.PRI_OUT_CRE_COM = rdrRcdc["PRI_FT_FA_OUT_CRE_COM"].ToString();
-                                            _Prov.Add(Prov);
-                                        }
-                                    }
-
-                                    Customer.ProvisionalOutstanding = _Prov;
-                                }
-
-                                // conn.Close();
-                                //conn.Dispose();
-                                oracmd.Dispose();
-                                #endregion
-
-                                //Billing History
-
-
-                                OracleCommand cmdBill = new OracleCommand
-                                {
-                                    Connection = conn,
-                                    CommandType = CommandType.StoredProcedure,
-                                    CommandText = "ENSERV.SP_WF_GET_BILLINFO_BY_CUSTOMERACCOUNT"
-                                };
-                                cmdBill.CommandTimeout = 900;
-                                cmdBill.Parameters.Add(new OracleParameter("c_select", OracleDbType.RefCursor, ParameterDirection.Output));
-                                cmdBill.Parameters.Add("P_ACCOUNTNO", OracleDbType.Varchar2, ParameterDirection.Input).Value = Data.AccountNo;
-                                cmdBill.Parameters.Add("P_COUNT", OracleDbType.Varchar2, ParameterDirection.Input).Value = Count;
-                                using (OracleDataReader billrdr = cmdBill.ExecuteReader())
-                                {
-                                    RCDC_Spot_Billing Bills = new RCDC_Spot_Billing();
-                                    List<RCDC_Spot_Billing> _Bills = new List<RCDC_Spot_Billing>();
-                                    if (billrdr.HasRows)
-                                    {
-                                        while (billrdr.Read())
-                                        {
-                                            Bills = new RCDC_Spot_Billing();
-                                            //Iterate through the Dataset and Set the Payment history Objects to the Model
-                                            Bills.BilledQty = billrdr["BilledAmount"].ToString();
-                                            Bills.BillingDate = Convert.ToDateTime(billrdr["BillMonth"].ToString());
-                                            _Bills.Add(Bills);
-                                        }
-                                        Customer.BillingHistory = _Bills;
-                                    }
-                                    else
-                                    {
-
-                                    }
-                                }
-
-                                //FT-00462 
-                                return Request.CreateResponse(HttpStatusCode.OK, Customer);
-
-                            }
-                            else
-                            {
-                                var message = string.Format("No Account record exists for this Account Selected ");
-                                HttpError err = new HttpError(message);
-                                return Request.CreateResponse(HttpStatusCode.NotFound, err);
-                            }
-                        }
-
-                    }
-                    catch (Exception exception1)
-                    {
-                        conn.Close();
-                        conn.Dispose();
-                        Exception exception = exception1;
-                        var message = string.Format("Could not retrieve Customer records because " + exception1.Message + ". Please try again Thank you");
-                        HttpError err = new HttpError(message);
-                        return Request.CreateResponse(HttpStatusCode.NotFound, err);
-                    }               
-
-            }
-        }
-
-
-
-        [System.Web.Http.HttpPost]
-        [Route("api/PHEDConnectAPI/GetCustomerPaymentHistoryWithTokenOld")]
-        public HttpResponseMessage GetCustomerPaymentHistoryWithTokenOld(RCDCModel Data)
-        {
-            RCDCModel d = new RCDCModel();
-            db = new ApplicationDbContext();
-
-            if (Data == null || string.IsNullOrEmpty(Data.AccountNo))
-            {
-                // var message = string.Format("The Zone or the Feeder was not Selected with id = {0} not found", id,32);
-
-                var message = string.Format("Please select an Account Number to Proceed and Try again");
-                HttpError err = new HttpError(message);
-                return Request.CreateResponse(HttpStatusCode.NotFound, err);
-            }
-
-            else
-            {
-                //convert the Date to DateTime and Get Year
-
-                string Year = DateTime.Now.Year.ToString();
-                string Month = DateTime.Now.Month.ToString();
-                DateTime DateofDiscon = Convert.ToDateTime(Data.Date);
-                DataSet dataSet = new DataSet();
-                DBManager dBManager = new DBManager(DataProvider.Oracle)
-                {
-                    ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
-                };
-
-                dBManager.Open();
-                // string str = string.Concat("SELECT ID AS ID,PURPOSE AS VAL FROM TBL_PAYMENTPURPOSE where id not in (select purpose from tbl_incident where consumerno='", consno, "')");
                 string AccountNo = Data.AccountNo;
                 int Count = 20;
                 conn = new OracleConnection(ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString());
@@ -4578,8 +6381,14 @@ namespace PHEDServe.Controllers
                         RCDCCustomer Customer = new RCDCCustomer();
                         List<RCDCCustomerPayments> Pay = new List<RCDCCustomerPayments>();
                         RCDCCustomerPayments _pay = new RCDCCustomerPayments();
+                        //Customer.AccountNo = rdr["AccountNo"][0]
                         while (rdr.Read())
                         {
+                                if (string.IsNullOrEmpty(Customer.AccountNo))
+                                {
+                                    Customer.AccountNo = rdr["AccountNo"].ToString();
+                                    Customer.LastDatePaid = (DateTime)rdr["paymentdatetime"];
+                                }
                             _pay = new RCDCCustomerPayments();
 
                             //Iterate through the Dataset and Set the Payment history Objects to the Model
@@ -4745,24 +6554,46 @@ namespace PHEDServe.Controllers
             {
                 // var message = string.Format("The Zone or the Feeder was not Selected with id = {0} not found", id,32);
 
-                var message = string.Format("Please input the Zone as *Zone* to Proceed. Thank you");
+                var message = string.Format("Please input the Region as *Region* to Proceed. Thank you");
                 HttpError err = new HttpError(message);
                 return Request.CreateResponse(HttpStatusCode.NotFound, err);
             }
 
             try
             {
-                var list = db.BSCs.Where(p => p.IBCId == Data.Zone).ToList();
+                
 
-                if (list.Count <= 0)
+                var FeederList = new List<BSC>();
+
+                DBManager dBManager = new DBManager(DataProvider.Oracle)
                 {
-                    var message = string.Format("No Zone Exists for the selection you made");
+                    ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
+                };
+                dBManager.Open();
+                DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, "select FEEDER33ID, feeder33name,REGIONALCODE  from tbl_enumerationfeedermapping where REGIONALCODE = " + Data.Zone+ " GROUP BY FEEDER33ID,REGIONALCODE, feeder33name");
+                dBManager.Close(); dBManager.Dispose();
+                int rowsCount = dataSet1.Tables[0].Rows.Count;
+
+                if (dataSet1.Tables[0].Rows.Count <= 0)
+                {
+
+                    var message = string.Format("No Feeder Exists for the selection you made");
                     HttpError err = new HttpError(message);
                     return Request.CreateResponse(HttpStatusCode.NotFound, err);
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, list);
+                    for (int i = 0; i < dataSet1.Tables[0].Rows.Count; i++)
+                    {
+                        FeederList.Add(new BSC
+                        {
+                            BSCId = dataSet1.Tables[0].Rows[i]["FEEDER33ID"].ToString(),
+                            BSCName = dataSet1.Tables[0].Rows[i]["feeder33name"].ToString(),
+                            IBCId = dataSet1.Tables[0].Rows[i]["REGIONALCODE"].ToString()
+                        });
+
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK, FeederList);
                 }
             }
             catch (Exception exception1)
@@ -4775,10 +6606,199 @@ namespace PHEDServe.Controllers
             }
         }
 
+        [System.Web.Http.HttpPost]
+        [Route("api/PHEDConnectAPI/GetRCDC11Feeder")]
+        public HttpResponseMessage GetRCDC11Feeder(RCDCModel Data)
+        {
+
+            RCDCModel d = new RCDCModel();
+            db = new ApplicationDbContext();
+
+            if (Data == null || string.IsNullOrEmpty(Data.FeederId))
+            {
+                // var message = string.Format("The Zone or the Feeder was not Selected with id = {0} not found", id,32);
+
+                var message = string.Format("Please input the Feeder 33 Kv to Proceed. Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+
+            try
+            {
+
+
+                var FeederList = new List<BSC>();
+
+                DBManager dBManager = new DBManager(DataProvider.Oracle)
+                {
+                    ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
+                };
+                dBManager.Open();
+                DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, "select feeder11id,feeder11name,feeder33id  from tbl_enumerationfeedermapping where feeder33id = " + Data.FeederId + " GROUP BY feeder11id,feeder11name, feeder33id");
+                dBManager.Close(); dBManager.Dispose();
+                int rowsCount = dataSet1.Tables[0].Rows.Count;
+
+                if (dataSet1.Tables[0].Rows.Count <= 0)
+                {
+
+                    var message = string.Format("No Feeder Exists for the selection you made");
+                    HttpError err = new HttpError(message);
+                    return Request.CreateResponse(HttpStatusCode.NotFound, err);
+                }
+                else
+                {
+                    for (int i = 0; i < dataSet1.Tables[0].Rows.Count; i++)
+                    {
+                        FeederList.Add(new BSC
+                        {
+                            BSCId = dataSet1.Tables[0].Rows[i]["feeder11id"].ToString(),
+                            BSCName = dataSet1.Tables[0].Rows[i]["feeder11name"].ToString(),
+                            IBCId = dataSet1.Tables[0].Rows[i]["feeder33id"].ToString()
+                        });
+
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK, FeederList);
+                }
+            }
+            catch (Exception exception1)
+            {
+                Exception exception = exception1;
+
+                var message = string.Format("Could not retrieve feeders records because " + exception1.Message + ". Please try again Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+        }
+
+        [System.Web.Http.HttpPost]
+        [Route("api/PHEDConnectAPI/GetRCDCDTRBYFEEDER11")]
+        public HttpResponseMessage GetRCDCDTRBYFEEDER11(RCDCModel Data)
+        {
+            RCDCModel d = new RCDCModel();
+            db = new ApplicationDbContext();
+            if (Data == null || string.IsNullOrEmpty(Data.Feeder11Id))
+            {
+                // var message = string.Format("The Zone or the Feeder was not Selected with id = {0} not found", id,32);
+
+                var message = string.Format("The Please supply a Feeder Id as *FeederId*. Please Try again");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+            try
+            {
+                var DTRList = new List<DTR>();
+                DBManager dBManager = new DBManager(DataProvider.Oracle)
+                {
+                    ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
+                };
+                dBManager.Open();
+                DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, "select distinct  feeder11id as FeederId,feeder11Name as FeederName,TRANSFORMERID as DTR_Id,DTR_NAME from tbl_enumerationfeedermapping where feeder11id =" + Data.Feeder11Id + " GROUP BY feeder11id,feeder11Name,TRANSFORMERID, DTR_NAME");
+                dBManager.Close(); dBManager.Dispose();
+                int rowsCount = dataSet1.Tables[0].Rows.Count;
+                //var list = db.RCDC_DTRs.Where(p => p.FeederId == Data.FeederId).ToList();
+                //.Select(p => new RCDC_Incidence_VM { IncidenceId = p.IncidenceId, IncidenceName = p.IncidenceName }).ToList();
+
+
+                if (dataSet1.Tables[0].Rows.Count <= 0)
+                {
+                    var message = string.Format("No DTR Exists for the selection you made");
+                    HttpError err = new HttpError(message);
+                    return Request.CreateResponse(HttpStatusCode.NotFound, err);
+
+                }
+                else
+                {
+                    for (int i = 0; i < dataSet1.Tables[0].Rows.Count; i++)
+                    {
+                        DTRList.Add(new DTR
+                        {
+                            DTRId = dataSet1.Tables[0].Rows[i]["DTR_Id"].ToString(),
+                            DTRName = dataSet1.Tables[0].Rows[i]["DTR_NAME"].ToString(),
+                            FeederId = dataSet1.Tables[0].Rows[i]["FeederId"].ToString(),
+                            FeederName = dataSet1.Tables[0].Rows[i]["FeederName"].ToString()
+                        });
+
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK, DTRList);
+                }
+
+            }
+            catch (Exception exception1)
+            {
+                Exception exception = exception1;
+
+                var message = string.Format("Could not retrieve incidence records because " + exception1.Message + ". Please try again Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+        }
 
         [System.Web.Http.HttpPost]
         [Route("api/PHEDConnectAPI/GetRCDCDTR")]
         public HttpResponseMessage GetRCDCDTR(RCDCModel Data)
+        {
+            RCDCModel d = new RCDCModel();
+            db = new ApplicationDbContext();
+            if (Data == null || string.IsNullOrEmpty(Data.FeederId))
+            {
+                // var message = string.Format("The Zone or the Feeder was not Selected with id = {0} not found", id,32);
+
+                var message = string.Format("The Please supply a Feeder Id as *FeederId*. Please Try again");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+            try
+            {
+                var DTRList = new List<DTR>();
+                DBManager dBManager = new DBManager(DataProvider.Oracle)
+                {
+                    ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
+                };
+                dBManager.Open();
+                DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, "select distinct  feeder33id as FeederId,feeder33Name as FeederName,TRANSFORMERID as DTR_Id,DTR_NAME from tbl_enumerationfeedermapping where FEEDER33ID =" + Data.FeederId + " GROUP BY feeder33id,feeder33Name,TRANSFORMERID, DTR_NAME");
+                dBManager.Close(); dBManager.Dispose();
+                int rowsCount = dataSet1.Tables[0].Rows.Count;
+                //var list = db.RCDC_DTRs.Where(p => p.FeederId == Data.FeederId).ToList();
+                //.Select(p => new RCDC_Incidence_VM { IncidenceId = p.IncidenceId, IncidenceName = p.IncidenceName }).ToList();
+
+
+                if (dataSet1.Tables[0].Rows.Count <= 0)
+                {
+                    var message = string.Format("No DTR Exists for the selection you made");
+                    HttpError err = new HttpError(message);
+                    return Request.CreateResponse(HttpStatusCode.NotFound, err);
+
+                }
+                else
+                {
+                    for (int i = 0; i < dataSet1.Tables[0].Rows.Count; i++)
+                    {
+                        DTRList.Add(new DTR
+                        {
+                            DTRId = dataSet1.Tables[0].Rows[i]["DTR_Id"].ToString(),
+                            DTRName = dataSet1.Tables[0].Rows[i]["DTR_NAME"].ToString(),
+                            FeederId = dataSet1.Tables[0].Rows[i]["FeederId"].ToString(),
+                            FeederName = dataSet1.Tables[0].Rows[i]["FeederName"].ToString()
+                        });
+
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK, DTRList);
+                }
+
+            }
+            catch (Exception exception1)
+            {
+                Exception exception = exception1;
+
+                var message = string.Format("Could not retrieve incidence records because " + exception1.Message + ". Please try again Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+        }
+
+        [System.Web.Http.HttpPost]
+        [Route("api/PHEDConnectAPI/GetRCDCDTRBACKUP")]
+        public HttpResponseMessage GetRCDCDTRBACKUP(RCDCModel Data)
         { 
             RCDCModel d = new RCDCModel();
             db = new ApplicationDbContext();
@@ -4830,18 +6850,41 @@ namespace PHEDServe.Controllers
 
             try
             {
-                var list = db.IBCs.ToList();
-            
-                if (list.Count <= 0)
+                
+                //var list = db.IBCs.ToList();
+                var RegionList = new List<IBC>();
+                
+                DBManager dBManager = new DBManager(DataProvider.Oracle)
                 {
+                    ConnectionString = ConfigurationManager.ConnectionStrings["OracleConnection"].ConnectionString.ToString()
+                };
+                dBManager.Open();
+                DataSet dataSet1 = dBManager.ExecuteDataSet(CommandType.Text, "select distinct  ID as IBCId,REGIONAL_OFFICES as IBCName from TBL_REGIONALGROUPS where REGIONAL_OFFICES is not null");
+                dBManager.Close(); dBManager.Dispose();
+                int rowsCount = dataSet1.Tables[0].Rows.Count;
+
+               
+
+                if (dataSet1.Tables[0].Rows.Count <= 0)
+                {
+
                     var message = string.Format("No incidence record exists");
                     HttpError err = new HttpError(message);
-                    return Request.CreateResponse(HttpStatusCode.NotFound, err); 
+                    return Request.CreateResponse(HttpStatusCode.NotFound, err);
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, list);
-                } 
+                    for (int i = 0; i < dataSet1.Tables[0].Rows.Count; i++)
+                    {
+                        RegionList.Add(new IBC
+                        {
+                            IBCId = dataSet1.Tables[0].Rows[i]["IBCId"].ToString(),
+                            IBCName = dataSet1.Tables[0].Rows[i]["IBCName"].ToString()
+                        });
+
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK, RegionList);
+                }
             }
             catch (Exception exception1)
             {
@@ -5724,6 +7767,115 @@ namespace PHEDServe.Controllers
             return monthsDiff.ToString();
         }
 
+        [System.Web.Http.HttpPost]
+        [Route("api/PHEDConnectAPI/ImagesUploadData")]
+        public HttpResponseMessage ImagesUploadData()
+        {
+            try
+            {
+
+                if (System.Web.HttpContext.Current.Request.Params.Count > 0)
+                {
+                    var httpPostedFile = System.Web.HttpContext.Current.Request.Files;
+                    ImageUploadModel Success = new ImageUploadModel();
+                    List<string> filePathsArray = new List<string>();
+                    if (httpPostedFile.Count > 0)
+                    {
+                        for (int i = 0; i < httpPostedFile.Count; i++)
+                        {
+                            HttpPostedFile file = httpPostedFile[i];
+                            var Assignments = System.Web.HttpContext.Current.Request.Form[i].ToString();
+
+                            string FN = Guid.NewGuid().ToString();
+
+                            string Description = System.Web.HttpContext.Current.Request.Params["DocumentDescription"];
+                            string Size = System.Web.HttpContext.Current.Request.Params["DocumentSize"];
+                            string Extension = System.Web.HttpContext.Current.Request.Params["DocumentExtension"];
+
+                            // string     DocPath = "/Documents/" + FN + "_" + file.FileName;
+                            //Docx.UploadDocument(ClassCode, ArmCode, "", "", SchoolCode, SubjectCode, FileName, Description_, "", key, CreatedBy, "ASSIGNMENT", "", Extension_, Size_, "", DocPath);
+                            //  file.SaveAs(path + file.FileName);
+                            
+                            var fileSavePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Documents"), FN + "_" + file.FileName);
+                            file.SaveAs(fileSavePath);
+                            filePathsArray.Add(fileSavePath+",");
+                        }
+
+                        Success.filePaths = filePathsArray.ToList();
+                        Success.Message = "The Image as been uploaded Successfully";
+                        Success.Status = "SUCCESS";
+
+                        return Request.CreateResponse(HttpStatusCode.OK, Success);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ImageUploadModel Success = new ImageUploadModel(); ;
+
+                Success.Message = "The Image upload  has no uploaded"+ex.InnerException+":"+ex.StackTrace.ToString();
+                Success.Status = "ERROR";
+
+                return Request.CreateResponse(HttpStatusCode.OK, Success);
+            }
+            return null;
+        }
+
+        [System.Web.Http.HttpPost]
+        [Route("api/PHEDConnectAPI/attendanceImageUploadData")]
+        public HttpResponseMessage attendanceImageUploadData()
+        {
+            try
+            {
+
+                if (System.Web.HttpContext.Current.Request.Params.Count > 0)
+                {
+                    var httpPostedFile = System.Web.HttpContext.Current.Request.Files;
+                    ImageUploadModel Success = new ImageUploadModel();
+                    List<string> filePathsArray = new List<string>();
+                    if (httpPostedFile.Count > 0)
+                    {
+                        for (int i = 0; i < httpPostedFile.Count; i++)
+                        {
+                            HttpPostedFile file = httpPostedFile[i];
+                            var Assignments = System.Web.HttpContext.Current.Request.Form[i].ToString();
+
+                            string FN = Guid.NewGuid().ToString();
+
+                            string Description = System.Web.HttpContext.Current.Request.Params["DocumentDescription"];
+                            string Size = System.Web.HttpContext.Current.Request.Params["DocumentSize"];
+                            string Extension = System.Web.HttpContext.Current.Request.Params["DocumentExtension"];
+
+                            // string     DocPath = "/Documents/" + FN + "_" + file.FileName;
+                            //Docx.UploadDocument(ClassCode, ArmCode, "", "", SchoolCode, SubjectCode, FileName, Description_, "", key, CreatedBy, "ASSIGNMENT", "", Extension_, Size_, "", DocPath);
+                             // file.SaveAs(path + file.FileName);
+
+                            var fileSavePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Attendance"), FN + "_" + file.FileName);
+                            file.SaveAs(fileSavePath);
+                            filePathsArray.Add(fileSavePath + ",");
+                        }
+
+                        Success.filePaths = filePathsArray.ToList();
+                        Success.Message = "The Image as been uploaded Successfully";
+                        Success.Status = "SUCCESS";
+
+                        return Request.CreateResponse(HttpStatusCode.OK, Success);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ImageUploadModel Success = new ImageUploadModel(); ;
+
+                Success.Message = "The Image upload  has no uploaded" + ex.InnerException + ":" + ex.StackTrace.ToString();
+                Success.Status = "ERROR";
+
+                return Request.CreateResponse(HttpStatusCode.OK, Success);
+            }
+            return null;
+        }
 
 
         [System.Web.Http.HttpPost]
@@ -6185,7 +8337,7 @@ namespace PHEDServe.Controllers
                 var name = ImgName.Split('.');
 
                 String filename = name[0];
-                String fileext = name[3];
+                String fileext = name[1];
 
                 Docs = new DOCUMENTS();
 
@@ -6239,6 +8391,7 @@ namespace PHEDServe.Controllers
         [Route("api/PHEDConnectAPI/DisconnectCustomer")]
         public HttpResponseMessage DisconnectCustomer(RCDCModel Data)
         {
+            var testArray="";
             RCDCModel d = new RCDCModel();
             db = new ApplicationDbContext();
             GlobalMethodsLib Audit = new GlobalMethodsLib();
@@ -6550,20 +8703,23 @@ namespace PHEDServe.Controllers
                 DOCUMENTS Docs = new DOCUMENTS();
 
                 //Deserialis the code herre 
-
+                
                  string[] _incidences = JsonConvert.DeserializeObject<string[]>(Data.filePaths);
-
+                testArray = "ArrayLength:"+_incidences.Length.ToString();
                 List<string> der = JsonConvert.DeserializeObject<List<string>>(Data.filePaths);
-
+                testArray += ",derArrayCount:" + der.Count.ToString();
                 string[] filePaths = der.ToArray();
-
+                testArray += ",fileArrayCount:" + filePaths.Length.ToString();
                 for (int i = 0; i < filePaths.Length; i++)
                 {
                     string ImgName =  filePaths[i].ToString();
+                    testArray += ",fileImageName:" + ImgName;
                     var name = ImgName.Split('.');
 
                     String filename = name[0];
-                    String fileext = name[3];
+                    testArray += ",fileName:" + filename;
+                    String fileext = name[1];
+                    testArray += ",fileNameExt:" + fileext;
                     Docs = new DOCUMENTS();
 
                     Docs.COMMENTS = "Disconnection Data for " + Data.AccountNo;
@@ -6572,6 +8728,7 @@ namespace PHEDServe.Controllers
                     Docs.DOCUMENT_EXTENSION = fileext;
                     Docs.DOCUMENT_NAME = "Disconnection Data for " + Data.AccountNo;
                     Docs.DOCUMENT_PATH = filePaths[i].ToString();
+                    testArray +=","+ Docs.DOCUMENT_PATH;
                     Docs.DocumentDescription = "Disconnection Documents for " + Data.AccountNo;
                     Docs.REFERENCE_CODE = Data.DisconnId;
                     Docs.SENDER_ID = Data.UserId;
@@ -6606,7 +8763,7 @@ namespace PHEDServe.Controllers
 
                 RCDCModel success = new RCDCModel();
 
-                success.Message = "The Customer with Account Number " + Data.AccountNo + " was not disconnected because " + ex.Message;
+                success.Message = "The Customer with Account Number " + Data.AccountNo + " was not disconnected because " + ex.Message+ "array"+testArray;
                 success.Status = "FAILED";
                 return Request.CreateResponse(HttpStatusCode.NotFound, success);
             }
@@ -6945,7 +9102,7 @@ namespace PHEDServe.Controllers
                     var name = ImgName.Split('.');
 
                     String filename = name[0];
-                    String fileext = name[3];
+                    String fileext = name[1];
                     Docs = new DOCUMENTS();
 
                     Docs.COMMENTS = "Disconnection Data for " + Data.AccountNo;
@@ -8771,7 +10928,8 @@ namespace PHEDServe.Controllers
                 string Year = DateTime.Now.Year.ToString();
                 string Month = DateTime.Now.Month.ToString();
 
-                var DisconnectionList = db.RCDCDisconnectionLists.Where(p => p.Zone == Data.Zone && p.FeederId == Data.FeederId && p.DisconStatus == "RECONNECT").ToList();
+                //var DisconnectionList = db.RCDCDisconnectionLists.Where(p => p.Zone == Data.Zone && p.FeederId == Data.FeederId && p.DisconStatus == "RECONNECT").ToList();
+                var DisconnectionList = db.RCDCDisconnectionLists.Where(p => p.DisconStatus == "RECONNECT").ToList();
 
                 return Request.CreateResponse(HttpStatusCode.OK, DisconnectionList);
             }
@@ -9527,7 +11685,7 @@ namespace PHEDServe.Controllers
                 if (g != null)
                 {
 
-                    hg.ReportSubCategoryName = g.ReportCategoryName;
+                    hg.ReportCategoryName = g.ReportCategoryName;
 
                 }
 
@@ -9575,9 +11733,165 @@ namespace PHEDServe.Controllers
             //AUDIT TRAIL
              
     }
-         
+
+
+        [System.Web.Http.HttpPost]
+        [Route("api/PHEDConnectAPI/ReportFaultyTransformer")]
+        public HttpResponseMessage ReportFaultyTransformer(RCDC_Faulty_Transformer Data)
+        {
+            RCDC_Faulty_Transformer d = new RCDC_Faulty_Transformer();
+            db = new ApplicationDbContext();
+            GlobalMethodsLib Audit = new GlobalMethodsLib();
+            string AccountNo = "";
+
+            if (Data == null || string.IsNullOrEmpty(Data.AccountNo))
+            {
+                var message = string.Format("Please input the AccountNo  to Proceed. Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+
+            if (Data == null || string.IsNullOrEmpty(Data.StaffId))
+            {
+                var message = string.Format("Please input the StaffId  to Proceed. Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+
+            //if (Data == null || string.IsNullOrEmpty(Data.FeederId))
+            //{
+            //    var message = string.Format("Please input the FeederId  to Proceed. Thank you");
+            //    HttpError err = new HttpError(message);
+            //    return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            //}
+
+            //if (Data == null || string.IsNullOrEmpty(Data.AccountName))
+            //{
+            //    var message = string.Format("Please input the Account Name  to Proceed. Thank you");
+            //    HttpError err = new HttpError(message);
+            //    return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            //}
+
+            if (Data == null || string.IsNullOrEmpty(Data.DTR_Address))
+            {
+                var message = string.Format("Please input the DTR Address    to Proceed. Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+
+            //if (Data == null || string.IsNullOrEmpty(Data.DTR_Id))
+            //{
+            //    var message = string.Format("Please input the DTR Id    to Proceed. Thank you");
+            //    HttpError err = new HttpError(message);
+            //    return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            //}
+
+            if (Data == null || string.IsNullOrEmpty(Data.Comments))
+            {
+                var message = string.Format("Please input the Comments  to Proceed. Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+
+            if (Data == null || string.IsNullOrEmpty(Data.ReportCategory))
+            {
+                var message = string.Format("Please input the ReportCategory  to Proceed. Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+
+            if (Data == null || string.IsNullOrEmpty(Data.ReportSubCategory))
+            {
+                var message = string.Format("Please input the ReportCategory  to Proceed. Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+            if (Data == null || string.IsNullOrEmpty(Data.DTR_Load))
+            {
+                var message = string.Format("Please input the DTR Load  to Proceed. Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+           
+            if (Data == null || string.IsNullOrEmpty(Data.UserId))
+            {
+                var message = string.Format("Please input the User Id to Proceed. Thank you");
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+            }
+            try
+            {
+                RCDC_Faulty_Transformer hg = new RCDC_Faulty_Transformer();
+
+                hg.Zone = Data.Zone;
+                hg.CustomerName = Data.CustomerName;
+                hg.DTR_Load = Data.DTR_Load;
+                hg.IreportersEmail = Data.IreportersEmail;
+                hg.Feeder_Id = Data.Feeder_Id;
+                hg.AccountName = Data.AccountName;
+                hg.DTR_Address = Data.DTR_Address;
+                hg.DTR_Id = Data.DTR_Id;
+                hg.Comments = Data.Comments;
+                hg.StaffId = Data.StaffId;
+                hg.ReportCategory = Data.ReportCategory;
+                hg.ReportCategoryName = Data.ReportCategoryName;
+                hg.ReportSubCategory = Data.ReportSubCategory;
+
+                var g = db.RCDC_ReportCategorys.FirstOrDefault(p => p.ReportCategoryId == hg.ReportCategory);
+
+                if (g != null)
+                {
+
+                    hg.ReportSubCategoryName = g.ReportCategoryName;
+
+                }
+
+
+                var h = db.RCDC_ReportSubCategorys.FirstOrDefault(p => p.ReportSubCategoryId == hg.ReportSubCategory);
+
+                if (h != null)
+                {
+                    hg.ReportSubCategoryName = h.ReportSubCategoryName;
+                }
+
+               
+                hg.AccountNo = Data.AccountNo;
+                hg.DateReported = DateTime.Now;
+                hg.Latitude = Data.Latitude;
+                hg.Longitude = Data.Longitude;
+                hg.UserId = Data.UserId;
+                hg.filePaths = Data.filePaths;
+                db.RCDC_FaultyTransformers.Add(hg);
+                db.SaveChanges();
+
+                Audit.AuditTrail(Data.UserId, AccountNo + " was Reported on " + DateTime.Now, DateTime.Now, Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), "FAULTY_TRANSFORMER");
+
+
+                RCDCModel Success = new RCDCModel();
+
+                Success.Message = "The Customer with Account Number " + AccountNo + "  has been reported";
+                Success.Status = "SUCCESS";
+
+                return Request.CreateResponse(HttpStatusCode.OK, Success);
+
+
+            }
+            catch (Exception ex)
+            {
+                RCDCModel Success = new RCDCModel();
+
+                Success.Message = "An Error Occured because" + ex.Message;
+                Success.Status = "ERROR";
+
+                return Request.CreateResponse(HttpStatusCode.NotImplemented, Success);
+
+            }
+            //AUDIT TRAIL
+
+        }
+
         #endregion
-         
+
         public string RPDLossOfRevenueAmount { get; set; }
 
         public int? RPDLossOfRevenueInfractionDuration { get; set; }

@@ -38,6 +38,11 @@ namespace PHEDServe.Models
         public string TENANT_PHONE { get; set; }
 
         public string TENANT_PHONE2 { get; set; }
+
+        public string TENTANCY_DURATION { get; set; }
+
+        public string T_D_START_DATE { get; set; }
+        public string T_D_END_DATE { get; set; }
     }
 
 

@@ -141,6 +141,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -259,6 +265,7 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountSeperationController.cs" />
+    <Compile Include="Controllers\AttendanceController.cs" />
     <Compile Include="Controllers\Customer.cs" />
     <Compile Include="Controllers\Day.cs" />
     <Compile Include="Controllers\DBManager.cs" />
@@ -273,6 +280,8 @@
     <Compile Include="Ebillsdelivery.aspx.designer.cs">
       <DependentUpon>Ebillsdelivery.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\attandence.cs" />
+    <Compile Include="Models\DTR.cs" />
     <Compile Include="Models\EnhanceIdentityUser.cs" />
     <Compile Include="Controllers\PHEDConnectAPIController.cs">
       <SubType>Code</SubType>
@@ -358,6 +367,7 @@
     <Compile Include="Models\DeliveredBills.cs" />
     <Compile Include="Models\DirectPayments.cs" />
     <Compile Include="Models\DLEnhanceObjects.cs" />
+    <Compile Include="Models\enumCustomerValidation.cs" />
     <Compile Include="Models\EnumsUpdateCustomer.cs" />
     <Compile Include="Models\IBC.cs" />
     <Compile Include="Models\Incidences.cs" />
@@ -400,6 +410,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\RandomPassword.cs" />
     <Compile Include="Models\RCDCModels.cs" />
+    <Compile Include="Models\RCDC_Faulty_Transformer.cs" />
     <Compile Include="Models\ReferencesViewModel.cs" />
     <Compile Include="Models\RegViewModel.cs" />
     <Compile Include="Models\RequeryResponse.cs" />

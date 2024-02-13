@@ -51,6 +51,15 @@ namespace PHEDServe.Models
         public string TENANT_PHONE { get; set; }
 
         public string TENANT_PHONE2 { get; set; }
+
+        public string TENTANCY_DURATION { get; set; }
+        public string T_D_START_DATE { get; set; }
+        public string T_D_END_DATE { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerSurname { get;set; }
+        public string CustomerMiddleName { get; set; }
+
+        public string ResidentType { get; set; }
     }
 
 
@@ -500,7 +509,7 @@ namespace PHEDServe.Models
 
         public string feeder11name { get; set; }
 
-        public string staffid { get; set; }
+        public string staffID { get; set; }
 
         public string accountno { get; set; }
 
